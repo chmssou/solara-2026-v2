@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سولارا 2026 - الطاقة الشمسية النظيفة للجزائر</title>
+    <meta name="description" content="سولارا 2026 - رواد الطاقة الشمسية في الجزائر. نصب وتركيب أنظمة الطاقة الشمسية للمنازل والمؤسسات الصناعية.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           CSS VARIABLES - THEMING SYSTEM
+           ========================================= */
+        :root {
+            /* Dark Forest Mode (Default) */
+            --bg-primary: #041612;
+            --bg-secondary: #062C24;
+            --bg-gradient: linear-gradient(135deg, #041612 0%, #062C24 100%);
+            
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            
+            --solar-gold: #FFB800;
+            --solar-gold-hover: #E6A600;
+            --solar-gold-glow: drop-shadow(0 0 12px rgba(255, 184, 0, 0.4));
+            
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --glass-border: rgba(255, 184, 0, 0.2);
+            --glass-blur: blur(15px);
+            
+            --primary-green: #0E3B2E;
+            --dark-bg: #0a0f1a;
+            
+            --radius: 16px;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-primary: #F8FAFC;
+            --bg-secondary: #FFFFFF;
+            --bg-gradient: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+            
+            --text-primary: #062C24;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            
+            --solar-gold: #F59E0B;
+            --solar-gold-hover: #D97706;
+            --solar-gold-glow: none;
+            
+            --card-bg: #FFFFFF;
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --glass-blur: none;
+        }
+
+        /* =========================================
+           BASE STYLES
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* Gold Glow Effect */
+        .gold-glow {
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+        }
+
+        /* Glass Card Component */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-green); border-radius: 4px; }
+
+        /* =========================================
+           NAVIGATION
+           ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(4, 22, 18, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 5%;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .navbar.scrolled {
+            background: rgba(248, 250, 252, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--solar-gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .logo i { font-size: 1.5rem; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--solar-gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .portal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 2px solid var(--solar-gold);
+            border-radius: 8px;
+            color: var(--solar-gold) !important;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .portal-btn:hover {
+            background: var(--solar-gold);
+            color: var(--bg-primary) !important;
+            box-shadow: var(--solar-gold-glow);
+        }
+
+        .portal-btn::after { display: none !important; }
+
+        .nav-cta {
+            background: var(--solar-gold);
+            color: var(--bg-primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            box-shadow: var(--solar-gold-glow);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 184, 0, 0.3);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        /* Nav Controls Container (Theme Toggle + Hamburger) */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Theme Toggle - In Navbar */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--solar-gold);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+            color: var(--solar-gold);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 184, 0, 0.15);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle .sun-icon { display: block; }
+        .theme-toggle .moon-icon { display: none; }
+        [data-theme="light"] .theme-toggle .sun-icon { display: none; }
+        [data-theme="light"] .theme-toggle .moon-icon { display: block; }
+
+        .theme-toggle.rotating {
+            animation: rotate360 0.7s ease-in-out;
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(6, 44, 36, 0.85), rgba(4, 22, 18, 0.9)),
+                        url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 120px 5% 80px;
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .hero {
+            background: linear-gradient(135deg, rgba(6, 44, 36, 0.25), rgba(248, 250, 252, 0.95)),
+                        url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80');
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 184, 0, 0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .hero h1 span {
+            color: var(--solar-gold);
+            display: block;
+            filter: var(--solar-gold-glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: var(--transition);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--solar-gold);
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--solar-gold-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 184, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 2px solid var(--glass-border);
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: var(--card-bg);
+            border-color: var(--solar-gold);
+        }
+
+        /* =========================================
+           STATS SECTION
+           ========================================= */
+        .stats {
+            padding: 80px 5%;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(6, 44, 36, 0.2) 100%);
+            transition: var(--transition);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            transition: var(--transition);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--solar-gold);
+        }
+
+        [data-theme="light"] .stat-item:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--solar-gold);
+            margin-bottom: 0.5rem;
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           SERVICES SECTION
+           ========================================= */
+        .services { padding: 100px 5%; transition: var(--transition); }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            padding: 2.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--solar-gold));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .service-card:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-green), rgba(14, 59, 46, 0.5));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           PROCESS TIMELINE
+           ========================================= */
+        .process {
+            padding: 100px 5%;
+            background: linear-gradient(180deg, rgba(6, 44, 36, 0.1) 0%, var(--bg-primary) 100%);
+            transition: var(--transition);
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--solar-gold));
+            opacity: 0.3;
+        }
+
+        .timeline-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 100px;
+            height: 100px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .timeline-step h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .timeline-step p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           PROJECTS SECTION
+           ========================================= */
+        .projects { padding: 100px 5%; transition: var(--transition); }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 350px;
+            transition: var(--transition);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover img { transform: scale(1.1); }
+
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(4, 22, 18, 0.95));
+            transform: translateY(50px);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .project-overlay {
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.95));
+        }
+
+        .project-card:hover .project-overlay { transform: translateY(0); }
+
+        .project-overlay h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .project-overlay p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .project-link {
+            color: var(--solar-gold);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            filter: var(--solar-gold-glow);
+        }
+
+        .project-link:hover { gap: 0.8rem; }
+
+        /* =========================================
+           CALCULATOR SECTION
+           ========================================= */
+        .calculator {
+            padding: 100px 5%;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(6, 44, 36, 0.15) 100%);
+            transition: var(--transition);
+        }
+
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        .calc-inputs {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .input-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--primary-green);
+            outline: none;
+            -webkit-appearance: none;
+            transition: var(--transition);
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--solar-gold);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.4);
+            transition: var(--transition);
+        }
+
+        .input-value {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .result-card .value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--solar-gold);
+            margin-bottom: 0.5rem;
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .result-card .label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           TESTIMONIALS
+           ========================================= */
+        .testimonials { padding: 100px 5%; transition: var(--transition); }
+
+        .testimonials-slider {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card { padding: 2rem; }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--solar-gold);
+            filter: var(--solar-gold-glow);
+        }
+
+        .testimonial-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .testimonial-info span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .testimonial-stars {
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.8;
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           FAQ SECTION
+           ========================================= */
+        .faq {
+            padding: 100px 5%;
+            background: linear-gradient(180deg, rgba(6, 44, 36, 0.1) 0%, var(--bg-primary) 100%);
+            transition: var(--transition);
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: right;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .faq-question:hover { border-color: var(--solar-gold); }
+        .faq-question i { transition: var(--transition); }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-answer { max-height: 300px; }
+
+        /* =========================================
+           FINAL CTA
+           ========================================= */
+        .final-cta { padding: 100px 5%; transition: var(--transition); }
+
+        .cta-box {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 184, 0, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .cta-content { position: relative; z-index: 1; }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        .footer {
+            padding: 80px 5% 30px;
+            background: rgba(4, 22, 18, 0.95);
+            border-top: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .footer { background: #1E293B; }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-about .logo { margin-bottom: 1.5rem; }
+        .footer-about p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            transition: var(--transition);
+        }
+
+        .footer h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+        }
+
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--solar-gold);
+            padding-right: 5px;
+        }
+
+        .footer-contact p {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 45px;
+            height: 45px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--solar-gold);
+            color: var(--bg-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--solar-gold-glow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           FLOATING BUTTONS - FIXED POSITIONING
+           ========================================= */
+        
+        /* WhatsApp Float - RIGHT side */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .whatsapp-float a {
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            animation: whatsappPulse 2s ease-in-out infinite;
+            text-decoration: none;
+            will-change: transform;
+        }
+
+        @keyframes whatsappPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        /* Feedback Float - LEFT side */
+        .feedback-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .feedback-float button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--solar-gold), #D4920F);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.4);
+            transition: var(--transition);
+            will-change: transform;
+        }
+
+        .feedback-float button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(245, 166, 35, 0.5);
+        }
+
+        /* Feedback Modal Overlay */
+        .feedback-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 22, 18, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        [data-theme="light"] .feedback-modal-overlay {
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        .feedback-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Feedback Modal */
+        .feedback-modal {
+            background: var(--bg-primary);
+            border: 2px solid var(--solar-gold);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            will-change: transform;
+        }
+
+        [data-theme="light"] .feedback-modal {
+            background: #FFFFFF;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .feedback-modal-overlay.active .feedback-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .feedback-modal-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .feedback-modal-close:hover {
+            color: var(--solar-gold);
+            background: rgba(255, 184, 0, 0.1);
+        }
+
+        .feedback-modal h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .feedback-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .feedback-form label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .feedback-form input,
+        .feedback-form select,
+        .feedback-form textarea {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            color: var(--text-primary);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .feedback-form input:focus,
+        .feedback-form select:focus,
+        .feedback-form textarea:focus {
+            border-color: var(--solar-gold);
+            box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.15);
+        }
+
+        .feedback-form input::placeholder,
+        .feedback-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="light"] .feedback-form input::placeholder,
+        [data-theme="light"] .feedback-form textarea::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .feedback-form select option {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .feedback-form textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .feedback-submit-btn {
+            width: 100%;
+            height: 48px;
+            background: var(--solar-gold);
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .feedback-submit-btn:hover {
+            background: var(--solar-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 184, 0, 0.4);
+        }
+
+        /* Feedback Success Message */
+        .feedback-success {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .feedback-success.show { display: block; }
+
+        .feedback-success i {
+            font-size: 3rem;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            margin-bottom: 1rem;
+        }
+
+        .feedback-success h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-success p {
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        /* =========================================
+           THEME TOGGLE BUTTON
+           ========================================= */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 1001;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--solar-gold);
+        }
+
+        .theme-toggle .sun-icon { display: block; }
+        .theme-toggle .moon-icon { display: none; }
+        [data-theme="light"] .theme-toggle .sun-icon { display: none; }
+        [data-theme="light"] .theme-toggle .moon-icon { display: block; }
+
+        .theme-toggle.rotating {
+            animation: rotate360 0.7s ease-in-out;
+        }
+
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* =========================================
+           PRELOADER
+           ========================================= */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-icon {
+            font-size: 4rem;
+            color: var(--solar-gold);
+            filter: var(--solar-gold-glow);
+            animation: preloaderPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes preloaderPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.15); opacity: 1; }
+        }
+
+        /* =========================================
+           RESPONSIVE STYLES - MOBILE (max-width: 768px)
+           ========================================= */
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            html { scroll-behavior: smooth; }
+            img { max-width: 100% !important; height: auto !important; object-fit: cover !important; }
+            .services, .process, .projects, .calculator, .testimonials, .faq, .final-cta, .stats { padding: 60px 20px !important; }
+            .section-header { margin-bottom: 2.5rem; }
+            .section-header h2 { font-size: 1.8rem; }
+            
+            /* ===== HEADER LAYOUT FIX ===== */
+            /* Navbar - horizontal layout */
+            .navbar {
+                padding: 12px 20px !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+            
+            /* Logo - right side */
+            .navbar .logo {
+                font-size: 1.4rem !important;
+                order: 1;
+                flex-shrink: 0;
+                white-space: nowrap;
+                margin: 0 !important;
+            }
+            
+            /* Control buttons container - left side */
+            .navbar .nav-controls {
+                display: flex !important;
+                align-items: center !important;
+                gap: 10px !important;
+                order: 2;
+            }
+            
+            /* Theme toggle - make it part of navbar */
+            .theme-toggle {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                width: 40px !important;
+                height: 40px !important;
+                flex-shrink: 0;
+                z-index: 1002 !important;
+            }
+            
+            /* Hamburger - right side of controls */
+            .hamburger {
+                display: flex !important;
+                order: 3;
+                flex-shrink: 0;
+                padding: 8px;
+                margin-right: 5px;
+            }
+            
+            /* Hide desktop nav elements on mobile */
+            .nav-links, .nav-cta {
+                display: none !important;
+            }
+            
+            /* ===== MOBILE SIDE MENU ===== */
+            .nav-links {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 75% !important;
+                max-width: 300px;
+                height: 100vh !important;
+                background: #041612 !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                padding-top: 80px !important;
+                align-items: flex-start !important;
+                transition: right 0.4s ease !important;
+                z-index: 1000 !important;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+                overflow-y: auto;
+            }
+            
+            /* Light mode menu background */
+            [data-theme="light"] .nav-links {
+                background: #F8FAFC !important;
+            }
+            
+            .nav-links.active {
+                right: 0 !important;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                margin: 0 !important;
+                padding: 0;
+            }
+            
+            .nav-links a {
+                width: 100%;
+                font-size: 16px !important;
+                padding: 15px 25px !important;
+                display: block !important;
+                text-align: right !important;
+                color: #F1F5F9 !important;
+                border-bottom: 1px solid rgba(255, 184, 0, 0.1);
+            }
+            
+            /* Light mode links */
+            [data-theme="light"] .nav-links a {
+                color: #062C24 !important;
+            }
+            
+            .nav-links a:hover {
+                background: rgba(255, 184, 0, 0.1);
+                padding-right: 35px !important;
+            }
+            
+            /* Portal button in mobile menu */
+            .nav-links .portal-btn {
+                display: inline-flex !important;
+                margin: 20px 25px;
+                width: calc(100% - 50px);
+                justify-content: center;
+            }
+            
+            /* Hamburger animation */
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 6px) !important;
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0 !important;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -6px) !important;
+            }
+            
+            /* ===== OTHER MOBILE STYLES ===== */
+            .hero { 
+                min-height: 100vh !important; 
+                padding: 120px 20px 60px !important; 
+                background-attachment: scroll !important; 
+            }
+            .hero h1 { font-size: 1.8rem !important; line-height: 1.4 !important; margin-bottom: 1rem !important; }
+            .hero h1 span { display: block !important; margin-top: 0.5rem !important; }
+            .hero p { font-size: 0.95rem !important; margin-bottom: 1.5rem !important; }
+            .hero-buttons { flex-direction: column !important; gap: 1rem !important; }
+            .btn-primary, .btn-secondary { width: 100% !important; text-align: center !important; justify-content: center !important; padding: 1rem 1.5rem !important; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 1rem !important; }
+            .stat-item { padding: 1.5rem 1rem !important; }
+            .stat-number { font-size: 2rem !important; }
+            .services-grid, .projects-grid, .testimonials-slider { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+            .project-card { height: 280px !important; }
+            .timeline { grid-template-columns: 1fr !important; }
+            .timeline::before { display: none !important; }
+            .footer-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+            body { overflow-x: hidden !important; }
+            
+            /* Floating buttons - mobile adjustments */
+            .whatsapp-float { bottom: 15px !important; right: 15px !important; }
+            .whatsapp-float a { width: 50px !important; height: 50px !important; font-size: 1.5rem !important; }
+            .feedback-float { bottom: 15px !important; left: 15px !important; }
+            .feedback-float button { width: 50px !important; height: 50px !important; font-size: 1.3rem !important; }
+            .feedback-modal { width: 90% !important; padding: 1.5rem !important; }
+            .feedback-modal h3 { font-size: 1.3rem !important; }
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .services, .process, .projects { padding: 80px 5% !important; }
+            .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .testimonials-slider { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .timeline { grid-template-columns: repeat(2, 1fr); }
+            .timeline::before { display: none; }
+        }
+
+        /* Desktop */
+        @media (min-width: 1025px) {
+            .services, .process, .projects, .calculator, .testimonials, .faq, .final-cta { padding: 120px 5% !important; }
+            .services-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important; }
+            .projects-grid { grid-template-columns: repeat(3, 1fr) !important; }
+            .nav-links { display: flex !important; }
+            .hamburger { display: none !important; }
+            /* Show theme toggle in navbar on desktop */
+            .nav-controls { display: flex !important; align-items: center !important; gap: 15px !important; }
+            .hero h1 { font-size: 4rem !important; }
+        }
+
+        /* Desktop Theme Toggle - in navbar */
+        @media (min-width: 1025px) {
+            .theme-toggle {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                z-index: 1001 !important;
+                width: 40px !important;
+                height: 40px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: transparent !important;
+                border: 2px solid var(--solar-gold) !important;
+                border-radius: 50% !important;
+                cursor: pointer !important;
+                pointer-events: auto !important;
+                backdrop-filter: none !important;
+                box-shadow: none !important;
+                flex-shrink: 0;
+            }
+
+            .theme-toggle i {
+                font-size: 1.1rem !important;
+                color: var(--solar-gold) !important;
+                pointer-events: none !important;
+            }
+
+            .theme-toggle .sun-icon { display: block !important; }
+            .theme-toggle .moon-icon { display: none !important; }
+            [data-theme="light"] .theme-toggle .sun-icon { display: none !important; }
+            [data-theme="light"] .theme-toggle .moon-icon { display: block !important; }
+        }
+
+        /* Theme Toggle - Always visible, fixed position (mobile only fallback) */
+        @media (max-width: 1024px) {
+            .theme-toggle {
+                position: fixed !important;
+                top: 20px !important;
+                left: 20px !important;
+                z-index: 99999 !important;
+                width: 50px !important;
+                height: 50px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: var(--card-bg) !important;
+                border: 2px solid var(--glass-border) !important;
+                border-radius: 50% !important;
+                cursor: pointer !important;
+                pointer-events: auto !important;
+                backdrop-filter: blur(10px);
+            }
+
+            .theme-toggle i {
+                font-size: 1.2rem !important;
+                color: var(--solar-gold) !important;
+                pointer-events: none !important;
+            }
+
+            .theme-toggle .sun-icon { display: block !important; }
+            .theme-toggle .moon-icon { display: none !important; }
+            [data-theme="light"] .theme-toggle .sun-icon { display: none !important; }
+            [data-theme="light"] .theme-toggle .moon-icon { display: block !important; }
+            
+            /* On mobile, hide nav-controls theme toggle, show fixed one */
+            .nav-controls .theme-toggle { display: none !important; }
+        }
+
+        /* Mobile nav-controls - visible only on mobile */
+        @media (max-width: 1024px) {
+            .nav-controls {
+                display: flex !important;
+                align-items: center !important;
+                gap: 10px !important;
+                pointer-events: auto !important;
+                z-index: 1001 !important;
+            }
+            
+            .hamburger {
+                display: flex !important;
+                pointer-events: auto !important;
+                z-index: 1002 !important;
+                background: transparent !important;
+                border: none !important;
+                padding: 8px !important;
+            }
+            
+            .hamburger span {
+                width: 25px !important;
+                height: 3px !important;
+                background: var(--text-primary) !important;
+                border-radius: 3px !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 6px) !important;
+            }
+            .hamburger.active span:nth-child(2) { opacity: 0 !important; }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -6px) !important;
+            }
+            
+            /* Mobile Menu */
+            .nav-links {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 75% !important;
+                max-width: 300px !important;
+                height: 100vh !important;
+                background: #041612 !important;
+                flex-direction: column !important;
+                padding-top: 80px !important;
+                transition: right 0.4s ease !important;
+                z-index: 1000 !important;
+                display: flex !important;
+            }
+            
+            .nav-links.active {
+                right: 0 !important;
+            }
+            
+            .nav-links li { width: 100% !important; margin: 0 !important; }
+            .nav-links a {
+                width: 100% !important;
+                padding: 15px 25px !important;
+                display: block !important;
+                color: #F1F5F9 !important;
+            }
+            
+            .nav-links .portal-btn {
+                display: inline-flex !important;
+                margin: 20px 25px !important;
+            }
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 400ms ease-out, transform 400ms ease-out;
+            will-change: transform, opacity;
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .services-grid .reveal:nth-child(1) { transition-delay: 0s; }
+        .services-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .services-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .services-grid .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+        .projects-grid .reveal:nth-child(1) { transition-delay: 0s; }
+        .projects-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .projects-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+
+        .stats-grid .reveal:nth-child(1) { transition-delay: 0s; }
+        .stats-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .stats-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .stats-grid .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+        .timeline .reveal:nth-child(1) { transition-delay: 0s; }
+        .timeline .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .timeline .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .timeline .reveal:nth-child(4) { transition-delay: 0.3s; }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-icon">
+            <i class="fas fa-solar-panel"></i>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-solar-panel"></i>
+            سولارا 2026
+        </a>
+        
+        <!-- Control buttons container (Theme Toggle + Hamburger) -->
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع">
+                <i class="fas fa-sun sun-icon"></i>
+                <i class="fas fa-moon moon-icon"></i>
+            </button>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+<ul class="nav-links" id="navLinks">
+            <li><a href="/index_final_v2.html#home">الرئيسية</a></li>
+            <li><a href="/index_final_v2.html#services">الخدمات</a></li>
+            <li><a href="/index_final_v2.html#projects">المشاريع</a></li>
+            <li><a href="/index_final_v2.html#calculator">الحاسبة</a></li>
+            <li><a href="/index_final_v2.html#contact">اتصل بنا</a></li>
+            <!-- Client Portal Button -->
+            <li id="clientPortalBtn">
+                <a href="/portal.html" class="portal-btn">
+                    <i class="fas fa-user"></i> بوابة العملاء
+                </a>
+            </li>
+            <!-- User Box (shown when logged in) -->
+            <li id="user-box" class="user-box" style="display: none;">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <span class="user-name" id="user-name">المستخدم</span>
+                </div>
+            </li>
+        </ul>
+        <a href="#contact" class="nav-cta">احصل على عرض سعر</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>
+                powering Algeria with Clean Solar Energy
+                <span>طاقة شمسية نظيفة للجزائر</span>
+            </h1>
+            <p>
+                اكتشف قوة الطاقة الشمسية مع سولارا 2026. نصب وتركيب أنظمة شمسية متطورة للمنازل والمؤسسات الصناعية. وفّر المال على فواتير الكهرباء وحافظ على البيئة.
+            </p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/213784367619" class="btn-primary gold-glow" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    احصل على عرض سعر مجاني
+                </a>
+                <a href="#calculator" class="btn-secondary">
+                    <i class="fas fa-calculator"></i>
+                    احسب توفيرك
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">مشروع منجز</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">سنوات خبرة</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">% رضا العملاء</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">/7 دعم فني</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header reveal">
+            <h2>خدماتنا المتكاملة</h2>
+            <p>نقدم لكم مجموعة شاملة من الخدمات الشمسية المصممة خصيصاً لتلبية احتياجاتكم</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card glass-card reveal">
+                <div class="service-icon gold-glow">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>منشآت سكنية</h3>
+                <p>نصّب أنظمة شمسية للمنازل توفر حتى 70% من فواتير الكهرباء الشهرية. حلول مخصصة للمساحات المختلفة.</p>
+            </div>
+            <div class="service-card glass-card reveal">
+                <div class="service-icon gold-glow">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <h3>منشآت صناعية</h3>
+                <p>تصميم وتركيب محطات شمسية للمصانع والمؤسسات التجارية. قدرة إنتاجية عالية تتناسب مع الاستهلاك الكبير.</p>
+            </div>
+            <div class="service-card glass-card reveal">
+                <div class="service-icon gold-glow">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>الصيانة الدورية</h3>
+                <p>خدمات صيانة متخصصة تضمن أداءً أمثل لمنظومتك الشمسية. فريق فني متخصص متواصل معكم.</p>
+            </div>
+            <div class="service-card glass-card reveal">
+                <div class="service-icon gold-glow">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>الاستشارات الفنية</h3>
+                <p>دراسات جدوى اقتصادية شاملة. تحليل الاستهلاك وتوصيات النظام الأمثل لكل حالة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Timeline -->
+    <section class="process">
+        <div class="section-header reveal">
+            <h2>خطوات العمل</h2>
+            <p>نتبع منهجية عمل واضحة تضمن جودة التنفيذ ورضا العملاء</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-step reveal">
+                <div class="step-number">1</div>
+                <h3>المعاينة</h3>
+                <p>زيارة الموقع وتقييم إمكانية التركيب. فحص السطح والاتصال الكهربائي.</p>
+            </div>
+            <div class="timeline-step reveal">
+                <div class="step-number">2</div>
+                <h3>التصميم</h3>
+                <p>تصميم نظام مخصص يناسب احتياجاتكم. تقديم العرض التقني والمالي.</p>
+            </div>
+            <div class="timeline-step reveal">
+                <div class="step-number">3</div>
+                <h3>التركيب</h3>
+                <p>تنفيذ التركيب بفريق متخصص. الاختبارات والتشغيل التجريبي.</p>
+            </div>
+            <div class="timeline-step reveal">
+                <div class="step-number">4</div>
+                <h3>المتابعة</h3>
+                <p>مراقبة الأداء عن بعد. دعم فني وصيانة مستمرة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Portfolio -->
+    <section class="projects" id="projects">
+        <div class="section-header reveal">
+            <h2>مشاريعنا المميزة</h2>
+            <p>نفخر بمجموعة من المشاريع الناجحة عبر ربوع الجزائر</p>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card reveal">
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800" alt="مصنع البلاستيك">
+                <div class="project-overlay">
+                    <h3>مصنع البلاستيك - بوفاريك</h3>
+                    <p>محطة صناعية 250 كيلو واط</p>
+                    <a href="https://wa.me/213784367619" class="project-link" target="_blank">تواصل معنا <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+            <div class="project-card reveal">
+                <img src="https://images.unsplash.com/photo-1592833159155-c62df1b65634?q=80&w=800" alt="ضيعة فلاحية">
+                <div class="project-overlay">
+                    <h3>ضيعة فلاحية - تيبازة</h3>
+                    <p>نظام ري بالطاقة الشمسية 50 كيلو واط</p>
+                    <a href="https://wa.me/213784367619" class="project-link" target="_blank">تواصل معنا <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+            <div class="project-card reveal">
+                <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=800" alt="فيلا فاخرة">
+                <div class="project-overlay">
+                    <h3>فيلا فاخرة - زرالدة</h3>
+                    <p>نظام 15 كيلو واط مع تخزين</p>
+                    <a href="https://wa.me/213784367619" class="project-link" target="_blank">تواصل معنا <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator" id="calculator">
+        <div class="section-header reveal">
+            <h2>احسب توفيرك</h2>
+            <p>قدّر مدخراتك الشهرية والسنوية من الطاقة الشمسية</p>
+        </div>
+        <div class="calculator-container glass-card reveal">
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label>الفاتورة الشهرية للكهرباء (د.ج)</label>
+                    <input type="range" id="monthlyBill" min="1000" max="100000" value="15000" step="500">
+                    <div class="input-value">
+                        <span>1,000</span>
+                        <span id="billValue">15,000 د.ج</span>
+                        <span>100,000</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>مساحة السطح المتاح (م²)</label>
+                    <input type="range" id="roofSize" min="20" max="500" value="80" step="5">
+                    <div class="input-value">
+                        <span>20</span>
+                        <span id="roofValue">80 م²</span>
+                        <span>500</span>
+                    </div>
+                </div>
+            </div>
+            <div class="calc-results">
+                <div class="result-card glass-card">
+                    <div class="value" id="systemSize">5</div>
+                    <div class="label">كيلو واط قدرة النظام</div>
+                </div>
+                <div class="result-card glass-card">
+                    <div class="value" id="monthlySavings">9,000</div>
+                    <div class="label">د.ج توفير شهري</div>
+                </div>
+                <div class="result-card glass-card">
+                    <div class="value" id="yearlySavings">108,000</div>
+                    <div class="label">د.ج توفير سنوي</div>
+                </div>
+                <div class="result-card glass-card">
+                    <div class="value" id="roi">7</div>
+                    <div class="label">سنوات للاسترداد</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="section-header reveal">
+            <h2>آراء عملائنا</h2>
+            <p>شهادات عملائنا الكرام تعكس التزامنا بالجودة</p>
+        </div>
+        <div class="testimonials-slider">
+            <div class="testimonial-card glass-card reveal">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="عميل" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>أحمد محمد</h4>
+                        <span>الجزائر العاصمة</span>
+                    </div>
+                </div>
+                <div class="testimonial-stars gold-glow">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "أنصح بشدة بشركة سولارا. وفّروا لي أكثر من 60% من فواتيري الشهرية. الفريق محترف والتركيب تم في الوقت المحدد."
+                </p>
+            </div>
+            <div class="testimonial-card glass-card reveal">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="عميلة" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>فاطمة الزهراء</h4>
+                        <span>وهران</span>
+                    </div>
+                </div>
+                <div class="testimonial-stars gold-glow">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "تجربة رائعة من البداية للنهاية. الدراسة كانت مجانية ودقيقة. الآن منزلي يعمل بالكامل على الطاقة الشمسية."
+                </p>
+            </div>
+            <div class="testimonial-card glass-card reveal">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="عميل" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>كريم بلقاسم</h4>
+                        <span>عنابة</span>
+                    </div>
+                </div>
+                <div class="testimonial-stars gold-glow">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="testimonial-text">
+                    "ركّبت نظاماً صناعياً لمصنعي. التوفير كبير جداً والاستثمار سيسترد خلال 5 سنوات. شكراً سولارا!"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="section-header reveal">
+            <h2>الأسئلة الشائعة</h2>
+            <p>إجابات على أكثر الأسئلة شيولاً حول الطاقة الشمسية</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    هل النظام الشمسي يعمل في الأيام الغائمة؟
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        نعم، الألواح الشمسية تعمل حتى في الأيام الغائمة، لكن بنسبة إنتاج أقل تتراوح بين 10-25% من القدرة القصوى.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    كم من الوقت يستغرق التركيب؟
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        للمنشآت السكنية، يستغرق التركيب عادة يومين إلى 3 أيام. للأنظمة الصناعية الكبرى، قد يستغرق الأمر من أسبوع إلى أسبوعين.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    ما هو ضمان النظام؟
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        نضمن الألواح الشمسية حتى 25 عاماً، والعاكس (Inverter) 10 سنوات، وأعمال التركيب 5 سنوات.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+        <div class="cta-box glass-card reveal">
+            <div class="cta-content">
+                <h2>ابدأ رحلتك نحو الطاقة النظيفة</h2>
+                <p>احصل على دراسة مجانية لحلول الطاقة الشمسية لمنزلك أو مؤسستك.</p>
+                <a href="tel:+213784367619" class="btn-primary gold-glow">
+                    <i class="fas fa-phone-alt"></i>
+                    اتصل بنا الآن
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <a href="#" class="logo">
+                    <i class="fas fa-solar-panel"></i>
+                    سولارا 2026
+                </a>
+                <p>شركة رائدة في مجال الطاقة الشمسية بالجزائر. نلتزم بتقديم حلول مبتكرة وصديقة للبيئة.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>روابط سريعة</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#services">خدماتنا</a></li>
+                    <li><a href="#projects">مشاريعنا</a></li>
+                    <li><a href="#calculator">الحاسبة</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>خدماتنا</h4>
+                <ul class="footer-links">
+                    <li><a href="#">أنظمة سكنية</a></li>
+                    <li><a href="#">محطات صناعية</a></li>
+                    <li><a href="#">صيانة أنظمة</a></li>
+                    <li><a href="#">استشارات طاقة</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>اتصل بنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> الجزائر</p>
+                <p><i class="fas fa-phone-alt"></i> +213 784 367 619</p>
+                <p><i class="fas fa-envelope"></i> contact@solara2026.dz</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 سولارا. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float - RIGHT -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/213784367619" target="_blank" aria-label="تواصل عبر واتساب">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Feedback Float - LEFT -->
+    <div class="feedback-float">
+        <button id="feedbackBtn" aria-label="شاركنا رأيك">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-modal-overlay" id="feedbackModal">
+        <div class="feedback-modal">
+            <button class="feedback-modal-close" id="feedbackClose" aria-label="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>يسعدنا سماع رأيك</h3>
+            <form class="feedback-form" id="feedbackForm">
+                <div class="form-group">
+                    <label for="feedbackName">الاسم</label>
+                    <input type="text" id="feedbackName" name="name" placeholder="أدخل اسمك" required>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackEmail">البريد الإلكتروني</label>
+                    <input type="email" id="feedbackEmail" name="email" placeholder="أدخل بريدك الإلكتروني (اختياري)">
+                </div>
+                <div class="form-group">
+                    <label for="projectType">نوع المشروع</label>
+                    <select id="projectType" name="projectType" required>
+                        <option value="">اختر نوع المشروع</option>
+                        <option value="industrial">صناعي</option>
+                        <option value="agricultural">فلاحي</option>
+                        <option value="villa">فيلا/منزل</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackPhone">رقم الهاتف</label>
+                    <input type="tel" id="feedbackPhone" name="phone" placeholder="أدخل رقم الهاتف" required>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackComment">تعليقك</label>
+                    <textarea id="feedbackComment" name="comment" placeholder="شاركنا تجربتك مع سولارا..." required></textarea>
+                </div>
+                <button type="submit" class="feedback-submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال التعليق
+                </button>
+            </form>
+            <div class="feedback-success" id="feedbackSuccess">
+                <i class="fas fa-check-circle"></i>
+                <h4>شكراً لك!</h4>
+                <p>تم استلام تقييمك بنجاح.</p>
+            </div>
+        </div>
+    </div>
+
+<!-- External Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/navbar.js"></script>
+    <script src="/js/user-session.js"></script>
+
+    <!-- SweetAlert2 Custom Styles for Solar Theme -->
+    <style>
+        .swal2-popup {
+            background: #071c1f !important;
+            color: #ffffff !important;
+            border: 1px solid #d4a017;
+            border-radius: 14px;
+        }
+        .swal2-title {
+            color: #d4a017 !important;
+        }
+        .swal2-confirm {
+            background: #d4a017 !important;
+            color: #000 !important;
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+        .swal2-cancel {
+            background: #2c3e50 !important;
+            border-radius: 8px;
+        }
+        .swal2-backdrop-show {
+            backdrop-filter: blur(6px);
+        }
+        .swal2-html-container {
+            color: #ffffff !important;
+        }
+    </style>
+
+<!-- User Profile Styles -->
+    <style>
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,200,0,0.3);
+        transition: all .3s ease;
+        cursor: pointer;
+    }
+    .user-profile:hover {
+        box-shadow: 0 0 12px rgba(255,200,0,.5);
+        transform: translateY(-2px);
+    }
+    
+    /* User Box - shown when logged in */
+    .user-box {
+        display: flex;
+        align-items: center;
+    }
+    .user-box .user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        background: rgba(255,184,0,0.1);
+        border: 1px solid rgba(255,184,0,0.3);
+        cursor: pointer;
+        transition: all .3s ease;
+    }
+    .user-box .user-info:hover {
+        background: rgba(255,184,0,0.2);
+        box-shadow: 0 0 12px rgba(255,184,0,.3);
+    }
+    .user-box .user-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #FFB800, #E6A600);
+        color: #041612;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+    }
+    .user-box .user-name {
+        color: var(--solar-gold);
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #FFC107;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .username {
+        color: white;
+        font-weight: 500;
+    }
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffc107;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .mobile-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* User Dropdown Menu */
+    .user-menu {
+        position: relative;
+    }
+    .user-menu .user-trigger {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .user-menu .dropdown-arrow {
+        font-size: 10px;
+        color: var(--text-secondary);
+        transition: transform 0.3s;
+    }
+    .user-menu:hover .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    .user-menu .user-dropdown {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background: #062C24;
+        border: 1px solid rgba(255, 184, 0, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        min-width: 180px;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .user-menu:hover .user-dropdown {
+        display: block;
+    }
+    .user-menu .user-dropdown a,
+    .user-menu .user-dropdown button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.2s;
+        width: 100%;
+        border: none;
+        background: none;
+        font-family: 'Cairo', sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: right;
+    }
+    .user-menu .user-dropdown a:hover,
+    .user-menu .user-dropdown button:hover {
+        background: rgba(255, 184, 0, 0.1);
+        color: var(--solar-gold);
+    }
+    .user-menu .user-dropdown a i,
+    .user-menu .user-dropdown button i {
+        width: 18px;
+        text-align: center;
+    }
+    .user-menu .user-dropdown .divider {
+        height: 1px;
+        background: rgba(255, 184, 0, 0.2);
+        margin: 4px 0;
+    }
+    .user-menu .user-dropdown .logout-item {
+        color: #ef4444;
+    }
+    .user-menu .user-dropdown .logout-item:hover {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+    </style>
+
+    <script>
+        // =========================================
+        // PROBLEM 1 FIX: Smooth scrolling navigation
+        // =========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target){
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            });
+        });
+
+// =========================================
+        // UNIFIED AUTH: Use Auth module for user session
+        // =========================================
+        document.addEventListener("DOMContentLoaded", function(){
+            // Wait for Auth module to initialize
+            setTimeout(function() {
+                const user = Auth.getUser();
+                const portalBtn = document.getElementById("clientPortalBtn");
+                const mobileUser = document.getElementById("mobileUserProfile");
+                
+                if (user) {
+                    const userName = user.full_name || user.name || 'المستخدم';
+                    const letter = userName.charAt(0).toUpperCase();
+                    
+                    // Replace portal button with user profile with dropdown
+                    if (portalBtn) {
+                        portalBtn.outerHTML = `
+                        <div class="user-menu" id="clientPortalBtn">
+                            <div class="user-profile user-trigger">
+                                <div class="avatar">${letter}</div>
+                                <span class="username">${userName}</span>
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </div>
+                            <div class="user-dropdown">
+                                <a href="/dashboard"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                                <a href="/admin/admin-dashboard.html" class="admin-panel-link"><i class="fas fa-cogs"></i> لوحة الإدارة</a>
+                                <a href="/leads" class="admin-leads-link"><i class="fas fa-users"></i> العملء</a>
+                                <a href="/profile"><i class="fas fa-user"></i> الملف الشخصي</a>
+                                <div class="divider"></div>
+                                <button class="logout-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+                            </div>
+                        `;
+                        
+                        // Admin visibility control - hide admin panel link for non-admin users
+                        const currentUser = JSON.parse(localStorage.getItem("solara_user"));
+                        if(currentUser && currentUser.role !== "admin"){
+                            const adminPanelLink = document.querySelector(".admin-panel-link");
+                            if(adminPanelLink) adminPanelLink.style.display = "none";
+                            
+                            const adminLeadsLink = document.querySelector(".admin-leads-link");
+                            if(adminLeadsLink) adminLeadsLink.style.display = "none";
+                            
+                            // Also hide dashboard link for non-admin users (clients)
+                            var dashboardLink = document.querySelector(".user-dropdown a[href*='dashboard']");
+                            if(dashboardLink) dashboardLink.style.display = "none";
+                        }
+                    }
+                    
+                    // Mobile user profile with dropdown
+                    if (mobileUser) {
+                        mobileUser.innerHTML = `
+                            <div class="user-menu">
+                                <div class="mobile-user user-trigger">
+                                    <div class="avatar">${letter}</div>
+                                    <span>${userName}</span>
+                                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                </div>
+                                <div class="user-dropdown">
+                                    <a href="/profile"><i class="fas fa-user"></i> الملف الشخصي</a>
+                                    <a href="/dashboard"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                                    <div class="divider"></div>
+                                    <button class="logout-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                // If no user, portal button stays as-is (links to portal.html)
+            }, 300);
+        });
+
+        // Handle logout from navbar profile
+        function handleLogout() {
+            Swal.fire({
+                title: 'تأكيد تسجيل الخروج',
+                text: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، تسجيل الخروج',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d4a017',
+                cancelButtonColor: '#2c3e50',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Clear auth and show success, then redirect
+                    Auth.clearAuth();
+                    Swal.fire({
+                        title: 'تم تسجيل الخروج',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        didClose: function() {
+                            window.location.href = '/index_final_v2.html';
+                        }
+                    });
+                }
+            });
+        }
+
+        // =========================================
+        // CONFIGURATION
+        // =========================================
+        const FEEDBACK_API_URL = '/api/leads';
+
+        // =========================================
+        // PRELOADER
+        // =========================================
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            }, 100);
+        });
+
+        // =========================================
+        // THEME TOGGLE FUNCTIONALITY
+        // =========================================
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check saved theme
+        const savedTheme = localStorage.getItem('solara-theme') || 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Add rotation animation
+            this.classList.add('rotating');
+            setTimeout(() => this.classList.remove('rotating'), 700);
+            
+            // Apply new theme
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('solara-theme', newTheme);
+        });
+
+        // =========================================
+        // NAVBAR SCROLL EFFECT
+        // =========================================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // =========================================
+        // MOBILE MENU TOGGLE
+        // =========================================
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // =========================================
+        // SCROLL REVEAL ANIMATION
+        // =========================================
+        const revealElements = document.querySelectorAll('.reveal');
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => { revealObserver.observe(el); });
+
+        // =========================================
+        // ANIMATED COUNTER
+        // =========================================
+        const counters = document.querySelectorAll('.stat-number');
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = Math.floor(current) + '+';
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + '+';
+                }
+            };
+            updateCounter();
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => { counterObserver.observe(counter); });
+
+        // =========================================
+        // SOLAR CALCULATOR
+        // =========================================
+        const monthlyBillSlider = document.getElementById('monthlyBill');
+        const roofSizeSlider = document.getElementById('roofSize');
+        const billValue = document.getElementById('billValue');
+        const roofValue = document.getElementById('roofValue');
+        const systemSizeEl = document.getElementById('systemSize');
+        const monthlySavingsEl = document.getElementById('monthlySavings');
+        const yearlySavingsEl = document.getElementById('yearlySavings');
+        const roiEl = document.getElementById('roi');
+
+        function calculateSolar() {
+            const bill = parseInt(monthlyBillSlider.value);
+            const roof = parseInt(roofSizeSlider.value);
+
+            billValue.textContent = bill.toLocaleString() + ' د.ج';
+            roofValue.textContent = roof + ' م²';
+
+            const monthlyConsumption = bill / 12;
+            const systemSize = Math.min(Math.round(roof / 7), Math.round(monthlyConsumption / 150));
+            const actualSystemSize = Math.max(3, systemSize);
+
+            const monthlySavings = Math.round(bill * 0.6);
+            const yearlySavings = monthlySavings * 12;
+
+            const systemCost = actualSystemSize * 120000;
+            const roi = Math.round(systemCost / yearlySavings);
+
+            systemSizeEl.textContent = actualSystemSize;
+            monthlySavingsEl.textContent = monthlySavings.toLocaleString();
+            yearlySavingsEl.textContent = yearlySavings.toLocaleString();
+            roiEl.textContent = roi;
+        }
+
+        monthlyBillSlider.addEventListener('input', calculateSolar);
+        roofSizeSlider.addEventListener('input', calculateSolar);
+        calculateSolar();
+
+        // =========================================
+        // FAQ ACCORDION
+        // =========================================
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) { item.classList.add('active'); }
+            });
+        });
+
+        // =========================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // =========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // =========================================
+        // FEEDBACK MODAL FUNCTIONALITY
+        // =========================================
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        const feedbackModal = document.getElementById('feedbackModal');
+        const feedbackClose = document.getElementById('feedbackClose');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const feedbackSuccess = document.getElementById('feedbackSuccess');
+
+        // Open modal
+        feedbackBtn.addEventListener('click', function() {
+            feedbackModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close modal with X button
+        feedbackClose.addEventListener('click', function() {
+            feedbackModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close modal with backdrop click
+        feedbackModal.addEventListener('click', function(e) {
+            if (e.target === feedbackModal) {
+                feedbackModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && feedbackModal.classList.contains('active')) {
+                feedbackModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Handle form submission with Database
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('feedbackName').value;
+            const email = document.getElementById('feedbackEmail').value;
+            const serviceType = document.getElementById('projectType').value;
+            const phone = document.getElementById('feedbackPhone').value;
+            const comment = document.getElementById('feedbackComment').value;
+            
+            // Validate phone is not empty
+            if (!phone || !phone.trim()) {
+                alert('يرجى إدخال رقم الهاتف');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = this.querySelector('.feedback-submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
+
+            console.log('Submitting quote:', { name, email, phone, serviceType });
+
+            try {
+                const response = await fetch(FEEDBACK_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email || (name + '@example.com'), // Use placeholder if no email
+                        phone: phone,
+                        notes: "نوع المشروع: " + (serviceType || 'غير محدد') + " | التعليق: " + (comment || '')
+                    })
+                });
+
+                const result = await response.json();
+                console.log('Quote response:', result);
+                
+                if (result.success) {
+                    // Show success message
+                    feedbackForm.style.display = 'none';
+                    feedbackSuccess.classList.add('show');
+                    document.querySelector('#feedbackSuccess h4').textContent = 'شكراً لك!';
+                    document.querySelector('#feedbackSuccess p').textContent = result.message || 'تم استلام طلبك بنجاح. سنتواصل معك قريباً!';
+                    
+                    setTimeout(() => {
+                        feedbackForm.reset();
+                        feedbackForm.style.display = 'flex';
+                        feedbackSuccess.classList.remove('show');
+                        feedbackModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }, 3000);
+                } else {
+                    alert(result.message || 'حدث خطأ. يرجى المحاولة مرة أخرى.');
+                }
+
+            } catch (error) {
+                console.error('Quote error:', error);
+                alert('حدث خطأ في الاتصال بالخادم');
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    <script src=" /js/home.js\></script>\n</body>
+</html>

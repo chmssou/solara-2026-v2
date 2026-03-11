@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل العميل - Solar CRM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        :root {
+            --bg-primary: #041612;
+            --bg-secondary: #062C24;
+            --bg-dark: #0a1f1a;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --solar-gold: #FFB800;
+            --solar-gold-hover: #E6A600;
+            --solar-gold-light: rgba(255, 184, 0, 0.15);
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --glass-border: rgba(255, 184, 0, 0.2);
+            --glass-blur: blur(15px);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .page-header {
+            background: rgba(4, 22, 18, 0.98);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover { background: var(--solar-gold-light); border-color: var(--solar-gold); color: var(--solar-gold); }
+
+        .page-title { font-size: 1.3rem; font-weight: 600; }
+
+        .header-right { display: flex; align-items: center; gap: 15px; }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover { background: #ef4444; border-color: #ef4444; color: white; }
+
+        .content { padding: 30px; max-width: 1200px; margin: 0 auto; }
+
+        .lead-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .lead-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .lead-name-section { display: flex; align-items: center; gap: 15px; }
+
+        .lead-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--solar-gold) 0%, var(--solar-gold-hover) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+        }
+
+        .lead-name h2 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; }
+        .lead-id { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-new { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .status-contacted { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .status-site_visit { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .status-proposal { background: rgba(234, 179, 8, 0.2); color: #eab308; }
+        .status-won { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .status-lost { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+
+        .info-item { padding: 15px; background: rgba(4, 22, 18, 0.3); border-radius: var(--radius-sm); }
+
+        .info-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-value { font-size: 1rem; color: var(--text-primary); font-weight: 500; }
+        .info-value i { color: var(--solar-gold); margin-left: 8px; }
+
+        .status-select-wrapper { margin-top: 10px; }
+
+        .status-select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(4, 22, 18, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .status-select:focus { border-color: var(--solar-gold); }
+
+        .notes-section {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+
+        .notes-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .notes-title { font-size: 1.1rem; font-weight: 600; color: var(--solar-gold); display: flex; align-items: center; gap: 10px; }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            background: rgba(4, 22, 18, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .notes-textarea:focus { border-color: var(--solar-gold); }
+        .notes-textarea::placeholder { color: var(--text-secondary); }
+
+        .save-notes-btn {
+            margin-top: 15px;
+            background: var(--solar-gold);
+            color: var(--bg-primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .save-notes-btn:hover { background: var(--solar-gold-hover); transform: translateY(-2px); }
+        .save-notes-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* Activity Timeline */
+        .activity-section {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-top: 25px;
+        }
+
+        .activity-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .activity-title { font-size: 1.1rem; font-weight: 600; color: var(--solar-gold); display: flex; align-items: center; gap: 10px; }
+
+        .timeline { position: relative; padding-right: 20px; }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 5px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--glass-border);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--solar-gold);
+            border: 2px solid var(--bg-dark);
+        }
+
+        .timeline-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--solar-gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--solar-gold);
+            flex-shrink: 0;
+        }
+
+        .timeline-content { flex: 1; }
+        .timeline-action { font-size: 0.95rem; color: var(--text-primary); }
+        .timeline-time { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+        .timeline-details { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
+
+        .loading { text-align: center; padding: 60px; color: var(--text-secondary); }
+        .loading i { font-size: 2.5rem; color: var(--solar-gold); animation: spin 1s linear infinite; margin-bottom: 15px; display: block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .toast-container { position: fixed; top: 20px; left: 20px; z-index: 1000; }
+
+        .toast {
+            background: var(--bg-dark);
+            border: 2px solid var(--solar-gold);
+            border-radius: var(--radius-sm);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow);
+            animation: slideIn 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .toast.success { border-color: #22c55e; }
+        .toast.error { border-color: #ef4444; }
+        .toast-icon { font-size: 1.2rem; }
+        .toast.success .toast-icon { color: #22c55e; }
+        .toast.error .toast-icon { color: #ef4444; }
+
+        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .not-found { text-align: center; padding: 60px; }
+        .not-found i { font-size: 4rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .not-found h2 { color: var(--text-primary); margin-bottom: 10px; }
+        .not-found p { color: var(--text-secondary); margin-bottom: 20px; }
+        .not-found a { display: inline-block; background: var(--solar-gold); color: var(--bg-primary); padding: 12px 24px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .not-found a:hover { background: var(--solar-gold-hover); }
+
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; gap: 15px; padding: 15px; }
+            .header-left, .header-right { width: 100%; justify-content: center; }
+            .content { padding: 15px; }
+            .lead-header { flex-direction: column; gap: 15px; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="header-left">
+            <a href="/admin/admin-leads.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للعملاء</a>
+            <h1 class="page-title">تفاصيل العميل</h1>
+        </div>
+        <div class="header-right">
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+        </div>
+    </header>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="content" id="content">
+        <div class="loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل البيانات...</p></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const leadId = window.location.pathname.split('/').pop();
+        let currentLead = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem("role");
+            if (role !== "admin") { alert("Access denied"); window.location.href = "/"; return; }
+            if (!Auth.requireAdmin()) return;
+            loadLeadDetails();
+        });
+
+        function loadLeadDetails() {
+            const token = Auth.getToken();
+            const container = document.getElementById('content');
+
+            Promise.all([
+                fetch('/api/leads/' + leadId, { headers: { 'Authorization': 'Bearer ' + token } }).then(r => r.json()),
+                fetch('/api/leads/' + leadId + '/activity', { headers: { 'Authorization': 'Bearer ' + token } }).then(r => r.json())
+            ])
+            .then(([leadData, activityData]) => {
+                if (leadData.success && leadData.quote) {
+                    currentLead = leadData.quote;
+                    renderLeadDetails(currentLead, activityData.activities || []);
+                } else {
+                    container.innerHTML = '<div class="not-found"><i class="fas fa-user-slash"></i><h2>العميل غير موجود</h2><p>لم يتم العثور على عميل بهذا الرقم</p><a href="/crm">العودة للوحة التحكم</a></div>';
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                container.innerHTML = '<div class="not-found"><i class="fas fa-exclamation-triangle"></i><h2>حدث خطأ</h2><p>تعذر تحميل بيانات العميل</p><a href="/crm">العودة للوحة التحكم</a></div>';
+            });
+        }
+
+        function renderLeadDetails(lead, activities) {
+            const container = document.getElementById('content');
+            const statusClass = 'status-' + lead.status;
+            const statusText = getStatusText(lead.status);
+            const initial = lead.name ? lead.name.charAt(0) : '?';
+            const createdDate = new Date(lead.created_at).toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            container.innerHTML = `
+                <div class="lead-card">
+                    <div class="lead-header">
+                        <div class="lead-name-section">
+                            <div class="lead-avatar">${initial}</div>
+                            <div><h2>${lead.name}</h2><span class="lead-id">#${lead.id}</span></div>
+                        </div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-phone"></i> رقم الهاتف</div>
+                            <div class="info-value">${lead.phone}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-home"></i> نوع المشروع</div>
+                            <div class="info-value">${getProjectType(lead.service_type)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-user"></i> المندوب</div>
+                            <div class="info-value">${lead.assigned_to || 'غير معين'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-calendar"></i> تاريخ الإنشاء</div>
+                            <div class="info-value">${createdDate}</div>
+                        </div>
+                        <div class="info-item" style="grid-column: span 2;">
+                            <div class="info-label"><i class="fas fa-tasks"></i> الحالة</div>
+                            <div class="status-select-wrapper">
+                                <select class="status-select" id="statusSelect" onchange="updateStatus(this.value)">
+                                    <option value="new" ${lead.status === 'new' ? 'selected' : ''}>جديد</option>
+                                    <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>تم التواصل</option>
+                                    <option value="site_visit" ${lead.status === 'site_visit' ? 'selected' : ''}>زيارة موقع</option>
+                                    <option value="proposal" ${lead.status === 'proposal' ? 'selected' : ''}>عرض سعر</option>
+                                    <option value="won" ${lead.status === 'won' ? 'selected' : ''}>مكسوب</option>
+                                    <option value="lost" ${lead.status === 'lost' ? 'selected' : ''}>مفقود</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <div class="notes-header">
+                        <h3 class="notes-title"><i class="fas fa-sticky-note"></i> الملاحظات</h3>
+                    </div>
+                    <textarea class="notes-textarea" id="notesTextarea" placeholder="أضف ملاحظاتك حول هذا العميل هنا...">${lead.note || ''}</textarea>
+                    <button class="save-notes-btn" id="saveNotesBtn" onclick="saveNotes()">
+                        <i class="fas fa-save"></i> حفظ الملاحظات
+                    </button>
+                </div>
+
+                <div class="activity-section">
+                    <div class="activity-header">
+                        <h3 class="activity-title"><i class="fas fa-history"></i> نشاط العميل</h3>
+                        <button class="back-btn" onclick="loadLeadDetails()" style="padding: 8px 12px;"><i class="fas fa-sync-alt"></i> تحديث</button>
+                    </div>
+                    <div class="timeline" id="activityTimeline">
+                        ${activities.length > 0 ? activities.map(a => `
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fas fa-${getActivityIcon(a.action)}"></i></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-action">${getActivityText(a.action)}</div>
+                                    <div class="timeline-time">${new Date(a.timestamp).toLocaleString('ar-SA')}</div>
+                                    ${a.details ? `<div class="timeline-details">${a.details}</div>` : ''}
+                                </div>
+                            </div>
+                        `).join('') : '<p style="color: var(--text-secondary);">لا يوجد نشاط مسجل</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getStatusText(status) {
+            const map = { "new": "جديد", "contacted": "تم التواصل", "site_visit": "زيارة موقع", "proposal": "عرض سعر", "won": "مكسوب", "lost": "مفقود" };
+            return map[status] || status;
+        }
+
+        function getProjectType(type) {
+            const map = { "residential": "سكني", "industrial": "صناعي", "agricultural": "زراعي", "villa": "فيلا" };
+            return map[type] || type || 'غير محدد';
+        }
+
+        function getActivityIcon(action) {
+            const icons = { 'lead_created': 'plus', 'status_changed': 'exchange-alt', 'note_updated': 'sticky-note', 'lead_assigned': 'user-plus' };
+            return icons[action] || 'circle';
+        }
+
+        function getActivityText(action) {
+            const texts = { 'lead_created': 'تم إنشاء العميل', 'status_changed': 'تم تغيير الحالة', 'note_updated': 'تم تحديث الملاحظات', 'lead_assigned': 'تم تعيين المندوب' };
+            return texts[action] || action;
+        }
+
+        function updateStatus(status) {
+            const token = Auth.getToken();
+            fetch('/api/leads/' + leadId + '/status', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ status: status })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('تم تحديث الحالة بنجاح', 'success');
+                    loadLeadDetails();
+                } else {
+                    showToast('حدث خطأ', 'error');
+                    document.getElementById('statusSelect').value = currentLead.status;
+                }
+            })
+            .catch(err => { showToast('حدث خطأ', 'error'); document.getElementById('statusSelect').value = currentLead.status; });
+        }
+
+        function saveNotes() {
+            const notes = document.getElementById('notesTextarea').value;
+            const btn = document.getElementById('saveNotesBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+            const token = Auth.getToken();
+            fetch('/api/leads/' + leadId + '/notes', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ note: notes })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) showToast('تم حفظ الملاحظات بنجاح', 'success');
+                else showToast('حدث خطأ', 'error');
+            })
+            .catch(err => showToast('حدث خطأ', 'error'))
+            .finally(() => { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> حفظ الملاحظات'; });
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            toast.innerHTML = `<i class="fas ${icon} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => Auth.logout());
+    </script>
+</body>
+</html>
+

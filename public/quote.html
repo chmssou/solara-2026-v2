@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الطلب - سولارا 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #041612 0%, #062C24 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            color: #F1F5F9;
+            padding: 2rem;
+        }
+        .detail-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .detail-row {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .detail-value {
+            font-size: 1.1rem;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #22c55e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+        .back-btn:hover {
+            background: #16a34a;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .status-new { background: #6b7280; color: white; }
+        .status-contacted { background: #3b82f6; color: white; }
+        .status-site_visit { background: #f59e0b; color: white; }
+        .status-proposal { background: #8b5cf6; color: white; }
+        .status-won { background: #22c55e; color: white; }
+        .status-lost { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+    <a href="/admin.html" class="back-btn">
+        <i class="fas fa-arrow-right"></i> العودة للوحة التحكم
+    </a>
+    
+    <div class="detail-container">
+        <h2><i class="fas fa-file-alt"></i> تفاصيل الطلب</h2>
+        <div id="details">
+            <p><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Helper function to format status
+        function formatStatus(status) {
+            const statusMap = {
+                "new": "New Lead",
+                "contacted": "Contacted",
+                "site_visit": "Site Visit",
+                "proposal": "Proposal Sent",
+                "won": "Won",
+                "lost": "Lost",
+                "pending": "Pending"
+            };
+            return statusMap[status] || status;
+        }
+        
+        // Get status class
+        function getStatusClass(status) {
+            return "status-" + status;
+        }
+        
+        // Check auth on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!Auth.requireAdmin()) {
+                return;
+            }
+            
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            
+            if (!id) {
+                document.getElementById("details").innerHTML = '<p style="color: #ef4444;">رقم الطلب غير موجود</p>';
+                return;
+            }
+            
+            const token = Auth.getToken();
+            fetch('/api/quotes/' + id, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.quote) {
+                    const quote = data.quote;
+                    document.getElementById("details").innerHTML = `
+                        <div class="detail-row">
+                            <span class="detail-label">رقم الطلب</span>
+                            <span class="detail-value">#${quote.id}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">الاسم</span>
+                            <span class="detail-value">${quote.name}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">رقم الهاتف</span>
+                            <span class="detail-value">${quote.phone}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">نوع الخدمة</span>
+                            <span class="detail-value">${quote.service_type || '-'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">الحالة</span>
+                            <span class="detail-value">
+                                <span class="status-badge ${getStatusClass(quote.status)}">${formatStatus(quote.status)}</span>
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">الملاحظات</span>
+                            <span class="detail-value">${quote.note || 'لا توجد ملاحظات'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">تاريخ الطلب</span>
+                            <span class="detail-value">${new Date(quote.created_at).toLocaleDateString('ar-SA')}</span>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById("details").innerHTML = '<p style="color: #ef4444;">الطلب غير موجود</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error loading quote:', err);
+                document.getElementById("details").innerHTML = '<p style="color: #ef4444;">حدث خطأ في تحميل البيانات</p>';
+            });
+        });
+    </script>
+</body>
+</html>
+

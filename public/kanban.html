@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban - سولارا 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --bg-primary: #041612; --bg-secondary: #062C24; --text-primary: #F1F5F9; --text-secondary: #94A3B8; --solar-gold: #FFB800; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: rgba(4, 22, 18, 0.95); border-left: 1px solid rgba(255, 184, 0, 0.15); padding: 20px 0; flex-shrink: 0; }
+        .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255, 184, 0, 0.1); margin-bottom: 20px; }
+        .sidebar-logo a { color: var(--solar-gold); font-size: 1.3rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin: 5px 10px; }
+        .nav-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 10px; transition: all 0.3s; font-weight: 500; }
+        .nav-link:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
+        .nav-link.active { background: rgba(255, 184, 0, 0.15); color: var(--solar-gold); border-right: 3px solid var(--solar-gold); }
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+        .top-header { background: rgba(4, 22, 18, 0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 184, 0, 0.15); }
+        .page-title { font-size: 1.2rem; font-weight: 600; }
+        .user-section { display: flex; align-items: center; gap: 15px; }
+        .logout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: 'Cairo', sans-serif; }
+        .logout-btn:hover { background: #ef4444; color: white; }
+        .content-area { padding: 30px; flex: 1; overflow-x: auto; }
+        .kanban-board { display: flex; gap: 20px; min-height: calc(100vh - 150px); }
+        .kanban-column { min-width: 280px; max-width: 280px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; }
+        .column-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 2px solid rgba(255, 184, 0, 0.3); }
+        .column-title { color: var(--solar-gold); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .column-count { background: rgba(255, 184, 0, 0.2); color: var(--solar-gold); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
+        .cards-container { flex: 1; min-height: 200px; display: flex; flex-direction: column; gap: 12px; }
+        .cards-container.drag-over { background: rgba(255, 184, 0, 0.1); border: 2px dashed var(--solar-gold); border-radius: 8px; }
+        .lead-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 10px; padding: 14px; cursor: grab; transition: all 0.3s; border: 1px solid rgba(255, 184, 0, 0.2); }
+        .lead-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 184, 0, 0.15); border-color: var(--solar-gold); }
+        .lead-card:active { cursor: grabbing; }
+        .lead-card.dragging { opacity: 0.5; }
+        .lead-card.status-new { border-left: 4px solid #3b82f6; }
+        .lead-card.status-site_visit { border-left: 4px solid #f59e0b; }
+        .lead-card.status-proposal { border-left: 4px solid #eab308; }
+        .lead-card.status-won { border-left: 4px solid #22c55e; }
+        .lead-name { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .lead-name i { color: var(--solar-gold); font-size: 0.9rem; }
+        .lead-info { font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; }
+        .lead-info i { color: var(--solar-gold); width: 16px; }
+        .empty-column { text-align: center; padding: 30px; color: var(--text-secondary); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px; }
+        .toast-container { position: fixed; top: 20px; left: 20px; z-index: 1000; }
+        .toast { background: rgba(15, 23, 42, 0.95); border: 2px solid var(--solar-gold); border-radius: 8px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease; }
+        .toast.success { border-color: #22c55e; }
+        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .loading { text-align: center; padding: 50px; color: var(--text-secondary); }
+        .loading i { font-size: 2rem; color: var(--solar-gold); animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/admin" class="nav-link"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
+                <li class="nav-item"><a href="/leads" class="nav-link"><i class="fas fa-users"></i><span>العملاء</span></a></li>
+                <li class="nav-item"><a href="/kanban" class="nav-link active"><i class="fas fa-columns"></i><span>Kanban</span></a></li>
+                <li class="nav-item"><a href="/analytics" class="nav-link"><i class="fas fa-chart-bar"></i><span>التحليلات</span></a></li>
+                <li class="nav-item"><a href="/settings" class="nav-link"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">Kanban - إدارة العملاء</h1>
+                <div class="user-section"><span>مدير النظام</span><button type="button" class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> خروج</button></div>
+            </header>
+            <div class="content-area">
+                <div class="kanban-board" id="kanbanBoard"><div class="loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
+            </div>
+        </main>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="/js/auth.js"></script>
+    <script>
+        var allLeads = [];
+        var draggedCard = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Redirect non-admins away from admin-only pages
+            if (Auth.redirectNonAdmins()) {
+                return;
+            }
+            
+            // Update navigation to hide admin items for non-admins
+            Auth.updateNavigationForRole();
+            
+            loadKanban();
+        });
+
+        function showToast(message, type) {
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + (type || 'success');
+            toast.innerHTML = '<i class="fas fa-check-circle" style="color: #22c55e"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            setTimeout(function() { toast.remove(); }, 3000);
+        }
+
+        function loadKanban() {
+            var token = Auth.getToken();
+            var board = document.getElementById('kanbanBoard');
+            fetch('/api/leads', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success && data.leads) {
+                    allLeads = data.leads;
+                    renderKanban();
+                } else {
+                    board.innerHTML = '<div class="empty-column">لا توجد بيانات</div>';
+                }
+            })
+            .catch(function(err) {
+                console.error('Error:', err);
+                board.innerHTML = '<div class="empty-column">حدث خطأ</div>';
+            });
+        }
+
+        function renderKanban() {
+            var board = document.getElementById('kanbanBoard');
+            var columns = ['new', 'site_visit', 'proposal', 'won'];
+            var titles = { 'new': 'جديد', 'site_visit': 'زيارة موقع', 'proposal': 'عرض سعر', 'won': 'مكسوب' };
+            var icons = { 'new': 'user-plus', 'site_visit': 'map-marker-alt', 'proposal': 'file-contract', 'won': 'trophy' };
+            
+            var html = '';
+            columns.forEach(function(status) {
+                var leads = allLeads.filter(function(l) { return l.status === status; });
+                html += '<div class="kanban-column" data-status="' + status + '">';
+                html += '<div class="column-header"><span class="column-title"><i class="fas fa-' + icons[status] + '"></i> ' + titles[status] + '</span><span class="column-count" id="count-' + status + '">' + leads.length + '</span></div>';
+                html += '<div class="cards-container" id="column-' + status + '" data-status="' + status + '">';
+                if (leads.length === 0) {
+                    html += '<div class="empty-column">لا يوجد عملاء</div>';
+                } else {
+                    leads.forEach(function(lead) {
+                        html += '<div class="lead-card status-' + lead.status + '" draggable="true" data-id="' + lead.id + '" data-status="' + lead.status + '">';
+                        html += '<div class="lead-name"><i class="fas fa-user"></i> ' + lead.name + '</div>';
+                        html += '<div class="lead-info"><span><i class="fas fa-phone"></i> ' + lead.phone + '</span><span><i class="fas fa-home"></i> ' + (lead.service_type || '-') + '</span></div>';
+                        html += '</div>';
+                    });
+                }
+                html += '</div>';
+            });
+            board.innerHTML = html;
+            initDragDrop();
+        }
+
+        function initDragDrop() {
+            document.querySelectorAll('.lead-card').forEach(function(card) {
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+            });
+            document.querySelectorAll('.cards-container').forEach(function(container) {
+                container.addEventListener('dragover', handleDragOver);
+                container.addEventListener('dragleave', handleDragLeave);
+                container.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedCard = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', this.dataset.id);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedCard = null;
+            document.querySelectorAll('.cards-container').forEach(function(c) { c.classList.remove('drag-over'); });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            if (!draggedCard) return;
+
+            var id = draggedCard.dataset.id;
+            var newStatus = this.dataset.status;
+            var oldStatus = draggedCard.dataset.status;
+
+            if (newStatus === oldStatus) return;
+
+            var emptyMsg = this.querySelector('.empty-column');
+            if (emptyMsg) emptyMsg.remove();
+            this.appendChild(draggedCard);
+            draggedCard.dataset.status = newStatus;
+            draggedCard.className = 'lead-card status-' + newStatus;
+
+            updateCount(oldStatus, -1);
+            updateCount(newStatus, 1);
+            checkEmptyColumn(oldStatus);
+
+            updateStatus(id, newStatus);
+        }
+
+        function updateCount(status, delta) {
+            var countEl = document.getElementById('count-' + status);
+            if (countEl) {
+                countEl.textContent = parseInt(countEl.textContent) + delta;
+            }
+        }
+
+        function checkEmptyColumn(status) {
+            var container = document.getElementById('column-' + status);
+            if (container && container.children.length === 0) {
+                container.innerHTML = '<div class="empty-column">لا يوجد عملاء</div>';
+            }
+        }
+
+        function updateStatus(id, newStatus) {
+            var token = Auth.getToken();
+            fetch('/api/leads/' + id + '/status', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    var lead = allLeads.find(function(l) { return l.id == id; });
+                    if (lead) lead.status = newStatus;
+                    showToast('تم تحديث الحالة');
+                } else {
+                    showToast('فشل التحديث', 'error');
+                    loadKanban();
+                }
+            })
+            .catch(function(err) {
+                console.error('Error:', err);
+                showToast('خطأ', 'error');
+                loadKanban();
+            });
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function() { Auth.logout(); });
+        setInterval(loadKanban, 30000);
+    </script>
+</body>
+</html>

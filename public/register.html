@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - سولارا 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #041612 0%, #062C24 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            color: #F1F5F9;
+        }
+        .register-box {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 184, 0, 0.2);
+            border-radius: 16px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #FFB800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(4, 22, 18, 0.5);
+            border: 1px solid rgba(255, 184, 0, 0.2);
+            border-radius: 8px;
+            color: #F1F5F9;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            border-color: #FFB800;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: #FFB800;
+            color: #041612;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #E6A600;
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        .error-msg.show {
+            display: block;
+        }
+        .login-link {
+            margin-top: 1.5rem;
+            color: #94A3B8;
+        }
+        .login-link a {
+            color: #FFB800;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <a href="/" class="logo">
+            <i class="fas fa-solar-panel"></i>
+            سولارا 2026
+        </a>
+        <h2>إنشاء حساب جديد</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="name" placeholder="أدخل اسمك الكامل" required>
+            </div>
+            <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="بريدك الإلكتروني" required>
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" placeholder="كلمة المرور" required>
+            </div>
+            <button type="button" class="btn-primary" id="registerBtn" onclick="registerUser()">
+                <i class="fas fa-user-plus"></i>
+                إنشاء حساب
+            </button>
+            <p class="error-msg" id="errorMsg"></p>
+        </form>
+        <p class="login-link">
+            لديك حساب بالفعل؟
+            <a href="/login">تسجيل الدخول</a>
+        </p>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        async function registerUser() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var btn = document.getElementById('registerBtn');
+            var errorMsg = document.getElementById('errorMsg');
+
+            if (!name || !email || !password) {
+                errorMsg.textContent = 'يرجى ملء جميع الحقول';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
+            errorMsg.classList.remove('show');
+
+            try {
+                var response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, email: email, password: password })
+                });
+
+                var data = await response.json();
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم إنشاء الحساب!',
+                        text: 'تم تسجيلك بنجاح. جاري التوجيه لتسجيل الدخول...',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        didClose: function() {
+                            window.location.href = '/login';
+                        }
+                    });
+                } else {
+                    errorMsg.textContent = data.message || 'فشل إنشاء الحساب';
+                    errorMsg.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Register error:', error);
+                errorMsg.textContent = 'حدث خطأ في الاتصال بالخادم';
+                errorMsg.classList.add('show');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
+        }
+    </script>
+</body>
+</html>
+

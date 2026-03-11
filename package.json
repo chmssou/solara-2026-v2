@@ -1,0 +1,30 @@
+{
+  "name": "solara2026-backend",
+  "version": "1.0.0",
+  "description": "Solar Energy Company Website Backend - Solara 2026",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js"
+  },
+  "keywords": [
+    "solar",
+    "energy",
+    "algeria",
+    "express",
+    "sqlite"
+  ],
+  "author": "Solara 2026",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.4",
+    "cors": "^2.8.6",
+    "express": "^4.22.1",
+    "express-rate-limit": "^7.5.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
+    "sqlite3": "^5.1.7"
+  },
+  "type": "commonjs"
+}

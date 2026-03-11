@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة العملاء - سولارا 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #041612 0%, #062C24 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            color: #F1F5F9;
+        }
+        /* Auth section - visible by default */
+        #authSection {
+            display: flex;
+        }
+        /* Portal - hidden by default */
+        #portal {
+            display: none;
+        }
+        #portal.active {
+            display: block;
+        }
+        /* Sections */
+        .section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Section -->
+    <div class="auth-container" id="authSection">
+        <div class="auth-box">
+            <a href="/" class="logo">
+                <i class="fas fa-solar-panel"></i>
+                سولارا 2026
+            </a>
+            <h2>تسجيل الدخول</h2>
+            <p>يرجى تسجيل الدخول للوصول إلى بوابة العملاء</p>
+            <p><a href="/login.html" style="color: #FFB800;">اضغط هنا لتسجيل الدخول</a></p>
+        </div>
+    </div>
+
+    <!-- Portal Dashboard -->
+    <div class="portal" id="portal">
+        <header class="portal-header">
+            <a href="/" class="logo">
+                <i class="fas fa-solar-panel"></i>
+                سولارا 2026 - بوابة العملاء
+            </a>
+            <div class="user-info">
+                <span class="user-name" id="userName">مرحباً</span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </div>
+        </header>
+
+        <div class="portal-body">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="#dashboard" class="nav-btn active">
+                            <i class="fas fa-th-large"></i>
+                            <span>لوحة التحكم</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#profile" class="nav-btn">
+                            <i class="fas fa-user"></i>
+                            <span>الملف الشخصي</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Content -->
+            <main class="portal-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="section">
+                    <div class="welcome-card">
+                        <h2 id="welcomeTitle">مرحباً بك في بوابة العملاء</h2>
+                        <p>هنا يمكنك متابعة طلبات عروض الأسعار وحالة مشاريعك</p>
+                    </div>
+                    <div class="quotes-section">
+                        <h3><i class="fas fa-file-alt"></i> طلبات عروض الأسعار</h3>
+                        <div id="quotesContainer">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profile" class="section">
+                    <div class="profile-section">
+                        <h3><i class="fas fa-user"></i> الملف الشخصي</h3>
+                        <div class="profile-header">
+                            <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
+                            <div class="profile-info">
+                                <h4 id="profileName">اسم المستخدم</h4>
+                                <p id="profileEmail">email@example.com</p>
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <div class="profile-item">
+                                <label>رقم العضوية</label>
+                                <span id="profileId">-</span>
+                            </div>
+                            <div class="profile-item">
+                                <label>نوع الحساب</label>
+                                <span id="profileRole">عميل</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/portal.js"></script>
+    <script>
+        // Check auth on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (Auth.isLoggedIn()) {
+                showPortal();
+            }
+        });
+
+        function showPortal() {
+            var user = Auth.getUser();
+            if (!user) return;
+
+            // Hide auth, show portal
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('portal').classList.add('active');
+
+            // Set user info
+            var displayName = user.full_name || user.name || 'المستخدم';
+            document.getElementById('userName').textContent = 'مرحباً، ' + displayName;
+            document.getElementById('welcomeTitle').textContent = 'مرحباً بك، ' + displayName;
+            document.getElementById('profileName').textContent = displayName;
+            document.getElementById('profileEmail').textContent = user.email || '-';
+            document.getElementById('profileId').textContent = user.id || '-';
+            document.getElementById('profileRole').textContent = user.role === 'admin' ? 'مدير' : 'عميل';
+            
+            // Set avatar
+            var avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=FFB800&color=041612&size=128';
+            document.getElementById('profileAvatar').src = avatarUrl;
+
+            // Load initial section
+            if (typeof loadSection === 'function') {
+                loadSection();
+            }
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            Auth.logout();
+        });
+    </script>
+</body>
+</html>
+
