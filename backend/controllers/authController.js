@@ -7,7 +7,7 @@
 
 const db = require('../db');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const JWT_SECRET = 'solara2026_secret_key';
 
