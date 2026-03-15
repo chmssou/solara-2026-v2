@@ -10,7 +10,7 @@ const db = require('../../database/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const JWT_SECRET = 'solara2026_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET || 'solara2026_secret_key';
 
 // Debug logging
 console.log("Auth routes loaded - bcrypt enabled");

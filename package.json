@@ -5,15 +5,13 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "node backend/server.js"
+    "dev": "node backend/server.js",
+    "postinstall": "npm rebuild sqlite3"
   },
-  "keywords": [
-    "solar",
-    "energy",
-    "algeria",
-    "express",
-    "sqlite"
-  ],
+  "engines": {
+    "node": "20.x"
+  },
+  "keywords": ["solar","energy","algeria","express","sqlite"],
   "author": "Solara 2026",
   "license": "MIT",
   "dependencies": {
