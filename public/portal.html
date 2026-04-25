@@ -73,7 +73,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#profile" class="nav-btn">
+                        <a href="/client-profile.html" class="nav-btn">
                             <i class="fas fa-user"></i>
                             <span>الملف الشخصي</span>
                         </a>
@@ -90,35 +90,27 @@
                         <p>هنا يمكنك متابعة طلبات عروض الأسعار وحالة مشاريعك</p>
                     </div>
                     <div class="quotes-section">
-                        <h3><i class="fas fa-file-alt"></i> طلبات عروض الأسعار</h3>
-                        <div id="quotesContainer">
-                            <div class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
-                            </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 style="margin: 0;"><i class="fas fa-file-alt"></i> طلبات عروض الأسعار</h3>
+                            <a href="/index_final_v2.html#home" class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem; text-decoration: none; background: var(--solar-gold); color: #041612; border-radius: 8px; font-weight: 600;">
+                                <i class="fas fa-plus"></i> طلب جديد
+                            </a>
+                        </div>
+                    <div id="quotesContainer">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
                         </div>
                     </div>
-                </div>
-
-                <!-- Profile Section -->
-                <div id="profile" class="section">
-                    <div class="profile-section">
-                        <h3><i class="fas fa-user"></i> الملف الشخصي</h3>
-                        <div class="profile-header">
-                            <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
-                            <div class="profile-info">
-                                <h4 id="profileName">اسم المستخدم</h4>
-                                <p id="profileEmail">email@example.com</p>
-                            </div>
-                        </div>
-                        <div class="profile-details">
-                            <div class="profile-item">
-                                <label>رقم العضوية</label>
-                                <span id="profileId">-</span>
-                            </div>
-                            <div class="profile-item">
-                                <label>نوع الحساب</label>
-                                <span id="profileRole">عميل</span>
-                            </div>
+                    
+                    <!-- Status Legend for Clarity -->
+                    <div class="status-legend" style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,184,0,0.1);">
+                        <h4 style="color: var(--solar-gold); margin-bottom: 15px; font-size: 1rem;"><i class="fas fa-info-circle"></i> ماذا تعني حالة طلبك؟</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.9rem;">
+                            <div><span class="status-badge status-pending" style="display:inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 5px;"></span> <strong>طلب جديد:</strong> تم استلام طلبك وهو بانتظار مراجعة الفريق.</div>
+                            <div><span class="status-badge" style="background:#3b82f6; display:inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 5px;"></span> <strong>قيد المراجعة:</strong> يقوم مهندسونا بدراسة الطلب وتحديد المتطلبات الأولية.</div>
+                            <div><span class="status-badge" style="background:#f59e0b; display:inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 5px;"></span> <strong>موعد المعاينة:</strong> تم تحديد موعد لزيارة فنية للموقع.</div>
+                            <div><span class="status-badge" style="background:#8b5cf6; display:inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 5px;"></span> <strong>جاري التنفيذ:</strong> بدأت أعمال التركيب أو الصيانة في الموقع.</div>
+                            <div><span class="status-badge status-completed" style="display:inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 5px;"></span> <strong>مكتمل:</strong> تم الانتهاء من العمل بنجاح وتسليم النظام.</div>
                         </div>
                     </div>
                 </div>
@@ -148,14 +140,20 @@
             var displayName = user.full_name || user.name || 'المستخدم';
             document.getElementById('userName').textContent = 'مرحباً، ' + displayName;
             document.getElementById('welcomeTitle').textContent = 'مرحباً بك، ' + displayName;
-            document.getElementById('profileName').textContent = displayName;
-            document.getElementById('profileEmail').textContent = user.email || '-';
-            document.getElementById('profileId').textContent = user.id || '-';
-            document.getElementById('profileRole').textContent = user.role === 'admin' ? 'مدير' : 'عميل';
+            // Optional profile summary elements (may not exist in all portal layouts)
+            var profileNameEl = document.getElementById('profileName');
+            if (profileNameEl) profileNameEl.textContent = displayName;
+            var profileEmailEl = document.getElementById('profileEmail');
+            if (profileEmailEl) profileEmailEl.textContent = user.email || '-';
+            var profileIdEl = document.getElementById('profileId');
+            if (profileIdEl) profileIdEl.textContent = user.id || '-';
+            var profileRoleEl = document.getElementById('profileRole');
+            if (profileRoleEl) profileRoleEl.textContent = user.role === 'admin' ? 'مدير' : 'عميل';
             
             // Set avatar
             var avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=FFB800&color=041612&size=128';
-            document.getElementById('profileAvatar').src = avatarUrl;
+            var profileAvatarEl = document.getElementById('profileAvatar');
+            if (profileAvatarEl) profileAvatarEl.src = avatarUrl;
 
             // Load initial section
             if (typeof loadSection === 'function') {

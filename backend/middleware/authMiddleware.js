@@ -68,8 +68,9 @@ const requireAuth = (req, res, next) => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         // Check if it's an API request or page request
         const acceptHeader = req.headers.accept || '';
+        const isApi = req.url.startsWith('/api') || acceptHeader.includes('application/json');
         
-        if (acceptHeader.includes('application/json')) {
+        if (isApi) {
             return res.status(401).json({
                 success: false,
                 message: 'Authentication required'
@@ -77,7 +78,7 @@ const requireAuth = (req, res, next) => {
         }
         
         // For page requests, redirect to login
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 
     const token = authHeader.split(' ')[1];
@@ -96,7 +97,7 @@ const requireAuth = (req, res, next) => {
             });
         }
         
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 };
 
@@ -110,15 +111,16 @@ const requireAdmin = (req, res, next) => {
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         const acceptHeader = req.headers.accept || '';
+        const isApi = (req.originalUrl || req.url).startsWith('/api') || acceptHeader.includes('application/json');
         
-        if (acceptHeader.includes('application/json')) {
+        if (isApi) {
             return res.status(401).json({
                 success: false,
                 message: 'Authentication required'
             });
         }
         
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 
     const token = authHeader.split(' ')[1];
@@ -128,8 +130,9 @@ const requireAdmin = (req, res, next) => {
         
         if (decoded.role !== 'admin') {
             const acceptHeader = req.headers.accept || '';
+            const isApi = req.originalUrl.startsWith('/api') || acceptHeader.includes('application/json');
             
-            if (acceptHeader.includes('application/json')) {
+            if (isApi) {
                 return res.status(403).json({
                     success: false,
                     message: 'Admin access required'
@@ -137,7 +140,7 @@ const requireAdmin = (req, res, next) => {
             }
             
             // Redirect non-admin users to their dashboard
-            return res.redirect('/dashboard');
+            return res.redirect('/portal.html');
         }
         
         req.user = decoded;
@@ -152,7 +155,7 @@ const requireAdmin = (req, res, next) => {
             });
         }
         
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 };
 
@@ -164,15 +167,16 @@ const requireClientOrAdmin = (req, res, next) => {
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         const acceptHeader = req.headers.accept || '';
+        const isApi = (req.originalUrl || req.url).startsWith('/api') || acceptHeader.includes('application/json');
         
-        if (acceptHeader.includes('application/json')) {
+        if (isApi) {
             return res.status(401).json({
                 success: false,
                 message: 'Authentication required'
             });
         }
         
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 
     const token = authHeader.split(' ')[1];
@@ -183,8 +187,9 @@ const requireClientOrAdmin = (req, res, next) => {
         // Allow both admin and client roles
         if (decoded.role !== 'admin' && decoded.role !== 'client') {
             const acceptHeader = req.headers.accept || '';
+            const isApi = req.originalUrl.startsWith('/api') || acceptHeader.includes('application/json');
             
-            if (acceptHeader.includes('application/json')) {
+            if (isApi) {
                 return res.status(403).json({
                     success: false,
                     message: 'Invalid user role'
@@ -206,7 +211,7 @@ const requireClientOrAdmin = (req, res, next) => {
             });
         }
         
-        return res.redirect('/login');
+        return res.redirect('/login.html');
     }
 };
 

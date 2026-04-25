@@ -6,19 +6,24 @@
  * No authentication logic - pure navigation only
  */
 
-// Customer Portal button - goes to login page
-document.getElementById("portalBtn").onclick = function() {
-    window.location.href = "/login.html";
-};
-
-// Admin Panel button - goes to admin page
-document.getElementById("adminBtn").onclick = function() {
-    window.location.href = "/admin.html";
-};
-
-// Update navigation based on user role when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Update navigation to hide admin items for non-admins
+    // Customer Portal button - goes to login page (if present on the page)
+    var portalBtn = document.getElementById('portalBtn');
+    if (portalBtn) {
+        portalBtn.onclick = function() {
+            window.location.href = '/login.html';
+        };
+    }
+
+    // Admin Panel button - goes to admin redirect page (if present on the page)
+    var adminBtn = document.getElementById('adminBtn');
+    if (adminBtn) {
+        adminBtn.onclick = function() {
+            window.location.href = '/admin.html';
+        };
+    }
+
+    // Update navigation based on user role when page loads (if Auth is loaded)
     if (typeof Auth !== 'undefined' && Auth.updateNavigationForRole) {
         Auth.updateNavigationForRole();
     }

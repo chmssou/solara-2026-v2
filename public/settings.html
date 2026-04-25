@@ -60,12 +60,8 @@
     <div class="app-container">
         <aside class="sidebar">
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/admin" class="nav-link"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
-                <li class="nav-item"><a href="/leads" class="nav-link"><i class="fas fa-users"></i><span>العملاء</span></a></li>
-                <li class="nav-item"><a href="/kanban" class="nav-link"><i class="fas fa-columns"></i><span>Kanban</span></a></li>
-                <li class="nav-item"><a href="/analytics" class="nav-link"><i class="fas fa-chart-bar"></i><span>التحليلات</span></a></li>
-                <li class="nav-item"><a href="/settings" class="nav-link active"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
+            <ul class="nav-menu" id="sideNav">
+                <!-- Links injected by JS -->
             </ul>
         </aside>
         <main class="main-content">
@@ -79,8 +75,8 @@
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
                         <div class="user-dropdown">
-                            <a href="/profile"><i class="fas fa-user"></i> الملف الشخصي</a>
-                            <a href="/dashboard"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                            <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> العملاء</a>
                             <div class="divider"></div>
                             <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                         </div>
@@ -97,7 +93,7 @@
                         <p><strong>الدور:</strong> مدير النظام</p>
                     </div>
                 
-                <div class="section">
+                <div class="section admin-only" style="display: none;">
                     <h2 class="section-title"><i class="fas fa-download"></i> تصدير البيانات</h2>
                     <p style="color: var(--text-secondary); margin-bottom: 15px;">قم بتصدير بيانات العملاء والتنزيلها كملف Excel أو CSV</p>
                     <div class="export-section">
@@ -123,21 +119,52 @@
     <script src="/js/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Redirect non-admins away from admin-only pages
-            if (Auth.redirectNonAdmins()) {
-                return;
+            if (!Auth.isLoggedIn()) { window.location.href = '/login.html'; return; }
+            
+            var user = Auth.getUser();
+            var isAdmin = Auth.isAdmin();
+            
+            // Update Navigation
+            const sideNav = document.getElementById('sideNav');
+            let navHtml = '';
+            
+            if (isAdmin) {
+                navHtml += `
+                    <li class="nav-item"><a href="/admin/admin-dashboard.html" class="nav-link"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
+                    <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>المستخدمون</span></a></li>
+                    <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link"><i class="fas fa-user-tag"></i><span>الطلبات</span></a></li>
+                `;
+                // Show admin sections
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+            } else {
+                navHtml += `
+                    <li class="nav-item"><a href="/portal.html" class="nav-link"><i class="fas fa-th-large"></i><span>بوابة العملاء</span></a></li>
+                    <li class="nav-item"><a href="/client-profile.html" class="nav-link"><i class="fas fa-user"></i><span>ملفي</span></a></li>
+                `;
             }
             
-            // Update navigation to hide admin items for non-admins
-            Auth.updateNavigationForRole();
+            navHtml += `
+                <li class="nav-item"><a href="/settings.html" class="nav-link active"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
+                <li class="nav-item"><a href="/" class="nav-link"><i class="fas fa-home"></i><span>الموقع الرئيسي</span></a></li>
+            `;
+            sideNav.innerHTML = navHtml;
             
-            // Get user info and update display
-            var user = Auth.getUser();
+            // Update display info
             if (user) {
                 var nameEl = document.querySelector('.user-name');
                 var avatarEl = document.querySelector('.user-avatar');
                 if (nameEl) nameEl.textContent = user.name || 'مستخدم';
                 if (avatarEl) avatarEl.textContent = (user.name || 'م').charAt(0);
+                
+                // Update account info section
+                const infoBox = document.querySelector('.info-box');
+                if (infoBox) {
+                    infoBox.innerHTML = `
+                        <p><strong>البريد الإلكتروني:</strong> ${user.email || '-'}</p>
+                        <p><strong>الاسم:</strong> ${user.name || '-'}</p>
+                        <p><strong>الدور:</strong> ${isAdmin ? 'مدير النظام' : 'عميل'}</p>
+                    `;
+                }
             }
         });
 

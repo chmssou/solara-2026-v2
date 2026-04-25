@@ -8,19 +8,21 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
+const fs   = require('fs');
 
-// Initialize database (this will auto-create tables)
+// Initialize database (auto-creates & migrates tables)
 const db = require('../database/db');
 
 // Import routes
-const authRoutes = require('./routes/auth');
-const leadsRoutes = require('./routes/leads');
-const quotesRoutes = require('./routes/quotes');
-const adminRoutes = require('./routes/admin');
-const feedbackRoutes = require('./routes/feedback');
-const usersRoutes = require('./routes/users');
-const clientRoutes = require('./routes/client');
+const authRoutes      = require('./routes/auth');
+const leadsRoutes     = require('./routes/leads');
+const quotesRoutes    = require('./routes/quotes');
+const adminRoutes     = require('./routes/admin');
+const feedbackRoutes  = require('./routes/feedback');
+const usersRoutes     = require('./routes/users');
+const clientRoutes    = require('./routes/client');
+const requestsRoutes  = require('./routes/requests');     // Service workflow
+
 
 const app = express();
 const PORT = 3000;
@@ -35,6 +37,9 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from public folder
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+// Avoid noisy browser console errors for missing favicon
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // ============================================
 // ROOT ROUTE - Serve index_final_v2.html
 // ============================================
@@ -46,11 +51,14 @@ app.get('/', (req, res) => {
 // API ROUTES
 // ============================================
 
-// Auth routes
+// Auth routes (email/password + social OAuth merged into auth.js)
 app.use('/api/auth', authRoutes);
-app.use('/api/register', authRoutes); // Also handle /api/register
+app.use('/api/register', authRoutes);     // Legacy alias
 
-// Leads routes
+// Service workflow routes (NEW)
+app.use('/api/requests', requestsRoutes);
+
+// Leads routes (existing – unchanged)
 app.use('/api/leads', leadsRoutes);
 
 // Quotes routes
@@ -192,39 +200,74 @@ app.use('/api/users', usersRoutes);
 // Client routes (authenticated users)
 app.use('/api/client', clientRoutes);
 
+// Public Config route for safe frontend variables
+app.get('/api/config', (req, res) => {
+    res.json({
+        success: true,
+        data: {
+            GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || null
+        }
+    });
+});
+
 // ============================================
-// CATCH-ALL FOR FRONTEND ROUTES
+// CANONICAL HTML ROUTES (.html ONLY)
 // ============================================
-// Serve any other HTML files directly
+// Frontend must use .html everywhere. These redirects prevent mixed routing.
+app.get('/login', (req, res) => res.redirect(302, '/login.html'));
+app.get('/register', (req, res) => res.redirect(302, '/register.html'));
+app.get('/portal', (req, res) => res.redirect(302, '/portal.html'));
+app.get('/client-profile', (req, res) => res.redirect(302, '/client-profile.html'));
+app.get('/settings', (req, res) => res.redirect(302, '/settings.html'));
+app.get('/admin', (req, res) => res.redirect(302, '/admin.html'));
+
+/*
+// ============================================
+// CATCH-ALL FOR FRONTEND ROUTES (DISABLED)
+// ============================================
 app.get('/:page', (req, res) => {
     const page = req.params.page;
-    const htmlPages = ['login', 'register', 'admin', 'portal', 'dashboard', 'crm', 'leads', 'kanban', 'analytics', 'quote', 'profile', 'settings', 'lead-details', 'index', 'my-leads', 'my-quotes'];
-    
+
+    // Never catch API paths
+    if (page.startsWith('api')) {
+        return res.status(404).json({ success: false, message: 'Not found' });
+    }
+
+    // Single source of truth — only serve pages that actually exist
+    const htmlPages = [
+        'login', 'register', 'portal',
+        'client-profile', 'settings', 'index'
+    ];
+
     if (htmlPages.includes(page)) {
         const filePath = path.join(__dirname, '..', 'public', page + '.html');
         if (fs.existsSync(filePath)) {
             return res.sendFile(filePath);
         }
     }
-    
-    // Check for admin subdirectory
+
+    // Serve admin sub-pages (e.g. /admin/admin-dashboard.html)
     if (page.startsWith('admin/')) {
         const filePath = path.join(__dirname, '..', 'public', page + '.html');
         if (fs.existsSync(filePath)) {
             return res.sendFile(filePath);
         }
     }
-    
-    // Legacy support
-    if (page.startsWith('admin') || page.startsWith('portal')) {
-        const filePath = path.join(__dirname, '..', 'public', page + '.html');
-        if (fs.existsSync(filePath)) {
-            return res.sendFile(filePath);
-        }
+
+    // Unknown routes → 404, do NOT silently redirect to homepage
+    res.status(404).sendFile(path.join(__dirname, '..', 'public', 'index_final_v2.html'));
+});
+*/
+
+// ============================================
+// 404 (NO HOMEPAGE FALLBACK)
+// ============================================
+app.use((req, res) => {
+    // Never mask unknown API routes
+    if ((req.originalUrl || req.url).startsWith('/api')) {
+        return res.status(404).json({ success: false, message: 'Not found' });
     }
-    
-    // Fallback to index
-    res.sendFile(path.join(__dirname, '..', 'public', 'index_final_v2.html'));
+    return res.status(404).send('Not found');
 });
 
 // ============================================
@@ -236,33 +279,27 @@ app.listen(PORT, () => {
     console.log('http://localhost:' + PORT);
     console.log('===============================================');
     console.log('');
-    console.log('Registered routes:');
+    console.log('Core auth routes:');
     console.log('  POST   /api/auth/login');
     console.log('  POST   /api/auth/register');
-    console.log('  POST   /api/auth/signup');
-    console.log('  POST   /api/auth/logout');
-    console.log('  GET    /api/auth/user');
+    console.log('  POST   /api/auth/google        (Social OAuth)');
+    console.log('  POST   /api/auth/facebook      (Social OAuth)');
     console.log('  GET    /api/auth/me');
-    console.log('  GET    /api/leads');
-    console.log('  POST   /api/leads');
-    console.log('  PUT    /api/leads/:id');
-    console.log('  PUT    /api/leads/:id/status');
-    console.log('  PUT    /api/leads/:id/notes');
-    console.log('  PUT    /api/leads/:id/assign');
-    console.log('  DELETE /api/leads/:id');
-    console.log('  GET    /api/leads/export');
-    console.log('  GET    /api/leads/count');
-    console.log('  GET    /api/leads/:id');
-    console.log('  GET    /api/leads/:id/activity');
-    console.log('  GET    /api/quotes');
-    console.log('  POST   /api/quotes');
-    console.log('  GET    /api/quotes/:id');
-    console.log('  DELETE /api/quotes/:id');
-    console.log('  POST   /api/quote');
-    console.log('  GET    /api/admin/stats');
-    console.log('  GET    /api/admin/quotes');
+    console.log('');
+    console.log('Service Workflow routes (NEW):');
+    console.log('  GET    /api/requests           (list, filter by type/status)');
+    console.log('  POST   /api/requests           (create request)');
+    console.log('  GET    /api/requests/stats     (dashboard counts)');
+    console.log('  GET    /api/requests/:id       (single request + timeline)');
+    console.log('  PUT    /api/requests/:id/status  (admin: advance lifecycle)');
+    console.log('  PUT    /api/requests/:id/assign  (admin: assign technician)');
+    console.log('  PUT    /api/requests/:id/notes   (admin: internal notes)');
+    console.log('  DELETE /api/requests/:id       (admin: delete)');
+    console.log('');
+    console.log('Legacy leads/quotes routes (unchanged):');
+    console.log('  GET/POST/PUT/DELETE /api/leads');
+    console.log('  GET/POST/PUT/DELETE /api/quotes');
     console.log('  GET    /api/stats');
-    console.log('  POST   /api/feedback');
     console.log('===============================================');
     console.log('');
     console.log('Frontend: http://localhost:' + PORT);

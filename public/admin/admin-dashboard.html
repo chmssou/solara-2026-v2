@@ -6,56 +6,26 @@
     <title>لوحة التحكم - سولارا 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root { --bg-primary: #041612; --bg-secondary: #062C24; --text-primary: #F1F5F9; --text-secondary: #94A3B8; --solar-gold: #FFB800; --card-bg: rgba(30, 41, 59, 0.4); --glass-border: rgba(255, 184, 0, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: rgba(4, 22, 18, 0.95); border-left: 1px solid var(--glass-border); padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255, 184, 0, 0.1); margin-bottom: 20px; }
-        .sidebar-logo a { color: var(--solar-gold); font-size: 1.3rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .nav-menu { list-style: none; }
-        .nav-item { margin: 5px 10px; }
-        .nav-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 10px; transition: all 0.3s; font-weight: 500; }
-        .nav-link:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
-        .nav-link.active { background: rgba(255, 184, 0, 0.15); color: var(--solar-gold); border-right: 3px solid var(--solar-gold); }
-        .main-content { flex: 1; margin-right: 260px; display: flex; flex-direction: column; }
-        .top-header { background: rgba(4, 22, 18, 0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
-        .page-title { font-size: 1.2rem; font-weight: 600; }
-        .user-section { display: flex; align-items: center; gap: 15px; }
-        .user-menu { position: relative; }
-        .user-trigger { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 8px 12px; border-radius: 8px; }
-        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--solar-gold), #FF8C00); display: flex; align-items: center; justify-content: center; color: var(--bg-primary); font-weight: 700; font-size: 14px; }
-        .user-name { font-weight: 500; }
-        .dropdown-arrow { font-size: 10px; color: var(--text-secondary); }
-        .user-dropdown { display: none; position: absolute; top: 50px; right: 0; background: #062C24; border: 1px solid var(--glass-border); border-radius: 12px; min-width: 180px; z-index: 1000; }
-        .user-menu:hover .user-dropdown { display: block; }
-        .user-dropdown a, .user-dropdown button { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; width: 100%; border: none; background: none; font-family: 'Cairo', sans-serif; font-size: 14px; cursor: pointer; text-align: right; }
-        .logout-item { color: #ef4444; }
-        .content-area { padding: 30px; flex: 1; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 24px; text-align: center; }
-        .stat-card .icon { font-size: 2rem; color: var(--solar-gold); margin-bottom: 12px; }
-        .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--solar-gold); }
-        .stat-card .label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; }
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .chart-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; }
-        .chart-card h3 { color: var(--solar-gold); margin-bottom: 15px; }
+        /* Page-specific only (shared admin shell is in /css/admin.css) */
         .chart-container { position: relative; height: 280px; }
-        .loading { text-align: center; padding: 50px; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
-<ul class="nav-menu">
+            <ul class="nav-menu">
                 <li class="nav-item"><a href="/admin/admin-dashboard.html" class="nav-link active"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
-                <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>المستخدمون</span></a></li>
-                <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link"><i class="fas fa-user-tag"></i><span>العملاء</span></a></li>
+                <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>العملاء / المستخدمون</span></a></li>
+                <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link"><i class="fas fa-user-tag"></i><span>الطلبات</span></a></li>
+                <li class="nav-item"><a href="/settings.html" class="nav-link"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
                 <li class="nav-item"><a href="/" class="nav-link"><i class="fas fa-home"></i><span>الموقع الرئيسي</span></a></li>
+                <li class="nav-item"><button type="button" class="nav-link logout-item" id="sidebarLogoutBtn"><i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span></button></li>
+            </ul>
         </aside>
         <main class="main-content">
             <header class="top-header">
@@ -69,8 +39,9 @@
                         </div>
                         <div class="user-dropdown">
                             <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> العملاء</a>
-                            <a href="/profile.html"><i class="fas fa-user"></i> الملف الشخصي</a>
+                            <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء / المستخدمون</a>
+                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>
+                            <a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
                             <div class="divider"></div>
                             <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                         </div>
@@ -81,7 +52,7 @@
                 <div id="statsContainer"><div class="loading">جاري التحميل...</div></div>
                 <div class="charts-grid">
                     <div class="chart-card"><h3>الحالة حسب العدد</h3><div class="chart-container"><canvas id="statusChart"></canvas></div></div>
-                    <div class="chart-card"><h3>عدد العملاء الشهري</h3><div class="chart-container"><canvas id="monthlyChart"></canvas></div></div>
+                    <div class="chart-card"><h3>عدد الطلبات الشهري</h3><div class="chart-container"><canvas id="monthlyChart"></canvas></div></div>
                 </div>
             </div>
         </main>
@@ -100,21 +71,82 @@
             loadDashboard();
         });
         function loadDashboard() {
-            fetch('/api/stats').then(function(res){return res.json();}).then(function(data){if(data.success&&data.stats){renderStats(data.stats);renderCharts(data.stats);}});
+            var token = Auth.getToken();
+            var headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+            Promise.all([
+                fetch('/api/requests/stats', { headers: headers }).then(function(res){ return res.json(); }).catch(function(){ return { success:false }; }),
+                fetch('/api/users', { headers: headers }).then(function(res){ return res.json(); }).catch(function(){ return { success:false }; })
+            ])
+            .then(function(all){
+                renderStats(all[0], all[1]);
+                renderCharts(all[0]);
+            })
+            .catch(function(){
+                renderStats({ success:false }, { success:false });
+                renderCharts({ success:false });
+            });
         }
-        function renderStats(stats) {
+        function renderStats(reqStatsRes, usersRes) {
             var c=document.getElementById('statsContainer');
-            c.innerHTML='<div class="stats-grid"><div class="stat-card"><div class="icon"><i class="fas fa-users"></i></div><div class="number">'+(stats.totalLeads||0)+'</div><div class="label">عدد العملاء</div></div><div class="stat-card"><div class="icon"><i class="fas fa-envelope"></i></div><div class="number">'+(stats.newMessages||0)+'</div><div class="label">الرسائل الجديدة</div></div><div class="stat-card"><div class="icon"><i class="fas fa-question-circle"></i></div><div class="number">'+(stats.totalInquiries||0)+'</div><div class="label">إجمالي الاستفسارات</div></div><div class="stat-card"><div class="icon"><i class="fas fa-check-circle"></i></div><div class="number">'+(stats.resolvedMessages||0)+'</div><div class="label">الرسائل المجاب عنها</div></div></div>';
-        }
-        function renderCharts(stats) {
-            var sc=document.getElementById('statusChart');
-            if(sc){if(statusChart)statusChart.destroy();statusChart=new Chart(sc,{type:'bar',data:{labels:['جديد','تم تواصل','مؤهل','مكسوب'],datasets:[{data:[stats.statusBreakdown?.new||0,stats.statusBreakdown?.contacted||0,stats.statusBreakdown?.qualified||0,stats.statusBreakdown?.won||0],backgroundColor:['#3b82f6','#f59e0b','#8b5cf6','#22c55e']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#94a3b8'}},x:{ticks:{color:'#94a3b8'}}}}});
+            var stats = (reqStatsRes && reqStatsRes.success && reqStatsRes.stats) ? reqStatsRes.stats : { total:0, statusBreakdown:{}, monthlyRequests:[] };
+            var breakdown = stats.statusBreakdown || {};
+
+            var newCount = breakdown.new_request || 0;
+            var processingStatuses = ['under_review','site_visit_scheduled','site_inspection_done','quote_prepared','awaiting_client_approval','approved','installation_scheduled','initial_diagnosis','visit_scheduled','in_progress'];
+            var completedStatuses = ['completed','resolved','closed','follow_up'];
+            var processingCount = processingStatuses.reduce(function(sum, k){ return sum + (breakdown[k] || 0); }, 0);
+            var completedCount = completedStatuses.reduce(function(sum, k){ return sum + (breakdown[k] || 0); }, 0);
+
+            var clientCount = 0;
+            if (usersRes && usersRes.success && Array.isArray(usersRes.users)) {
+                clientCount = usersRes.users.filter(function(u){ return u && u.role === 'client'; }).length;
             }
+
+            c.innerHTML=
+                '<div class="stats-grid">'
+                +'<div class="stat-card"><div class="icon"><i class="fas fa-layer-group"></i></div><div class="number">'+(stats.total||0)+'</div><div class="label">إجمالي الطلبات</div></div>'
+                +'<div class="stat-card"><div class="icon"><i class="fas fa-bell"></i></div><div class="number">'+(newCount||0)+'</div><div class="label">طلبات جديدة</div></div>'
+                +'<div class="stat-card"><div class="icon"><i class="fas fa-spinner"></i></div><div class="number">'+(processingCount||0)+'</div><div class="label">قيد المعالجة</div></div>'
+                +'<div class="stat-card"><div class="icon"><i class="fas fa-check-circle"></i></div><div class="number">'+(completedCount||0)+'</div><div class="label">مكتملة</div></div>'
+                +'<div class="stat-card"><div class="icon"><i class="fas fa-users"></i></div><div class="number">'+(clientCount||0)+'</div><div class="label">العملاء</div></div>'
+                +'</div>';
+        }
+        function renderCharts(reqStatsRes) {
+            var stats = (reqStatsRes && reqStatsRes.success && reqStatsRes.stats) ? reqStatsRes.stats : { total:0, statusBreakdown:{}, monthlyRequests:[] };
+            var breakdown = stats.statusBreakdown || {};
+
+            var newCount = breakdown.new_request || 0;
+            var processingStatuses = ['under_review','site_visit_scheduled','site_inspection_done','quote_prepared','awaiting_client_approval','approved','installation_scheduled','initial_diagnosis','visit_scheduled','in_progress'];
+            var completedStatuses = ['completed','resolved','closed','follow_up'];
+            var processingCount = processingStatuses.reduce(function(sum, k){ return sum + (breakdown[k] || 0); }, 0);
+            var completedCount = completedStatuses.reduce(function(sum, k){ return sum + (breakdown[k] || 0); }, 0);
+
+            var sc=document.getElementById('statusChart');
+            if(sc){
+                if(statusChart)statusChart.destroy();
+                statusChart=new Chart(sc,{
+                    type:'bar',
+                    data:{labels:['طلبات جديدة','قيد المعالجة','مكتملة'],datasets:[{data:[newCount,processingCount,completedCount],backgroundColor:['#eab308','#3b82f6','#22c55e']}]},
+                    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#94a3b8'}},x:{ticks:{color:'#94a3b8'}}}}
+                });
+            }
+
             var mc=document.getElementById('monthlyChart');
-            if(mc){var ms=stats.monthlyLeads?stats.monthlyLeads.map(function(m){return m.month;}):[];var cs=stats.monthlyLeads?stats.monthlyLeads.map(function(m){return m.count;}):[];if(monthlyChart)monthlyChart.destroy();monthlyChart=new Chart(mc,{type:'line',data:{labels:ms,datasets:[{label:'العملاء',data:cs,borderColor:'#FFB800',backgroundColor:'rgba(255,184,0,0.1)',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#94a3b8'}},x:{ticks:{color:'#94a3b8'}}}}});
+            if(mc){
+                var ms=Array.isArray(stats.monthlyRequests)?stats.monthlyRequests.map(function(m){return m.month;}):[];
+                var cs=Array.isArray(stats.monthlyRequests)?stats.monthlyRequests.map(function(m){return m.count;}):[];
+                if(monthlyChart)monthlyChart.destroy();
+                monthlyChart=new Chart(mc,{
+                    type:'line',
+                    data:{labels:ms,datasets:[{label:'الطلبات',data:cs,borderColor:'#FFB800',backgroundColor:'rgba(255,184,0,0.1)',fill:true,tension:0.4}]},
+                    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#94a3b8'}},x:{ticks:{color:'#94a3b8'}}}}
+                });
             }
         }
         document.getElementById('logoutBtn').addEventListener('click',function(){Auth.logout();});
+        var sideLogoutBtn=document.getElementById('sidebarLogoutBtn');
+        if(sideLogoutBtn)sideLogoutBtn.addEventListener('click',function(){Auth.logout();});
     </script>
 </body>
 </html>

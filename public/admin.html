@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=/admin/admin-dashboard.html">
-    <title>Redirecting...</title>
+    <title>جاري التحويل...</title>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (Auth.isLoggedIn()) {
+                if (Auth.isAdmin()) {
+                    window.location.href = '/admin/admin-dashboard.html';
+                } else {
+                    window.location.href = '/portal.html';
+                }
+            } else {
+                window.location.href = '/login.html';
+            }
+        });
+    </script>
 </head>
 <body>
-    <p>Redirecting to <a href="/admin/admin-dashboard.html">Admin Dashboard</a>...</p>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; background: #041612; color: #FFB800;">
+        <p>جاري التحويل إلى لوحة التحكم...</p>
+    </div>
 </body>
 </html>
-

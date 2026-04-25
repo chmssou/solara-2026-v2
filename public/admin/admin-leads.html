@@ -6,46 +6,17 @@
     <title>العملاء - سولارا 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root { --bg-primary: #041612; --bg-secondary: #062C24; --text-primary: #F1F5F9; --text-secondary: #94A3B8; --solar-gold: #FFB800; --card-bg: rgba(30, 41, 59, 0.4); --glass-border: rgba(255, 184, 0, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: rgba(4, 22, 18, 0.95); border-left: 1px solid var(--glass-border); padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255, 184, 0, 0.1); margin-bottom: 20px; }
-        .sidebar-logo a { color: var(--solar-gold); font-size: 1.3rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .nav-menu { list-style: none; }
-        .nav-item { margin: 5px 10px; }
-        .nav-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 10px; transition: all 0.3s; font-weight: 500; }
-        .nav-link:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
-        .nav-link.active { background: rgba(255, 184, 0, 0.15); color: var(--solar-gold); border-right: 3px solid var(--solar-gold); }
-        .main-content { flex: 1; margin-right: 260px; display: flex; flex-direction: column; }
-        .top-header { background: rgba(4, 22, 18, 0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
-        .page-title { font-size: 1.2rem; font-weight: 600; }
-        .user-section { display: flex; align-items: center; gap: 15px; }
-        .user-menu { position: relative; }
-        .user-trigger { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 8px 12px; border-radius: 8px; }
-        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--solar-gold), #FF8C00); display: flex; align-items: center; justify-content: center; color: var(--bg-primary); font-weight: 700; font-size: 14px; }
-        .user-name { font-weight: 500; }
-        .dropdown-arrow { font-size: 10px; color: var(--text-secondary); }
-        .user-dropdown { display: none; position: absolute; top: 50px; right: 0; background: #062C24; border: 1px solid var(--glass-border); border-radius: 12px; min-width: 180px; z-index: 1000; }
-        .user-menu:hover .user-dropdown { display: block; }
-        .user-dropdown a, .user-dropdown button { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; width: 100%; border: none; background: none; font-family: 'Cairo', sans-serif; font-size: 14px; cursor: pointer; text-align: right; }
-        .logout-item { color: #ef4444; }
-        .content-area { padding: 30px; flex: 1; }
-        .section { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; }
-        .section-title { color: var(--solar-gold); font-size: 1.1rem; margin-bottom: 15px; }
-        .table-wrapper { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        th { padding: 12px; text-align: right; font-weight: 600; border-bottom: 2px solid rgba(255, 184, 0, 0.3); color: var(--solar-gold); }
-        td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .status-select { padding: 6px 10px; border-radius: 6px; background: rgba(4,22,18,0.8); color: var(--text-primary); border: 1px solid var(--glass-border); font-family: 'Cairo', sans-serif; }
-        .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 0.85rem; font-weight: 600; margin: 2px; }
-        .btn-delete { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .lead-name-link { color: var(--solar-gold); text-decoration: none; font-weight: 600; }
-        .lead-name-link:hover { text-decoration: underline; }
-        .loading { text-align: center; padding: 30px; color: var(--text-secondary); }
+        /* Page-specific only: column widths for this table */
+        th:nth-child(1), td:nth-child(1) { width: 70px; } /* ID */
+        th:nth-child(2), td:nth-child(2) { width: 25%; } /* Name */
+        th:nth-child(3), td:nth-child(3) { width: 100px; } /* Type */
+        th:nth-child(4), td:nth-child(4) { width: 140px; } /* Phone */
+        th:nth-child(5), td:nth-child(5) { width: 160px; overflow: visible; white-space: normal; } /* Status */
+        th:nth-child(6), td:nth-child(6) { width: 120px; } /* Date */
+        th:nth-child(7), td:nth-child(7) { width: 80px; } /* Delete */
     </style>
 </head>
 <body>
@@ -54,9 +25,11 @@
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="/admin/admin-dashboard.html" class="nav-link"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
-                <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>المستخدمون</span></a></li>
-                <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link active"><i class="fas fa-user-tag"></i><span>العملاء</span></a></li>
+                <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>العملاء / المستخدمون</span></a></li>
+                <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link active"><i class="fas fa-user-tag"></i><span>الطلبات</span></a></li>
+                <li class="nav-item"><a href="/settings.html" class="nav-link"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
                 <li class="nav-item"><a href="/" class="nav-link"><i class="fas fa-home"></i><span>الموقع الرئيسي</span></a></li>
+                <li class="nav-item"><button type="button" class="nav-link logout-item" id="sidebarLogoutBtn"><i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span></button></li>
             </ul>
         </aside>
         <main class="main-content">
@@ -71,8 +44,9 @@
                         </div>
                         <div class="user-dropdown">
                             <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> العملاء</a>
-                            <a href="/profile.html"><i class="fas fa-user"></i> الملف الشخصي</a>
+                            <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء / المستخدمون</a>
+                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>
+                            <a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
                             <div class="divider"></div>
                             <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                         </div>
@@ -81,7 +55,25 @@
             </header>
             <div class="content-area">
                 <div class="section">
-                    <h2 class="section-title"><i class="fas fa-users"></i> قائمة العملاء</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                        <h2 class="section-title" style="margin-bottom: 0;"><i class="fas fa-users"></i> قائمة العملاء والطلبات</h2>
+                    </div>
+                    
+                    <div class="controls-container">
+                        <div class="filters" id="filterButtons">
+                            <button class="filter-btn active" data-filter="all">الكل</button>
+                            <button class="filter-btn" data-filter="new_request">طلب جديد</button>
+                            <button class="filter-btn" data-filter="processing">قيد المعالجة</button>
+                            <button class="filter-btn" data-filter="completed">مكتملة</button>
+                            <button class="filter-btn" data-filter="installation">طلبات التركيب</button>
+                            <button class="filter-btn" data-filter="maintenance">طلبات الصيانة</button>
+                        </div>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="ابحث بالاسم، البريد، الهاتف أو رقم الطلب...">
+                        </div>
+                    </div>
+                    
                     <div id="leadsContainer"><div class="loading">جاري التحميل...</div></div>
                 </div>
             </div>
@@ -89,6 +81,10 @@
     </div>
     <script src="/js/auth.js"></script>
     <script>
+        let allRequests = [];
+        let currentFilter = 'all';
+        let searchQuery = '';
+
         document.addEventListener('DOMContentLoaded', function() {
             // Use silent redirect - check admin access BEFORE showing any content
             if (!Auth.checkAdminAccess()) {
@@ -97,51 +93,139 @@
             
             var user = Auth.getUser();
             if (user) { document.getElementById('userName').textContent = user.name||'مدير النظام'; document.getElementById('userAvatar').textContent=(user.name||'م').charAt(0); }
+            
+            // Setup controls
+            const searchInput = document.getElementById('searchInput');
+            if(searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value.toLowerCase();
+                    applyFiltersAndSearch();
+                });
+            }
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.getAttribute('data-filter');
+                    applyFiltersAndSearch();
+                });
+            });
+
             loadLeads();
         });
         function loadLeads() {
             var token = Auth.getToken();
-            fetch('/api/leads', {headers: {'Authorization': 'Bearer ' + token}})
+            fetch('/api/requests', {headers: {'Authorization': 'Bearer ' + token}})
             .then(function(res){return res.json();})
             .then(function(data){
-                if(data.success&&data.leads){renderTable(data.leads);}
+                if(data.success && data.requests){
+                    allRequests = data.requests;
+                    applyFiltersAndSearch();
+                }
                 else{document.getElementById('leadsContainer').innerHTML='<div class="loading">لا توجد بيانات</div>';}
             });
         }
-        function renderTable(leads) {
+        // Exact status key groups — mapped to real workflow values only
+        const STATUS_GROUPS = {
+            new_request: ['new_request'],
+            processing: [
+                'under_review', 'site_visit_scheduled', 'site_inspection_done',
+                'quote_prepared', 'awaiting_client_approval', 'approved',
+                'installation_scheduled', 'initial_diagnosis', 'visit_scheduled', 'in_progress'
+            ],
+            completed: ['completed', 'resolved', 'closed', 'follow_up']
+        };
+
+        function applyFiltersAndSearch() {
+            let filtered = allRequests.filter(r => {
+                const status = r.status || '';
+                const type   = r.request_type || '';
+
+                // --- Type filters ---
+                if (currentFilter === 'installation' && type !== 'installation') return false;
+                if (currentFilter === 'maintenance'  && type !== 'maintenance')  return false;
+
+                // --- Status group filters (exact key match) ---
+                if (currentFilter === 'new_request' && !STATUS_GROUPS.new_request.includes(status))  return false;
+                if (currentFilter === 'processing'  && !STATUS_GROUPS.processing.includes(status))   return false;
+                if (currentFilter === 'completed'   && !STATUS_GROUPS.completed.includes(status))    return false;
+
+                // --- Search (works on top of any active filter) ---
+                if (searchQuery) {
+                    const typeAr = type === 'maintenance' ? 'صيانة' : 'تركيب';
+                    const haystack = `${r.id} ${r.name||''} ${r.email||''} ${r.phone||''} ${typeAr}`.toLowerCase();
+                    if (!haystack.includes(searchQuery)) return false;
+                }
+
+                return true;
+            });
+            renderTable(filtered);
+        }
+        function renderTable(requests) {
             var c=document.getElementById('leadsContainer');
-            if(!leads||leads.length===0){c.innerHTML='<div class="loading">لا يوجد عملاء</div>';return;}
-            var html='<div class="table-wrapper"><table><thead><tr><th>رقم</th><th>الاسم</th><th>البريد</th><th>الهاتف</th><th>الحالة</th><th>تاريخ</th><th>حذف</th></tr></thead><tbody>';
-            var statuses=['new','contacted','qualified','won','lost'];
-            var labels=['جديد','تم تواصل','مؤهل','مكسوب','مفقود'];
-            leads.forEach(function(l){
-                var si=statuses.indexOf(l.status||'new');
-                html+='<tr><td>#'+l.id+'</td><td><a href="/lead-details.html?id='+l.id+'" class="lead-name-link">'+(l.name||'')+'</a></td><td>'+(l.email||'')+'</td><td>'+(l.phone||'')+'</td>';
-                html+='<td><select class="status-select" onchange="updateStatus('+l.id+',this.value)">';
-                statuses.forEach(function(s,i){html+='<option value="'+s+'" '+(l.status===s?'selected':'')+'>'+labels[i]+'</option>';});
-                html+='</select></td><td>'+new Date(l.created_at).toLocaleDateString('ar-SA')+'</td>';
-                html+='<td><button class="btn btn-delete" onclick="deleteLead('+l.id+')"><i class="fas fa-trash"></i></button></td></tr>';
+            if(!requests||requests.length===0){c.innerHTML='<div class="loading">لا يوجد طلبات تطابق بحثك</div>';return;}
+            var html='<div class="table-wrapper"><table><thead><tr><th>رقم</th><th>الاسم</th><th>النوع</th><th>الهاتف</th><th>الحالة</th><th>تاريخ</th><th>حذف</th></tr></thead><tbody>';
+            
+            requests.forEach(function(r){
+                var typeLabel = r.request_type === 'maintenance' ? 'صيانة' : 'تركيب';
+                var dotClass = 'status-' + (r.status || 'default');
+                
+                html+='<tr><td>#'+r.id+'</td><td><span class="lead-name-link">'+(r.name||'')+'</span></td><td>'+typeLabel+'</td><td>'+(r.phone||'')+'</td>';
+                html+='<td><span class="status-dot ' + dotClass + '"></span><select class="status-select" onchange="updateStatus('+r.id+',this.value)">';
+                
+                // Show a subset of common statuses for quick update
+                const options = [
+                    {val:'new_request', lbl:'طلب جديد'},
+                    {val:'under_review', lbl:'قيد المراجعة'},
+                    {val:'approved', lbl:'موافق عليه'},
+                    {val:'in_progress', lbl:'جاري التنفيذ'},
+                    {val:'completed', lbl:'مكتمل'},
+                    {val:'resolved', lbl:'تم الحل'}
+                ];
+                let found = false;
+                options.forEach(opt => {
+                    if (r.status === opt.val) found = true;
+                    html+='<option value="'+opt.val+'" '+(r.status===opt.val?'selected':'')+'>'+opt.lbl+'</option>';
+                });
+                if (!found && r.status) {
+                    html+='<option value="'+r.status+'" selected>'+(r.status_label||r.status)+'</option>';
+                }
+
+                
+                html+='</select></td><td>'+new Date(r.created_at).toLocaleDateString('ar-SA')+'</td>';
+                html+='<td><button class="btn btn-delete" onclick="deleteLead('+r.id+')"><i class="fas fa-trash"></i></button></td></tr>';
             });
             html+='</tbody></table></div>';
             c.innerHTML=html;
         }
         function updateStatus(id, status) {
             var token=Auth.getToken();
-            fetch('/api/leads/'+id+'/status',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({status:status})})
+            fetch('/api/requests/'+id+'/status',{
+                method:'PATCH',
+                headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+                body:JSON.stringify({status:status})
+            })
             .then(function(res){return res.json();})
-            .then(function(d){if(d.success){Swal.fire('تم','تم التحديث','success');}else{Swal.fire('خطأ',d.message,'error');loadLeads();}});
+            .then(function(d){
+                if(d.success){Swal.fire('تم','تم تحديث الحالة','success');}
+                else{Swal.fire('خطأ',d.message,'error');loadLeads();}
+            });
         }
         function deleteLead(id) {
             var token=Auth.getToken();
-            Swal.fire({title:'حذف عميل',text:'هل أنت متأكد؟',icon:'warning',showCancelButton:true}).then(function(r){
+            Swal.fire({title:'حذف الطلب',text:'هل أنت متأكد؟',icon:'warning',showCancelButton:true}).then(function(r){
                 if(r.isConfirmed){
-                    fetch('/api/leads/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}}).then(function(res){return res.json();}).then(function(d){
-                        if(d.success){Swal.fire('تم','تم الحذف','success').then(loadLeads);}else{Swal.fire('خطأ',d.message,'error');}
+                    fetch('/api/requests/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}}).then(function(res){return res.json();}).then(function(d){
+                        if(d.success){Swal.fire('تم','تم الحذف بنجاح','success').then(loadLeads);}else{Swal.fire('خطأ',d.message,'error');}
                     });
                 }
             });
         }
         document.getElementById('logoutBtn').addEventListener('click',function(){Auth.logout();});
+        var sideLogoutBtn=document.getElementById('sidebarLogoutBtn');
+        if(sideLogoutBtn)sideLogoutBtn.addEventListener('click',function(){Auth.logout();});
     </script>
 </body>
 </html>

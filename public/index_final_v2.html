@@ -485,6 +485,9 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .service-card::before {
@@ -536,6 +539,7 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             transition: var(--transition);
+            flex-grow: 1;
         }
 
         /* =========================================
@@ -1768,7 +1772,7 @@
                 </div>
             </li>
         </ul>
-        <a href="#contact" class="nav-cta">احصل على عرض سعر</a>
+        <button onclick="handleRequestAction('installation')" class="nav-cta" style="border:none; cursor:pointer;">احصل على عرض سعر</button>
     </nav>
 
     <!-- Hero Section -->
@@ -1781,15 +1785,28 @@
             <p>
                 اكتشف قوة الطاقة الشمسية مع سولارا 2026. نصب وتركيب أنظمة شمسية متطورة للمنازل والمؤسسات الصناعية. وفّر المال على فواتير الكهرباء وحافظ على البيئة.
             </p>
-            <div class="hero-buttons">
-                <a href="https://wa.me/213784367619" class="btn-primary gold-glow" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                    احصل على عرض سعر مجاني
-                </a>
-                <a href="#calculator" class="btn-secondary">
-                    <i class="fas fa-calculator"></i>
-                    احسب توفيرك
-                </a>
+            <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+                <!-- Card A -->
+                <div class="action-card primary-action reveal" style="background: rgba(255, 184, 0, 0.1); border: 2px solid var(--solar-gold); padding: 1.5rem; border-radius: var(--radius); text-align: right; width: 100%; max-width: 300px; backdrop-filter: blur(10px);">
+                    <h3 style="color: var(--solar-gold); margin-bottom: 0.8rem; font-size: 1.2rem;"><i class="fas fa-solar-panel"></i> طلب تركيب النظام</h3>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; color: var(--text-primary); font-size: 0.9rem; line-height: 1.6;">
+                        <li><i class="fas fa-check" style="color: var(--primary-green); margin-left: 8px;"></i> مناسب للمنازل، والمشاريع</li>
+                        <li><i class="fas fa-check" style="color: var(--primary-green); margin-left: 8px;"></i> دراسة احتياج الطاقة</li>
+                        <li><i class="fas fa-check" style="color: var(--primary-green); margin-left: 8px;"></i> تركيب وتشغيل النظام</li>
+                    </ul>
+                    <button onclick="handleRequestAction('installation')" class="btn-primary gold-glow" style="width: 100%; justify-content: center; padding: 0.8rem;">ابدأ طلب التركيب</button>
+                </div>
+
+                <!-- Card B -->
+                <div class="action-card secondary-action reveal" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1.5rem; border-radius: var(--radius); text-align: right; width: 100%; max-width: 300px; backdrop-filter: blur(10px);">
+                    <h3 style="color: var(--text-primary); margin-bottom: 0.8rem; font-size: 1.2rem;"><i class="fas fa-tools"></i> طلب الصيانة</h3>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                        <li><i class="fas fa-wrench" style="color: var(--text-muted); margin-left: 8px;"></i> فحص الأعطال والتنظيف</li>
+                        <li><i class="fas fa-wrench" style="color: var(--text-muted); margin-left: 8px;"></i> متابعة أداء النظام</li>
+                        <li><i class="fas fa-wrench" style="color: var(--text-muted); margin-left: 8px;"></i> إصلاح أو استبدال القطع</li>
+                    </ul>
+                    <button onclick="handleRequestAction('maintenance')" class="btn-secondary" style="width: 100%; justify-content: center; padding: 0.8rem;">اطلب صيانة الآن</button>
+                </div>
             </div>
         </div>
     </section>
@@ -1798,20 +1815,20 @@
     <section class="stats">
         <div class="stats-grid">
             <div class="stat-item reveal">
-                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-number" data-target="150" data-suffix="+">0</div>
                 <div class="stat-label">مشروع منجز</div>
             </div>
             <div class="stat-item reveal">
-                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-number" data-target="5" data-suffix="+">0</div>
                 <div class="stat-label">سنوات خبرة</div>
             </div>
             <div class="stat-item reveal">
-                <div class="stat-number" data-target="98">0</div>
-                <div class="stat-label">% رضا العملاء</div>
+                <div class="stat-number" data-target="98" data-suffix="%">0</div>
+                <div class="stat-label">رضا العملاء</div>
             </div>
             <div class="stat-item reveal">
-                <div class="stat-number" data-target="24">0</div>
-                <div class="stat-label">/7 دعم فني</div>
+                <div class="stat-number" style="direction: ltr;">24/7</div>
+                <div class="stat-label">دعم فني</div>
             </div>
         </div>
     </section>
@@ -1964,6 +1981,7 @@
                 </div>
             </div>
         </div>
+        <p style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); padding: 0 10px;">النتائج تقديرية وتعتمد على الاستهلاك، مساحة السطح، نوع النظام، واتجاه الألواح. للحصول على دراسة دقيقة، يرجى طلب معاينة تقنية.</p>
     </section>
 
     <!-- Testimonials -->
@@ -2037,7 +2055,7 @@
     <section class="faq" id="faq">
         <div class="section-header reveal">
             <h2>الأسئلة الشائعة</h2>
-            <p>إجابات على أكثر الأسئلة شيولاً حول الطاقة الشمسية</p>
+            <p>إجابات على أكثر الأسئلة شيوعًا حول الطاقة الشمسية</p>
         </div>
         <div class="faq-container">
             <div class="faq-item reveal">
@@ -2149,44 +2167,74 @@
         </button>
     </div>
 
-    <!-- Feedback Modal -->
+    <!-- Request Modal (for Guided Flow) -->
+    <div class="feedback-modal-overlay" id="requestModal">
+        <div class="feedback-modal">
+            <button class="feedback-modal-close" id="requestClose" aria-label="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="requestModalTitle">طلب خدمة</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">يرجى تعبئة تفاصيل طلبك وسيقوم فريقنا بالتواصل معك في أقرب وقت.</p>
+            <form class="feedback-form" id="requestForm">
+                <div class="form-group">
+                    <label for="reqName">الاسم</label>
+                    <input type="text" id="reqName" required>
+                </div>
+                <div class="form-group">
+                    <label for="reqEmail">البريد الإلكتروني (اختياري)</label>
+                    <input type="email" id="reqEmail">
+                </div>
+                <div class="form-group">
+                    <label for="projectType">نوع الخدمة المطلوبة</label>
+                    <select id="projectType" required>
+                        <option value="">اختر الخدمة</option>
+                        <option value="industrial">تركيب - صناعي</option>
+                        <option value="agricultural">تركيب - فلاحي</option>
+                        <option value="villa">تركيب - فيلا/منزل</option>
+                        <option value="maintenance">صيانة دورية / إصلاح</option>
+                        <option value="consultation">عرض سعر / استشارة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reqPhone">رقم الهاتف</label>
+                    <input type="tel" id="reqPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="reqComment">ملاحظات إضافية</label>
+                    <textarea id="reqComment" placeholder="تفاصيل إضافية حول طلبك..."></textarea>
+                </div>
+                <button type="submit" class="feedback-submit-btn" id="reqSubmitBtn">إرسال الطلب</button>
+            </form>
+            <div class="feedback-success" id="requestSuccess">
+                <i class="fas fa-check-circle"></i>
+                <h4>تم الاستلام!</h4>
+                <p>تم استلام طلبك بنجاح. سيتم تحويلك الآن.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback / Comment Modal -->
     <div class="feedback-modal-overlay" id="feedbackModal">
         <div class="feedback-modal">
             <button class="feedback-modal-close" id="feedbackClose" aria-label="إغلاق">
                 <i class="fas fa-times"></i>
             </button>
             <h3>يسعدنا سماع رأيك</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">استخدم هذه الخانة لإرسال ملاحظاتك أو أسئلتك العامة. لطلب تركيب أو صيانة، يرجى استخدام أزرار الخدمات.</p>
             <form class="feedback-form" id="feedbackForm">
                 <div class="form-group">
                     <label for="feedbackName">الاسم</label>
-                    <input type="text" id="feedbackName" name="name" placeholder="أدخل اسمك" required>
-                </div>
-                <div class="form-group">
-                    <label for="feedbackEmail">البريد الإلكتروني</label>
-                    <input type="email" id="feedbackEmail" name="email" placeholder="أدخل بريدك الإلكتروني (اختياري)">
-                </div>
-                <div class="form-group">
-                    <label for="projectType">نوع المشروع</label>
-                    <select id="projectType" name="projectType" required>
-                        <option value="">اختر نوع المشروع</option>
-                        <option value="industrial">صناعي</option>
-                        <option value="agricultural">فلاحي</option>
-                        <option value="villa">فيلا/منزل</option>
-                        <option value="other">أخرى</option>
-                    </select>
+                    <input type="text" id="feedbackName" required>
                 </div>
                 <div class="form-group">
                     <label for="feedbackPhone">رقم الهاتف</label>
-                    <input type="tel" id="feedbackPhone" name="phone" placeholder="أدخل رقم الهاتف" required>
+                    <input type="tel" id="feedbackPhone" required>
                 </div>
                 <div class="form-group">
-                    <label for="feedbackComment">تعليقك</label>
-                    <textarea id="feedbackComment" name="comment" placeholder="شاركنا تجربتك مع سولارا..." required></textarea>
+                    <label for="feedbackComment">رسالتك / ملاحظاتك</label>
+                    <textarea id="feedbackComment" placeholder="شاركنا تجربتك أو استفسارك..." required></textarea>
                 </div>
-                <button type="submit" class="feedback-submit-btn">
-                    <i class="fas fa-paper-plane"></i>
-                    إرسال التعليق
-                </button>
+                <button type="submit" class="feedback-submit-btn" id="fbSubmitBtn">إرسال الملاحظة</button>
             </form>
             <div class="feedback-success" id="feedbackSuccess">
                 <i class="fas fa-check-circle"></i>
@@ -2199,8 +2247,6 @@
 <!-- External Scripts -->
     <script src="js/auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/navbar.js"></script>
-    <script src="/js/user-session.js"></script>
 
     <!-- SweetAlert2 Custom Styles for Solar Theme -->
     <style>
@@ -2428,6 +2474,7 @@
                     
                     // Replace portal button with user profile with dropdown
                     if (portalBtn) {
+                        const isAdmin = user.role === "admin";
                         portalBtn.outerHTML = `
                         <div class="user-menu" id="clientPortalBtn">
                             <div class="user-profile user-trigger">
@@ -2436,32 +2483,26 @@
                                 <i class="fas fa-chevron-down dropdown-arrow"></i>
                             </div>
                             <div class="user-dropdown">
-                                <a href="/dashboard"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                                <a href="/admin/admin-dashboard.html" class="admin-panel-link"><i class="fas fa-cogs"></i> لوحة الإدارة</a>
-                                <a href="/leads" class="admin-leads-link"><i class="fas fa-users"></i> العملء</a>
-                                <a href="/profile"><i class="fas fa-user"></i> الملف الشخصي</a>
+                                ${isAdmin ? `
+                                    <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                                    <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء</a>
+                                    <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>
+                                    <a href="/settings.html"><i class="fas fa-user"></i> الملف الشخصي / الإعدادات</a>
+                                ` : `
+                                    <a href="/portal.html"><i class="fas fa-th-large"></i> بوابة العملاء</a>
+                                    <a href="/client-profile.html"><i class="fas fa-user"></i> الملف الشخصي</a>
+                                    <a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+                                `}
                                 <div class="divider"></div>
                                 <button class="logout-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                             </div>
+                        </div>
                         `;
-                        
-                        // Admin visibility control - hide admin panel link for non-admin users
-                        const currentUser = JSON.parse(localStorage.getItem("solara_user"));
-                        if(currentUser && currentUser.role !== "admin"){
-                            const adminPanelLink = document.querySelector(".admin-panel-link");
-                            if(adminPanelLink) adminPanelLink.style.display = "none";
-                            
-                            const adminLeadsLink = document.querySelector(".admin-leads-link");
-                            if(adminLeadsLink) adminLeadsLink.style.display = "none";
-                            
-                            // Also hide dashboard link for non-admin users (clients)
-                            var dashboardLink = document.querySelector(".user-dropdown a[href*='dashboard']");
-                            if(dashboardLink) dashboardLink.style.display = "none";
-                        }
                     }
                     
                     // Mobile user profile with dropdown
                     if (mobileUser) {
+                        const isAdmin = user.role === "admin";
                         mobileUser.innerHTML = `
                             <div class="user-menu">
                                 <div class="mobile-user user-trigger">
@@ -2470,8 +2511,16 @@
                                     <i class="fas fa-chevron-down dropdown-arrow"></i>
                                 </div>
                                 <div class="user-dropdown">
-                                    <a href="/profile"><i class="fas fa-user"></i> الملف الشخصي</a>
-                                    <a href="/dashboard"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                                    ${isAdmin ? `
+                                        <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                                        <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء</a>
+                                        <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>
+                                        <a href="/settings.html"><i class="fas fa-user"></i> الملف الشخصي / الإعدادات</a>
+                                    ` : `
+                                        <a href="/portal.html"><i class="fas fa-th-large"></i> بوابة العملاء</a>
+                                        <a href="/client-profile.html"><i class="fas fa-user"></i> الملف الشخصي</a>
+                                        <a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+                                    `}
                                     <div class="divider"></div>
                                     <button class="logout-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                                 </div>
@@ -2506,7 +2555,7 @@
                         showConfirmButton: false,
                         timerProgressBar: true,
                         didClose: function() {
-                            window.location.href = '/index_final_v2.html';
+                            window.location.href = '/login.html';
                         }
                     });
                 }
@@ -2604,7 +2653,10 @@
         const counters = document.querySelectorAll('.stat-number');
         
         const animateCounter = (counter) => {
-            const target = parseInt(counter.getAttribute('data-target'));
+            const targetAttr = counter.getAttribute('data-target');
+            if (!targetAttr) return; // Skip if no target
+            const target = parseInt(targetAttr);
+            const suffix = counter.getAttribute('data-suffix') || '+';
             const duration = 2000;
             const increment = target / (duration / 16);
             let current = 0;
@@ -2612,10 +2664,10 @@
             const updateCounter = () => {
                 current += increment;
                 if (current < target) {
-                    counter.textContent = Math.floor(current) + '+';
+                    counter.textContent = Math.floor(current) + suffix;
                     requestAnimationFrame(updateCounter);
                 } else {
-                    counter.textContent = target + '+';
+                    counter.textContent = target + suffix;
                 }
             };
             updateCounter();
@@ -2645,21 +2697,36 @@
         const roiEl = document.getElementById('roi');
 
         function calculateSolar() {
-            const bill = parseInt(monthlyBillSlider.value);
-            const roof = parseInt(roofSizeSlider.value);
+            const bill = parseInt(monthlyBillSlider.value) || 0;
+            const roof = parseInt(roofSizeSlider.value) || 0;
 
             billValue.textContent = bill.toLocaleString() + ' د.ج';
             roofValue.textContent = roof + ' م²';
 
-            const monthlyConsumption = bill / 12;
-            const systemSize = Math.min(Math.round(roof / 7), Math.round(monthlyConsumption / 150));
-            const actualSystemSize = Math.max(3, systemSize);
+            // 1. Calculate capacity needed and allowed
+            const neededSystemSize = (bill / 12) / 150; // Assume 12 DZD/kWh, 150 kWh/kW/month
+            const maxRoofSystemSize = roof / 7;         // 7 sqm per kW
+            
+            // 2. Finalize actual system size
+            let actualSystemSize = Math.min(neededSystemSize, maxRoofSystemSize);
+            actualSystemSize = Math.max(3, Math.round(actualSystemSize)); // Recommend min 3kW
+            if (actualSystemSize * 7 > roof) {
+                actualSystemSize = Math.max(1, Math.floor(maxRoofSystemSize)); // Hard cap by roof space
+            }
 
-            const monthlySavings = Math.round(bill * 0.6);
+            // 3. Calculate realistic savings
+            const monthlyProduction = actualSystemSize * 150;
+            let monthlySavings = monthlyProduction * 12;
+            monthlySavings = Math.min(monthlySavings, bill * 0.85); // Cap at 85% without battery
+            monthlySavings = Math.round(monthlySavings);
             const yearlySavings = monthlySavings * 12;
 
+            // 4. Calculate ROI (Return on Investment)
             const systemCost = actualSystemSize * 120000;
-            const roi = Math.round(systemCost / yearlySavings);
+            let roi = "0";
+            if (yearlySavings > 0) {
+                roi = (systemCost / yearlySavings).toFixed(1);
+            }
 
             systemSizeEl.textContent = actualSystemSize;
             monthlySavingsEl.textContent = monthlySavings.toLocaleString();
@@ -2698,108 +2765,189 @@
         });
 
         // =========================================
-        // FEEDBACK MODAL FUNCTIONALITY
+        // MODALS & GUIDED FLOW LOGIC
         // =========================================
         const feedbackBtn = document.getElementById('feedbackBtn');
         const feedbackModal = document.getElementById('feedbackModal');
         const feedbackClose = document.getElementById('feedbackClose');
         const feedbackForm = document.getElementById('feedbackForm');
-        const feedbackSuccess = document.getElementById('feedbackSuccess');
 
-        // Open modal
-        feedbackBtn.addEventListener('click', function() {
+        const requestModal = document.getElementById('requestModal');
+        const requestClose = document.getElementById('requestClose');
+        const requestForm = document.getElementById('requestForm');
+
+        // Feedback Modal Handlers
+        feedbackBtn.addEventListener('click', () => {
             feedbackModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
-
-        // Close modal with X button
-        feedbackClose.addEventListener('click', function() {
+        feedbackClose.addEventListener('click', () => {
             feedbackModal.classList.remove('active');
             document.body.style.overflow = '';
         });
 
-        // Close modal with backdrop click
-        feedbackModal.addEventListener('click', function(e) {
-            if (e.target === feedbackModal) {
+        // Request Modal Handlers
+        requestClose.addEventListener('click', () => {
+            requestModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Global Close Handlers
+        window.addEventListener('click', (e) => {
+            if (e.target === feedbackModal) { feedbackModal.classList.remove('active'); document.body.style.overflow = ''; }
+            if (e.target === requestModal) { requestModal.classList.remove('active'); document.body.style.overflow = ''; }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 feedbackModal.classList.remove('active');
+                requestModal.classList.remove('active');
                 document.body.style.overflow = '';
             }
         });
 
-        // Close on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && feedbackModal.classList.contains('active')) {
-                feedbackModal.classList.remove('active');
-                document.body.style.overflow = '';
+        function handleRequestAction(type) {
+            if (!Auth.isLoggedIn()) {
+                sessionStorage.setItem('pending_action', 'open_request_modal');
+                sessionStorage.setItem('pending_request_type', type);
+                
+                Swal.fire({
+                    title: 'تتبع طلبك',
+                    text: 'هل ترغب في تسجيل الدخول لتتمكن من تتبع حالة طلبك في بوابة العملاء؟',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'تسجيل الدخول / إنشاء حساب',
+                    cancelButtonText: 'المتابعة كضيف',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname);
+                    } else {
+                        openRequestModal(type);
+                    }
+                });
+            } else {
+                openRequestModal(type);
+            }
+        }
+
+        function openRequestModal(type) {
+            const projectSelect = document.getElementById('projectType');
+            if (type === 'installation') projectSelect.value = 'villa';
+            else if (type === 'maintenance') projectSelect.value = 'maintenance';
+            else if (type === 'consultation') projectSelect.value = 'consultation';
+            
+            requestModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Resume pending action after login
+        window.addEventListener('DOMContentLoaded', () => {
+            const pendingAction = sessionStorage.getItem('pending_action');
+            const pendingType = sessionStorage.getItem('pending_request_type');
+            
+            if (pendingAction === 'open_request_modal' && Auth.isLoggedIn()) {
+                sessionStorage.removeItem('pending_action');
+                sessionStorage.removeItem('pending_request_type');
+                openRequestModal(pendingType);
             }
         });
 
-        // Handle form submission with Database
-        feedbackForm.addEventListener('submit', async function(e) {
+        // Handle Request Form Submission
+        requestForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Get form values
-            const name = document.getElementById('feedbackName').value;
-            const email = document.getElementById('feedbackEmail').value;
-            const serviceType = document.getElementById('projectType').value;
-            const phone = document.getElementById('feedbackPhone').value;
-            const comment = document.getElementById('feedbackComment').value;
+            const name = document.getElementById('reqName').value;
+            const email = document.getElementById('reqEmail').value;
+            const projectValue = document.getElementById('projectType').value;
+            const phone = document.getElementById('reqPhone').value;
+            const comment = document.getElementById('reqComment').value;
             
-            // Validate phone is not empty
-            if (!phone || !phone.trim()) {
-                alert('يرجى إدخال رقم الهاتف');
+            if (!phone.trim()) {
+                Swal.fire({ icon: 'warning', title: 'تنبيه', text: 'يرجى إدخال رقم الهاتف' });
                 return;
             }
 
-            // Show loading state
-            const submitBtn = this.querySelector('.feedback-submit-btn');
+            let requestType = 'installation';
+            if (projectValue === 'maintenance') requestType = 'maintenance';
+            
+            const submitBtn = document.getElementById('reqSubmitBtn');
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
             submitBtn.disabled = true;
 
-            console.log('Submitting quote:', { name, email, phone, serviceType });
-
             try {
-                const response = await fetch(FEEDBACK_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                const headers = { 'Content-Type': 'application/json' };
+                const authHeader = Auth.getAuthHeader();
+                if (authHeader) headers['Authorization'] = authHeader;
+
+                const response = await fetch('/api/requests', {
+                    method: 'POST', headers: headers,
                     body: JSON.stringify({
-                        name: name,
-                        email: email || (name + '@example.com'), // Use placeholder if no email
-                        phone: phone,
-                        notes: "نوع المشروع: " + (serviceType || 'غير محدد') + " | التعليق: " + (comment || '')
+                        request_type: requestType, name: name, email: email, phone: phone,
+                        description: "نوع المشروع: " + projectValue + " | الملاحظات: " + comment, address: 'غير محدد'
                     })
                 });
 
                 const result = await response.json();
-                console.log('Quote response:', result);
-                
                 if (result.success) {
-                    // Show success message
-                    feedbackForm.style.display = 'none';
-                    feedbackSuccess.classList.add('show');
-                    document.querySelector('#feedbackSuccess h4').textContent = 'شكراً لك!';
-                    document.querySelector('#feedbackSuccess p').textContent = result.message || 'تم استلام طلبك بنجاح. سنتواصل معك قريباً!';
+                    requestForm.style.display = 'none';
+                    const successDiv = document.getElementById('requestSuccess');
+                    successDiv.classList.add('show');
+                    successDiv.querySelector('p').textContent = 'تم استلام طلبك بنجاح. رقم الطلب: #' + result.request.id;
                     
                     setTimeout(() => {
-                        feedbackForm.reset();
-                        feedbackForm.style.display = 'flex';
-                        feedbackSuccess.classList.remove('show');
-                        feedbackModal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }, 3000);
+                        requestForm.reset(); requestForm.style.display = 'flex'; successDiv.classList.remove('show');
+                        requestModal.classList.remove('active'); document.body.style.overflow = '';
+                        if (Auth.isLoggedIn()) window.location.href = '/portal.html';
+                    }, 4000);
                 } else {
-                    alert(result.message || 'حدث خطأ. يرجى المحاولة مرة أخرى.');
+                    Swal.fire({ icon: 'error', title: 'خطأ', text: result.message || 'حدث خطأ. يرجى المحاولة.' });
                 }
-
             } catch (error) {
-                console.error('Quote error:', error);
-                alert('حدث خطأ في الاتصال بالخادم');
+                Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ في الاتصال بالخادم' });
             } finally {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText; submitBtn.disabled = false;
+            }
+        });
+
+        // Handle Feedback Form Submission
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('feedbackName').value;
+            const phone = document.getElementById('feedbackPhone').value;
+            const comment = document.getElementById('feedbackComment').value;
+            
+            const submitBtn = document.getElementById('fbSubmitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(FEEDBACK_API_URL, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, email: 'feedback@solara.dz', phone: phone, company: 'ملاحظة عامة', message: comment })
+                });
+
+                const result = await response.json();
+                if (result.success || response.ok) {
+                    feedbackForm.style.display = 'none';
+                    document.getElementById('feedbackSuccess').classList.add('show');
+                    
+                    setTimeout(() => {
+                        feedbackForm.reset(); feedbackForm.style.display = 'flex'; document.getElementById('feedbackSuccess').classList.remove('show');
+                        feedbackModal.classList.remove('active'); document.body.style.overflow = '';
+                    }, 4000);
+                } else {
+                    Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ. يرجى المحاولة.' });
+                }
+            } catch (error) {
+                Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ في الاتصال بالخادم' });
+            } finally {
+                submitBtn.innerHTML = originalBtnText; submitBtn.disabled = false;
             }
         });
     </script>
-    <script src=" /js/home.js\></script>\n</body>
-</html>
+    <script src="/js/home.js"></script>
+</body>
+ </html>
