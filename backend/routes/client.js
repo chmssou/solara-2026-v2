@@ -198,7 +198,7 @@ router.put('/profile', (req, res) => {
         let params;
 
         if (password) {
-            const bcrypt = require('bcrypt');
+            const bcrypt = require('bcryptjs');
             const hashedPassword = bcrypt.hashSync(password, 10);
             updateSql = "UPDATE users SET name = COALESCE(?, name), email = COALESCE(?, email), password = ? WHERE id = ?";
             params = [name, email, hashedPassword, userId];
