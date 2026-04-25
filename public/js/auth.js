@@ -69,8 +69,8 @@ const Auth = (function() {
      * Logout with SweetAlert2 success message
      * Shows success message first, then redirects to /login
      */
-    function logout() {
-        clearAuth();
+     function logout() {
+         clearAuth();
         
         // Check if SweetAlert2 is available
         if (typeof Swal !== 'undefined') {
@@ -80,16 +80,16 @@ const Auth = (function() {
                 text: 'تم تسجيل الخروج بنجاح',
                 timer: 1500,
                 showConfirmButton: false,
-                timerProgressBar: true,
-                didClose: function() {
-                    window.location.href = '/login';
-                }
-            });
-        } else {
-            // Fallback if SweetAlert2 not available
-            window.location.href = '/login';
-        }
-    }
+                 timerProgressBar: true,
+                 didClose: function() {
+                     window.location.href = '/login.html';
+                 }
+             });
+         } else {
+             // Fallback if SweetAlert2 not available
+             window.location.href = '/login.html';
+         }
+     }
 
     /**
      * Show success message using SweetAlert2
@@ -182,15 +182,15 @@ const Auth = (function() {
      * Update navigation based on user role
      * Hides admin-only items for non-admin users
      */
-    function updateNavigationForRole() {
-        var user = getUser();
-        if (!user) return;
-        
-        // Hide admin dashboard link in sidebar for non-admins
-        var adminLink = document.querySelector('.nav-link[href="/admin"]');
-        if (adminLink && user.role !== 'admin') {
-            adminLink.parentElement.style.display = 'none';
-        }
+     function updateNavigationForRole() {
+         var user = getUser();
+         if (!user) return;
+         
+         // Hide admin dashboard link in sidebar for non-admins
+         var adminLink = document.querySelector('.nav-link[href="/admin.html"]');
+         if (adminLink && user.role !== 'admin') {
+             adminLink.parentElement.style.display = 'none';
+         }
         
         // Hide admin dashboard link in dropdown for non-admins
         var dropdownDashboardLink = document.querySelector('.user-dropdown a[href*="dashboard"]');
@@ -215,35 +215,35 @@ const Auth = (function() {
      * Call this on admin pages to redirect regular users
      * IMPORTANT: Use this BEFORE any page content loads to prevent showing admin UI briefly
      */
-    function redirectNonAdmins() {
-        if (!isLoggedIn()) {
-            window.location.href = '/login.html';
-            return true;
-        }
-        if (!isAdmin()) {
-            // Redirect to home page instead of showing error
-            // Use replace to prevent back button issues
-            window.location.replace('/');
-            return true;
-        }
-        return false;
-    }
+     function redirectNonAdmins() {
+         if (!isLoggedIn()) {
+             window.location.href = '/login.html';
+             return true;
+         }
+         if (!isAdmin()) {
+             // Redirect clients to their portal instead of showing admin UI
+             // Use replace to prevent back button issues
+             window.location.replace('/portal.html');
+             return true;
+         }
+         return false;
+     }
 
     /**
      * Check if user should access admin page and redirect if not
      * This method checks and redirects silently (no popup)
      */
-    function checkAdminAccess() {
-        if (!isLoggedIn()) {
-            window.location.href = '/login.html';
-            return false;
-        }
-        if (!isAdmin()) {
-            window.location.replace('/');
-            return false;
-        }
-        return true;
-    }
+     function checkAdminAccess() {
+         if (!isLoggedIn()) {
+             window.location.href = '/login.html';
+             return false;
+         }
+         if (!isAdmin()) {
+             window.location.replace('/portal.html');
+             return false;
+         }
+         return true;
+     }
 
     /**
      * Get Authorization header value
@@ -379,17 +379,17 @@ async function registerUser() {
                     showConfirmButton: false,
                     timerProgressBar: true,
                     didClose: function() {
-                        window.location.href = "/login.html";
+                        window.location.href = "/";
                     }
                 });
             } else {
                 showMessage("Account created successfully", "success");
-                setTimeout(() => {
-                    window.location.href = "/login";
-                }, 1500);
-            }
-        } else {
-            if (typeof Swal !== 'undefined') {
+                 setTimeout(() => {
+                     window.location.href = "/";
+                 }, 1500);
+             }
+         } else {
+             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'error',
                     title: 'خطأ',

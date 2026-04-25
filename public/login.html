@@ -110,6 +110,45 @@
             color: #FFB800;
             text-decoration: none;
         }
+        .social-login-container {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+        }
+        .btn-google { background: #db4437; }
+        .btn-google:hover { background: #c53929; }
+        .btn-facebook { background: #4267B2; }
+        .btn-facebook:hover { background: #365899; }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #94A3B8;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 184, 0, 0.2);
+        }
+        .divider span { padding: 0 10px; }
     </style>
 </head>
 <body>
@@ -134,17 +173,72 @@
             </button>
             <p class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة</p>
         </form>
+        
+        <div class="divider"><span>أو</span></div>
+        <div style="text-align:center; margin-top:10px;"></div>
+        <div class="social-login-container">
+            <!-- Google Identity Services Button Container -->
+            <div id="googleBtnContainer" style="display: flex; justify-content: center; width: 100%;"></div>
+            
+            <button class="social-btn btn-facebook" onclick="handleSocial('facebook')">
+                <i class="fab fa-facebook-f"></i> المتابعة باستخدام Facebook
+            </button>
+        </div>
+
         <p class="back-link">
             <a href="/">العودة للرئيسية</a>
         </p>
         <p class="register-link">
             ليس لديك حساب؟
-            <a href="/register">إنشاء حساب</a>
+            <a href="/register.html">إنشاء حساب</a>
         </p>
     </div>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/auth.js"></script>
-    <script>
+        <script>
+        window.onload = async function () {
+            try {
+                const configRes = await fetch('/api/config');
+                const configData = await configRes.json();
+                const GOOGLE_CLIENT_ID = configData.data.GOOGLE_CLIENT_ID;
+
+                if (!GOOGLE_CLIENT_ID) {
+                    console.warn("Google Client ID is not configured on the server. Google Login is disabled.");
+                    document.getElementById("googleBtnContainer").innerHTML = '<p style="color: var(--text-secondary); font-size: 0.85rem;">Google Login غير متاح (Missing Client ID)</p>';
+                    return;
+                }
+
+                // Initialize Google One Tap & Button
+                if (typeof google !== 'undefined' && google.accounts) {
+                    google.accounts.id.initialize({
+                        client_id: GOOGLE_CLIENT_ID,
+                        callback: handleGoogleCredentialResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: false
+                    });
+
+                    // Render standard Google button
+                    google.accounts.id.renderButton(
+                        document.getElementById("googleBtnContainer"),
+                        { theme: "outline", size: "large", type: "standard", text: "continue_with", width: 350 }
+                    );
+
+                    // Display One Tap
+                    google.accounts.id.prompt();
+                } else {
+                    console.warn("Google Identity Services script failed to load.");
+                }
+            } catch (error) {
+                console.error("Failed to load configuration:", error);
+            }
+        };
+
+        function handleGoogleCredentialResponse(response) {
+            const idToken = response.credential;
+            authenticateSocial('google', idToken);
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -168,15 +262,18 @@
 
                 if (data.success) {
                     Auth.saveAuth(data);
+                    localStorage.setItem("role", data.user.role);
                     
-                    // Store role in localStorage for easy access
-                    var role = data.user.role;
-                    localStorage.setItem("role", role);
-                    
-                    // Direct redirect with short loading state
                     loginBtn.innerHTML = '<i class="fas fa-check"></i> جاري التوجيه...';
                     setTimeout(() => {
-                        window.location.href = "/index_final_v2.html";
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirectUrl = urlParams.get('redirect');
+                        
+                        if (data.user.role === 'admin') {
+                            window.location.href = "/admin/admin-dashboard.html";
+                        } else {
+                            window.location.href = redirectUrl ? redirectUrl : "/";
+                        }
                     }, 500);
                 } else {
                     errorMsg.textContent = data.message || 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
@@ -191,6 +288,70 @@
             loginBtn.disabled = false;
             loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
         });
+
+        // Fallback for Facebook Mock Testing
+        async function handleSocial(provider) {
+            if (provider === 'facebook') {
+                const { value: email } = await Swal.fire({
+                    title: 'المحاكاة المحلية لـ Facebook',
+                    input: 'email',
+                    inputLabel: 'أدخل بريدك الإلكتروني',
+                    inputPlaceholder: 'example@example.com',
+                    showCancelButton: true,
+                    confirmButtonText: 'متابعة',
+                    cancelButtonText: 'إلغاء'
+                });
+
+                if (email) {
+                    const mockToken = 'mock_' + email.split('@')[0];
+                    authenticateSocial(provider, mockToken);
+                }
+            }
+        }
+
+        async function authenticateSocial(provider, token) {
+            try {
+                Swal.fire({
+                    title: 'جاري تسجيل الدخول...',
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+
+                const response = await fetch('/api/auth/' + provider, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    Auth.saveAuth(data);
+                    localStorage.setItem("role", data.user.role);
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم تسجيل الدخول بنجاح',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirectUrl = urlParams.get('redirect');
+                        
+                        if (data.user.role === 'admin') {
+                            window.location.href = "/admin/admin-dashboard.html";
+                        } else {
+                            window.location.href = redirectUrl ? redirectUrl : "/";
+                        }
+                    });
+                } else {
+                    Swal.fire('خطأ', data.message || 'فشل تسجيل الدخول عبر ' + provider, 'error');
+                }
+            } catch (error) {
+                console.error('Social login error:', error);
+                Swal.fire('خطأ', 'حدث خطأ في الاتصال بالخادم', 'error');
+            }
+        }
     </script>
 </body>
 </html>

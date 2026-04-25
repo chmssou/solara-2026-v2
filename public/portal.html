@@ -6,8 +6,10 @@
     <title>بوابة العملاء - سولارا 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
         body {
             background: linear-gradient(135deg, #041612 0%, #062C24 100%);
             min-height: 100vh;
@@ -15,124 +17,215 @@
             font-family: 'Cairo', sans-serif;
             color: #F1F5F9;
         }
-        /* Auth section - visible by default */
+        /* Auth section */
         #authSection {
             display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .auth-box {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 184, 0, 0.2);
+            border-radius: 16px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #FFB800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
         }
         /* Portal - hidden by default */
-        #portal {
-            display: none;
+        #portal { display: none; }
+        #portal.active { display: flex; }
+        .section { display: none; }
+
+        /* ── Table responsive wrapper ── */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
-        #portal.active {
-            display: block;
+        .table-wrapper table {
+            min-width: 600px;
+            width: 100%;
         }
-        /* Sections */
-        .section {
+
+        /* ── Quote card for mobile ── */
+        .quote-card-mobile {
             display: none;
+            background: rgba(30,41,59,0.5);
+            border: 1px solid rgba(255,184,0,0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .quote-card-mobile .row { display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.9rem; }
+        .quote-card-mobile .label { color: #94A3B8; }
+
+        /* ── Header section flex wrapping ── */
+        .quotes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Mobile Responsive ── */
+        @media (max-width: 768px) {
+            .auth-box { padding: 2rem 1.2rem; }
+
+            /* sidebar becomes top bar */
+            .app-container.portal { flex-direction: column !important; }
+            .sidebar {
+                width: 100% !important;
+                height: auto !important;
+                position: relative !important;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 10px;
+                gap: 6px;
+            }
+            .sidebar-logo { margin: 0; padding: 0; font-size: 1rem; flex: 1 0 100%; }
+            .nav-menu {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                gap: 6px;
+                padding: 0;
+                width: 100%;
+            }
+            .nav-item { margin: 0; }
+            .nav-link {
+                padding: 6px 10px !important;
+                font-size: 0.82rem !important;
+                width: auto !important;
+                border-radius: 8px;
+            }
+            .main-content { width: 100% !important; padding: 10px !important; }
+            .top-header {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+            }
+            .page-title { font-size: 1.1rem !important; }
+            .user-section { margin-right: 0; }
+
+            /* welcome card */
+            .welcome-card { padding: 1rem !important; }
+            .welcome-card h2 { font-size: 1.1rem !important; }
+
+            /* quotes section */
+            .quotes-section { padding: 1rem !important; }
+            .quotes-header h3 { font-size: 1rem; }
+
+            /* new request button fit */
+            .quotes-header .btn-primary { font-size: 0.82rem; padding: 6px 12px !important; }
+
+            /* hide table, show cards on very small */
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 1.4rem; }
+            .page-title { font-size: 1rem !important; }
+            .user-name { display: none; }
         }
     </style>
 </head>
 <body>
     <!-- Auth Section -->
-    <div class="auth-container" id="authSection">
+    <div id="authSection">
         <div class="auth-box">
             <a href="/" class="logo">
                 <i class="fas fa-solar-panel"></i>
                 سولارا 2026
             </a>
             <h2>تسجيل الدخول</h2>
-            <p>يرجى تسجيل الدخول للوصول إلى بوابة العملاء</p>
-            <p><a href="/login.html" style="color: #FFB800;">اضغط هنا لتسجيل الدخول</a></p>
+            <p style="margin-bottom: 20px;">يرجى تسجيل الدخول للوصول إلى بوابة العملاء</p>
+            <a href="/login.html" class="btn-primary" style="padding: 12px 24px; text-decoration: none; display: inline-block; background: #FFB800; color: #041612; border-radius: 8px; font-weight: 700;">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </a>
         </div>
     </div>
 
     <!-- Portal Dashboard -->
-    <div class="portal" id="portal">
-        <header class="portal-header">
-            <a href="/" class="logo">
-                <i class="fas fa-solar-panel"></i>
-                سولارا 2026 - بوابة العملاء
-            </a>
-            <div class="user-info">
-                <span class="user-name" id="userName">مرحباً</span>
-                <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    تسجيل الخروج
-                </button>
-            </div>
-        </header>
-
-        <div class="portal-body">
-            <!-- Sidebar -->
-            <nav class="sidebar">
-                <ul class="nav-menu">
-                    <li>
-                        <a href="#dashboard" class="nav-btn active">
-                            <i class="fas fa-th-large"></i>
-                            <span>لوحة التحكم</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#profile" class="nav-btn">
-                            <i class="fas fa-user"></i>
-                            <span>الملف الشخصي</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Content -->
-            <main class="portal-content">
+    <div class="app-container portal" id="portal">
+        <aside class="sidebar">
+            <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/portal.html" class="nav-link active"><i class="fas fa-th-large"></i><span>بوابة العملاء</span></a></li>
+                <li class="nav-item"><a href="/client-profile.html" class="nav-link"><i class="fas fa-user"></i><span>الملف الشخصي</span></a></li>
+                <li class="nav-item"><a href="/settings.html" class="nav-link"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
+                <li class="nav-item"><a href="/" class="nav-link"><i class="fas fa-home"></i><span>الموقع الرئيسي</span></a></li>
+                <li class="nav-item"><button type="button" class="nav-link logout-item" id="sidebarLogoutBtn"><i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span></button></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">بوابة العملاء</h1>
+                <div class="user-section">
+                    <div class="user-menu">
+                        <div class="user-trigger">
+                            <div class="user-avatar" id="topAvatar">ع</div>
+                            <span class="user-name" id="userName">عميل</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="/portal.html"><i class="fas fa-th-large"></i> بوابة العملاء</a>
+                            <div class="divider"></div>
+                            <button class="logout-item" id="topLogoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="content-area">
                 <!-- Dashboard Section -->
                 <div id="dashboard" class="section">
-                    <div class="welcome-card">
+                    <div class="welcome-card" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; text-align: center;">
                         <h2 id="welcomeTitle">مرحباً بك في بوابة العملاء</h2>
                         <p>هنا يمكنك متابعة طلبات عروض الأسعار وحالة مشاريعك</p>
                     </div>
-                    <div class="quotes-section">
-                        <h3><i class="fas fa-file-alt"></i> طلبات عروض الأسعار</h3>
-                        <div id="quotesContainer">
+                    <div class="quotes-section" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 16px; padding: 2rem;">
+                        <div class="quotes-header">
+                            <h3 style="margin: 0; color: #FFB800;"><i class="fas fa-file-alt"></i> طلبات عروض الأسعار</h3>
+                            <a href="/index_final_v2.html#home" class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem; text-decoration: none; background: #FFB800; color: #041612; border-radius: 8px; font-weight: 600;">
+                                <i class="fas fa-plus"></i> طلب جديد
+                            </a>
+                        </div>
+                        <div id="quotesContainer" class="table-wrapper">
                             <div class="loading">
                                 <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Profile Section -->
-                <div id="profile" class="section">
-                    <div class="profile-section">
-                        <h3><i class="fas fa-user"></i> الملف الشخصي</h3>
-                        <div class="profile-header">
-                            <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
-                            <div class="profile-info">
-                                <h4 id="profileName">اسم المستخدم</h4>
-                                <p id="profileEmail">email@example.com</p>
-                            </div>
-                        </div>
-                        <div class="profile-details">
-                            <div class="profile-item">
-                                <label>رقم العضوية</label>
-                                <span id="profileId">-</span>
-                            </div>
-                            <div class="profile-item">
-                                <label>نوع الحساب</label>
-                                <span id="profileRole">عميل</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 
     <script src="js/auth.js"></script>
     <script src="js/portal.js"></script>
     <script>
-        // Check auth on load
         document.addEventListener('DOMContentLoaded', function() {
             if (Auth.isLoggedIn()) {
                 showPortal();
+            } else {
+                document.getElementById('authSection').style.display = 'flex';
+                document.getElementById('portal').style.display = 'none';
             }
         });
 
@@ -140,34 +233,26 @@
             var user = Auth.getUser();
             if (!user) return;
 
-            // Hide auth, show portal
             document.getElementById('authSection').style.display = 'none';
             document.getElementById('portal').classList.add('active');
 
-            // Set user info
-            var displayName = user.full_name || user.name || 'المستخدم';
-            document.getElementById('userName').textContent = 'مرحباً، ' + displayName;
-            document.getElementById('welcomeTitle').textContent = 'مرحباً بك، ' + displayName;
-            document.getElementById('profileName').textContent = displayName;
-            document.getElementById('profileEmail').textContent = user.email || '-';
-            document.getElementById('profileId').textContent = user.id || '-';
-            document.getElementById('profileRole').textContent = user.role === 'admin' ? 'مدير' : 'عميل';
-            
-            // Set avatar
-            var avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=FFB800&color=041612&size=128';
-            document.getElementById('profileAvatar').src = avatarUrl;
+            var name = user.name || 'عميل';
+            var avatarEl = document.getElementById('topAvatar');
+            if (avatarEl) avatarEl.textContent = name.charAt(0);
+            var userNameEl = document.getElementById('userName');
+            if (userNameEl) userNameEl.textContent = name;
+            var welcomeTitleEl = document.getElementById('welcomeTitle');
+            if (welcomeTitleEl) welcomeTitleEl.textContent = 'مرحباً بك، ' + name;
 
-            // Load initial section
             if (typeof loadSection === 'function') {
                 loadSection();
             }
         }
 
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            Auth.logout();
-        });
+        var logoutBtn = document.getElementById('topLogoutBtn');
+        if (logoutBtn) logoutBtn.addEventListener('click', function() { Auth.logout(); });
+        var sideLogoutBtn = document.getElementById('sidebarLogoutBtn');
+        if (sideLogoutBtn) sideLogoutBtn.addEventListener('click', function() { Auth.logout(); });
     </script>
 </body>
 </html>
-
