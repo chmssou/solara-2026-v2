@@ -379,13 +379,13 @@ async function registerUser() {
                     showConfirmButton: false,
                     timerProgressBar: true,
                     didClose: function() {
-                        window.location.href = "/login.html";
+                        window.location.href = "/";
                     }
                 });
             } else {
                 showMessage("Account created successfully", "success");
                  setTimeout(() => {
-                     window.location.href = "/login.html";
+                     window.location.href = "/";
                  }, 1500);
              }
          } else {

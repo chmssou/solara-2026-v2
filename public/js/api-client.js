@@ -58,10 +58,15 @@ async function submitQuote(quoteData) {
  * @param {Object} user - The user object from the response
  */
 function handleLoginRedirect(user) {
-    // Role-based redirect: admin goes to /admin, clients go to /portal
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect');
+    
     if (user.role === 'admin') {
         window.location.href = '/admin/admin-dashboard.html';
     } else {
+        window.location.href = redirectUrl ? redirectUrl : '/';
+    }
+} else {
         // Clients go to portal
         window.location.href = '/portal.html';
     }

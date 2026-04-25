@@ -6,49 +6,8 @@
     <title>الإعدادات - سولارا 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <style>
-        :root { --bg-primary: #041612; --bg-secondary: #062C24; --text-primary: #F1F5F9; --text-secondary: #94A3B8; --solar-gold: #FFB800; --gold-hover: #E6A600; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Cairo, sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: rgba(4, 22, 18, 0.95); border-left: 1px solid rgba(255, 184, 0, 0.15); padding: 20px 0; flex-shrink: 0; }
-        .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255, 184, 0, 0.1); margin-bottom: 20px; }
-        .sidebar-logo a { color: var(--solar-gold); font-size: 1.3rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .nav-menu { list-style: none; }
-        .nav-item { margin: 5px 10px; }
-        .nav-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 10px; transition: all 0.3s; font-weight: 500; }
-        .nav-link:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
-        .nav-link.active { background: rgba(255, 184, 0, 0.15); color: var(--solar-gold); border-right: 3px solid var(--solar-gold); }
-        .main-content { flex: 1; display: flex; flex-direction: column; }
-        .top-header { background: rgba(4, 22, 18, 0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 184, 0, 0.15); }
-        .page-title { font-size: 1.2rem; font-weight: 600; }
-        .user-section { display: flex; align-items: center; gap: 15px; }
-        .user-menu { position: relative; }
-        .user-trigger { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: background 0.3s; }
-        .user-trigger:hover { background: rgba(255, 184, 0, 0.1); }
-        .user-trigger .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #FFB800, #FF8C00); display: flex; align-items: center; justify-content: center; color: #041612; font-weight: 700; font-size: 14px; }
-        .user-trigger .user-name { font-weight: 500; color: var(--text-primary); }
-        .user-trigger .dropdown-arrow { font-size: 10px; color: var(--text-secondary); transition: transform 0.3s; }
-        .user-menu:hover .dropdown-arrow { transform: rotate(180deg); }
-        .user-dropdown { display: none; position: absolute; top: 50px; right: 0; background: #062C24; border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); min-width: 180px; z-index: 1000; overflow: hidden; }
-        .user-menu:hover .user-dropdown { display: block; }
-        .user-dropdown a, .user-dropdown button { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; transition: all 0.2s; width: 100%; border: none; background: none; font-family: Cairo, sans-serif; font-size: 14px; cursor: pointer; text-align: right; }
-        .user-dropdown a:hover, .user-dropdown button:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
-        .user-dropdown a i, .user-dropdown button i { width: 18px; text-align: center; }
-        .user-dropdown .divider { height: 1px; background: rgba(255, 184, 0, 0.2); margin: 4px 0; }
-        .user-dropdown .logout-item { color: #ef4444; }
-        .user-dropdown .logout-item:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .logout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: Cairo, sans-serif; }
-        .logout-btn:hover { background: #ef4444; color: white; }
-        .content-area { padding: 30px; flex: 1; }
-        .section { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-        .section-title { color: var(--solar-gold); font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .info-box { background: rgba(4, 22, 18, 0.4); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .info-box p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
-        .info-box strong { color: var(--solar-gold); }
-        .btn { padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: Cairo, sans-serif; font-weight: 600; transition: 0.2s; text-decoration: none; display: inline-block; }
-        .btn-primary { background: var(--solar-gold); color: var(--bg-primary); margin-right: 10px; }
-        .btn-primary:hover { background: var(--gold-hover); }
         .export-section { display: flex; gap: 15px; flex-wrap: wrap; }
         .toast-container { position: fixed; top: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
         .toast { background: rgba(15, 23, 42, 0.95); border: 2px solid var(--solar-gold); border-radius: 8px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease; }
@@ -61,7 +20,6 @@
         <aside class="sidebar">
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
             <ul class="nav-menu" id="sideNav"></ul>
-
             <script>
             (function() {
                 var nav = document.getElementById('sideNav');
@@ -72,79 +30,81 @@
                 } catch(e) {}
 
                 var isAdmin = user && user.role === 'admin';
-                var isClient = user && user.role === 'client';
 
                 var adminLinks = [
                     { href: '/admin/admin-dashboard.html', icon: 'fa-th-large', label: 'لوحة التحكم', active: false },
-                    { href: '/admin/admin-users.html', icon: 'fa-users-cog', label: 'المستخدمون', active: false },
+                    { href: '/admin/admin-users.html', icon: 'fa-users-cog', label: 'العملاء / المستخدمون', active: false },
                     { href: '/admin/admin-leads.html', icon: 'fa-user-tag', label: 'الطلبات', active: false },
-                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true }
+                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true },
+                    { href: '/', icon: 'fa-home', label: 'الموقع الرئيسي', active: false },
+                    { href: '#', icon: 'fa-sign-out-alt', label: 'تسجيل الخروج', active: false, isLogout: true }
                 ];
                 var clientLinks = [
-                    { href: '/portal.html', icon: 'fa-th-large', label: 'لوحة العميل', active: false },
+                    { href: '/portal.html', icon: 'fa-th-large', label: 'بوابة العملاء', active: false },
                     { href: '/client-profile.html', icon: 'fa-user', label: 'الملف الشخصي', active: false },
-                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true }
+                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true },
+                    { href: '/', icon: 'fa-home', label: 'الموقع الرئيسي', active: false },
+                    { href: '#', icon: 'fa-sign-out-alt', label: 'تسجيل الخروج', active: false, isLogout: true }
                 ];
-                var links = isAdmin ? adminLinks : (isClient ? clientLinks : clientLinks);
+                var links = isAdmin ? adminLinks : clientLinks;
 
                 links.forEach(function(link) {
                     var li = document.createElement('li');
                     li.className = 'nav-item';
-                    var a = document.createElement('a');
-                    a.href = link.href;
-                    a.className = 'nav-link' + (link.active ? ' active' : '');
-                    a.innerHTML = '<i class="fas ' + link.icon + '"></i><span>' + link.label + '</span>';
-                    li.appendChild(a);
+                    if (link.isLogout) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'nav-link logout-item';
+                        btn.id = 'sidebarLogoutBtn';
+                        btn.innerHTML = '<i class="fas ' + link.icon + '"></i><span>' + link.label + '</span>';
+                        btn.onclick = function() { if(typeof Auth !== 'undefined') Auth.logout(); };
+                        li.appendChild(btn);
+                    } else {
+                        var a = document.createElement('a');
+                        a.href = link.href;
+                        a.className = 'nav-link' + (link.active ? ' active' : '');
+                        a.innerHTML = '<i class="fas ' + link.icon + '"></i><span>' + link.label + '</span>';
+                        li.appendChild(a);
+                    }
                     nav.appendChild(li);
                 });
-
-                // Home link
-                var homeLi = document.createElement('li');
-                homeLi.className = 'nav-item';
-                var homeA = document.createElement('a');
-                homeA.href = '/';
-                homeA.className = 'nav-link';
-                homeA.innerHTML = '<i class="fas fa-home"></i><span>الموقع الرئيسي</span>';
-                homeLi.appendChild(homeA);
-                nav.appendChild(homeLi);
-
-                // Logout button
-                var logoutLi = document.createElement('li');
-                logoutLi.className = 'nav-item';
-                var logoutBtn = document.createElement('button');
-                logoutBtn.type = 'button';
-                logoutBtn.className = 'nav-link logout-item';
-                logoutBtn.id = 'sidebarLogoutBtn';
-                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span>';
-                logoutBtn.onclick = function() { if(typeof Auth !== 'undefined') Auth.logout(); };
-                logoutLi.appendChild(logoutBtn);
-                nav.appendChild(logoutLi);
             })();
-            </script>        </aside>
+            </script>
+        </aside>
         <main class="main-content">
             <header class="top-header">
                 <h1 class="page-title">الإعدادات</h1>
                 <div class="user-section">
+                    
                     <div class="user-menu">
                         <div class="user-trigger">
-                            <div class="user-avatar">م</div>
-                            <span class="user-name">مدير النظام</span>
+                            <div class="user-avatar" id="topAvatar">م</div>
+                            <span class="user-name" id="topName">مستخدم</span>
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
-                        <div class="user-dropdown" id="userDropdown">
-                            <a href="/admin/admin-dashboard.html" class="admin-only-link"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                            <a href="/admin/admin-leads.html" class="admin-only-link"><i class="fas fa-user-tag"></i> الطلبات</a>
-                            <div class="divider admin-only-link"></div>
-                            <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
-                        </div>
+                        <div class="user-dropdown" id="userDropdown"></div>
                         <script>
                         (function() {
                             var user = null;
                             try { var u = localStorage.getItem('solara_user'); if(u) user = JSON.parse(u); } catch(e) {}
-                            if (!user || user.role !== 'admin') {
-                                document.querySelectorAll('.admin-only-link').forEach(function(el) {
-                                    el.style.display = 'none';
-                                });
+                            var drop = document.getElementById('userDropdown');
+                            if (user && user.role === 'admin') {
+                                drop.innerHTML = '<a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>' +
+                                                 '<a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء / المستخدمون</a>' +
+                                                 '<a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>' +
+                                                 '<a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>' +
+                                                 '<div class="divider"></div>' +
+                                                 '<button class="logout-item" id="topLogoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>';
+                            } else {
+                                drop.innerHTML = '<a href="/portal.html"><i class="fas fa-th-large"></i> بوابة العملاء</a>' +
+                                                 '<div class="divider"></div>' +
+                                                 '<button class="logout-item" id="topLogoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>';
+                            }
+                            
+                            if (user) {
+                                var name = user.name || (user.role === 'admin' ? 'مدير النظام' : 'عميل');
+                                document.getElementById('topName').textContent = name;
+                                document.getElementById('topAvatar').textContent = name.charAt(0);
                             }
                         })();
                         </script>
@@ -155,23 +115,25 @@
                 <div id="authStatus"></div>
                 <div class="section">
                     <h2 class="section-title"><i class="fas fa-user-circle"></i> معلومات الحساب</h2>
-                    <div class="info-box">
-                        <p><strong>البريد الإلكتروني:</strong> admin@solara2026.dz</p>
-                        <p><strong>الاسم:</strong> مدير النظام</p>
-                        <p><strong>الدور:</strong> مدير النظام</p>
+                    <div class="info-box" id="accountInfoBox">
+                        <p><strong>البريد الإلكتروني:</strong> ...</p>
+                        <p><strong>الاسم:</strong> ...</p>
+                        <p><strong>الدور:</strong> ...</p>
                     </div>
+                </div>
                 
-                <div class="section admin-only" style="display: none;">
+                <div class="section admin-only" id="adminExportSection" style="display: none;">
                     <h2 class="section-title"><i class="fas fa-download"></i> تصدير البيانات</h2>
                     <p style="color: var(--text-secondary); margin-bottom: 15px;">قم بتصدير بيانات العملاء والتنزيلها كملف Excel أو CSV</p>
                     <div class="export-section">
-                        <button type="button" class="btn btn-primary" onclick="exportData(csv)">
+                        <button type="button" class="btn btn-primary" onclick="exportData('csv')">
                             <i class="fas fa-file-csv"></i> تصدير CSV
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="exportData(excel)">
+                        <button type="button" class="btn btn-primary" onclick="exportData('excel')">
                             <i class="fas fa-file-excel"></i> تصدير Excel
                         </button>
                     </div>
+                </div>
                 
                 <div class="section">
                     <h2 class="section-title"><i class="fas fa-info-circle"></i> حول النظام</h2>
@@ -180,100 +142,80 @@
                         <p>الإصدار: 2.0</p>
                         <p>جميع الحقوق محفوظة © 2026</p>
                     </div>
+                </div>
             </div>
         </main>
     </div>
     <div class="toast-container" id="toastContainer"></div>
     <script src="/js/auth.js"></script>
-    <script>
-        document.addEventListener(DOMContentLoaded, function() {
-            if (!Auth.isLoggedIn()) { window.location.href = /login.html; return; }
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!Auth.isLoggedIn()) { window.location.href = '/login.html'; return; }
             
             var user = Auth.getUser();
             var isAdmin = Auth.isAdmin();
             
-            // Update Navigation
-            const sideNav = document.getElementById(sideNav);
-            let navHtml = ;
-            
             if (isAdmin) {
-                navHtml += `
-                    <li class="nav-item"><a href="/admin/admin-dashboard.html" class="nav-link"><i class="fas fa-th-large"></i><span>لوحة التحكم</span></a></li>
-                    <li class="nav-item"><a href="/admin/admin-users.html" class="nav-link"><i class="fas fa-users-cog"></i><span>المستخدمون</span></a></li>
-                    <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link"><i class="fas fa-user-tag"></i><span>الطلبات</span></a></li>
-                `;
-                // Show admin sections
-                document.querySelectorAll(.admin-only).forEach(el => el.style.display = block);
-            } else {
-                navHtml += `
-                    <li class="nav-item"><a href="/portal.html" class="nav-link"><i class="fas fa-th-large"></i><span>بوابة العملاء</span></a></li>
-                    <li class="nav-item"><a href="/client-profile.html" class="nav-link"><i class="fas fa-user"></i><span>ملفي</span></a></li>
-                `;
+                var exportSec = document.getElementById('adminExportSection');
+                if (exportSec) exportSec.style.display = 'block';
             }
             
-            navHtml += `
-                <li class="nav-item"><a href="/settings.html" class="nav-link active"><i class="fas fa-cog"></i><span>الإعدادات</span></a></li>
-                <li class="nav-item"><a href="/" class="nav-link"><i class="fas fa-home"></i><span>الموقع الرئيسي</span></a></li>
-            `;
-            sideNav.innerHTML = navHtml;
-            
-            // Update display info
             if (user) {
-                var nameEl = document.querySelector(.user-name);
-                var avatarEl = document.querySelector(.user-avatar);
-                if (nameEl) nameEl.textContent = user.name || مستخدم;
-                if (avatarEl) avatarEl.textContent = (user.name || م).charAt(0);
+                var nameEl = document.getElementById('topName');
+                var avatarEl = document.getElementById('topAvatar');
+                var name = user.name || (isAdmin ? 'مدير النظام' : 'عميل');
+                if (nameEl) nameEl.textContent = name;
+                if (avatarEl) avatarEl.textContent = name.charAt(0);
                 
-                // Update account info section
-                const infoBox = document.querySelector(.info-box);
+                var infoBox = document.getElementById('accountInfoBox');
                 if (infoBox) {
-                    infoBox.innerHTML = `
-                        <p><strong>البريد الإلكتروني:</strong> ${user.email || -}</p>
-                        <p><strong>الاسم:</strong> ${user.name || -}</p>
-                        <p><strong>الدور:</strong> ${isAdmin ? مدير النظام : عميل}</p>
-                    `;
+                    infoBox.innerHTML = 
+                        '<p><strong>البريد الإلكتروني:</strong> ' + (user.email || '-') + '</p>' +
+                        '<p><strong>الاسم:</strong> ' + name + '</p>' +
+                        '<p><strong>الدور:</strong> ' + (isAdmin ? 'مدير النظام' : 'عميل') + '</p>';
                 }
             }
+            
+            var btn = document.getElementById('topLogoutBtn');
+            if (btn) btn.addEventListener('click', function() { Auth.logout(); });
         });
 
         function showToast(message, type) {
-            var container = document.getElementById(toastContainer);
-            var toast = document.createElement(div);
-            toast.className = toast  + (type || success);
-            var color = type === error ? #ef4444 : #22c55e;
-            toast.innerHTML = <i class="fas fa-check-circle" style="color: + color + "></i><span> + message + </span>;
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + (type || 'success');
+            var color = type === 'error' ? '#ef4444' : '#22c55e';
+            toast.innerHTML = '<i class="fas fa-check-circle" style="color: ' + color + '"></i><span>' + message + '</span>';
             container.appendChild(toast);
             setTimeout(function() { toast.remove(); }, 3000);
         }
 
         function exportData(format) {
             var token = Auth.getToken();
-            if (!token) { showToast(يرجى تسجيل الدخول, error); return; }
+            if (!token) { showToast('يرجى تسجيل الدخول', 'error'); return; }
             
-            showToast(جاري التصدير...);
+            showToast('جاري التصدير...');
             
-            fetch(/api/leads/export?format= + format, {
-                headers: { Authorization: Bearer  + token }
+            fetch('/api/leads/export?format=' + format, {
+                headers: { 'Authorization': 'Bearer ' + token }
             })
             .then(function(res) { return res.blob(); })
             .then(function(blob) {
                 var url = window.URL.createObjectURL(blob);
-                var a = document.createElement(a);
+                var a = document.createElement('a');
                 a.href = url;
-                a.download = leads. + (format === excel ? xls : csv);
+                a.download = 'leads.' + (format === 'excel' ? 'xls' : 'csv');
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
                 a.remove();
-                showToast(تم التصدير بنجاح);
+                showToast('تم التصدير بنجاح');
             })
             .catch(function(err) {
-                console.error(Export error:, err);
-                showToast(فشل التصدير, error);
+                console.error('Export error:', err);
+                showToast('فشل التصدير', 'error');
             });
         }
-
-        document.getElementById(logoutBtn).addEventListener(click, function() { Auth.logout(); });
     </script>
 </body>
 </html>

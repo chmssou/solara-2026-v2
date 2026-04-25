@@ -171,6 +171,7 @@
         </form>
 
         <div class="divider"><span>أو</span></div>
+        <div style="text-align:center; margin-top:10px;"></div>
         <div class="social-login-container">
             <!-- Google Identity Services Button Container -->
             <div id="googleBtnContainer" style="display: flex; justify-content: center; width: 100%;"></div>
@@ -188,7 +189,7 @@
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/auth.js"></script>
-    <script>
+        <script>
         window.onload = async function () {
             try {
                 const configRes = await fetch('/api/config');
@@ -266,7 +267,7 @@
                         showConfirmButton: false,
                         timerProgressBar: true,
                         didClose: function() {
-                            window.location.href = '/login.html';
+                            window.location.href = '/';
                         }
                     });
                 } else {

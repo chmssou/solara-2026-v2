@@ -1722,6 +1722,30 @@
         .timeline .reveal:nth-child(2) { transition-delay: 0.1s; }
         .timeline .reveal:nth-child(3) { transition-delay: 0.2s; }
         .timeline .reveal:nth-child(4) { transition-delay: 0.3s; }
+    
+        /* Added for extra responsiveness and LTR support */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem !important; }
+            .hero p { font-size: 1rem !important; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; }
+            .projects-grid { grid-template-columns: 1fr !important; }
+            .timeline { grid-template-columns: 1fr !important; }
+            .timeline::before { display: none; } /* Hide horizontal line on mobile */
+            .calc-inputs { grid-template-columns: 1fr; }
+            .modal-content { width: 95% !important; margin: 5% auto !important; padding: 20px !important; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr !important; }
+            .navbar { padding: 10px 5% !important; }
+            .logo { font-size: 1.4rem !important; }
+        }
+        [dir="ltr"] .nav-links.active { right: auto !important; left: 0 !important; }
+        [dir="ltr"] .modal-close { left: 20px; right: auto; }
+        [dir="ltr"] .footer-section { text-align: left; }
+        [dir="ltr"] .timeline::before { transform: scaleX(-1); }
+
     </style>
 </head>
 <body data-theme="dark">
@@ -1741,6 +1765,7 @@
         
         <!-- Control buttons container (Theme Toggle + Hamburger) -->
         <div class="nav-controls">
+                
             <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع">
                 <i class="fas fa-sun sun-icon"></i>
                 <i class="fas fa-moon moon-icon"></i>
@@ -2127,8 +2152,8 @@
                 <h4>روابط سريعة</h4>
                 <ul class="footer-links">
                     <li><a href="#home">الرئيسية</a></li>
-                    <li><a href="#services">خدماتنا</a></li>
-                    <li><a href="#projects">مشاريعنا</a></li>
+                    <li><a href="#services"><span>خدماتنا</span></a></li>
+                    <li><a href="#projects"><span>مشاريعنا</span></a></li>
                     <li><a href="#calculator">الحاسبة</a></li>
                 </ul>
             </div>
@@ -2246,7 +2271,7 @@
 
 <!-- External Scripts -->
     <script src="js/auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- SweetAlert2 Custom Styles for Solar Theme -->
     <style>
@@ -2275,6 +2300,30 @@
         .swal2-html-container {
             color: #ffffff !important;
         }
+    
+        /* Added for extra responsiveness and LTR support */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem !important; }
+            .hero p { font-size: 1rem !important; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; }
+            .projects-grid { grid-template-columns: 1fr !important; }
+            .timeline { grid-template-columns: 1fr !important; }
+            .timeline::before { display: none; } /* Hide horizontal line on mobile */
+            .calc-inputs { grid-template-columns: 1fr; }
+            .modal-content { width: 95% !important; margin: 5% auto !important; padding: 20px !important; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr !important; }
+            .navbar { padding: 10px 5% !important; }
+            .logo { font-size: 1.4rem !important; }
+        }
+        [dir="ltr"] .nav-links.active { right: auto !important; left: 0 !important; }
+        [dir="ltr"] .modal-close { left: 20px; right: auto; }
+        [dir="ltr"] .footer-section { text-align: left; }
+        [dir="ltr"] .timeline::before { transform: scaleX(-1); }
+
     </style>
 
 <!-- User Profile Styles -->
@@ -2439,6 +2488,30 @@
         background: rgba(239, 68, 68, 0.1);
         color: #ef4444;
     }
+    
+        /* Added for extra responsiveness and LTR support */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem !important; }
+            .hero p { font-size: 1rem !important; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; }
+            .projects-grid { grid-template-columns: 1fr !important; }
+            .timeline { grid-template-columns: 1fr !important; }
+            .timeline::before { display: none; } /* Hide horizontal line on mobile */
+            .calc-inputs { grid-template-columns: 1fr; }
+            .modal-content { width: 95% !important; margin: 5% auto !important; padding: 20px !important; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr !important; }
+            .navbar { padding: 10px 5% !important; }
+            .logo { font-size: 1.4rem !important; }
+        }
+        [dir="ltr"] .nav-links.active { right: auto !important; left: 0 !important; }
+        [dir="ltr"] .modal-close { left: 20px; right: auto; }
+        [dir="ltr"] .footer-section { text-align: left; }
+        [dir="ltr"] .timeline::before { transform: scaleX(-1); }
+
     </style>
 
     <script>

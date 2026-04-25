@@ -35,6 +35,7 @@
             <header class="top-header">
                 <h1 class="page-title">إدارة المستخدمين</h1>
                 <div class="user-section">
+                    
                     <div class="user-menu">
                         <div class="user-trigger">
                             <div class="user-avatar" id="userAvatar">م</div>
@@ -61,7 +62,7 @@
         </main>
     </div>
     <script src="/js/auth.js"></script>
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Use silent redirect - check admin access BEFORE showing any content
             if (!Auth.checkAdminAccess()) {
@@ -84,7 +85,7 @@
         function renderTable(users) {
             var c=document.getElementById('usersContainer');
             if(!users||users.length===0){c.innerHTML='<div class="loading">لا يوجد مستخدمون</div>';return;}
-            var html='<div class="table-wrapper"><table><thead><tr><th>رقم</th><th>الاسم</th><th>البريد</th><th>الدور</th><th>تاريخ</th><th>إجراءات</th></tr></thead><tbody>';
+            var html='<div class="table-wrapper"><div class="users-table-container"><table><thead><tr><th>رقم</th><th>الاسم</th><th>البريد</th><th>الدور</th><th>تاريخ</th><th>إجراءات</th></tr></thead><tbody>';
             users.forEach(function(u){
                 var roleClass=u.role==='admin'?'role-admin':'role-client';
                 var roleLabel=u.role==='admin'?'مدير':'عميل';
@@ -94,7 +95,7 @@
                 html+='<button class="btn btn-delete" onclick="deleteUser('+u.id+')"><i class="fas fa-trash"></i> حذف</button>';
                 html+='</td></tr>';
             });
-            html+='</tbody></table></div>';
+            html+='</tbody></table></div></div>';
             c.innerHTML=html;
         }
         function editUser(id) {

@@ -138,6 +138,9 @@
         }
     }
 
+    // Export to global scope so HTML can call it
+    window.loadSection = loadSection;
+
     // Listen for hash changes
     window.addEventListener('hashchange', loadSection);
 

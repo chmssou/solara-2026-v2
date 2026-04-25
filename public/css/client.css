@@ -31,7 +31,7 @@ body {
 .sidebar {
   width: 260px;
   background: rgba(4, 22, 18, 0.95);
-  border-inline-end: 1px solid var(--glass-border);
+  border-left: 1px solid var(--glass-border);
   padding: 20px 0;
   position: fixed;
   height: 100vh;
@@ -105,7 +105,7 @@ button.nav-link:focus-visible,
 /* ============ Main layout ============ */
 .main-content {
   flex: 1;
-  margin-inline-start: 260px;
+  margin-right: 260px;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -271,9 +271,6 @@ button.nav-link:focus-visible,
 /* ============ Tables ============ */
 .table-wrapper {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-  display: block;
   width: 100%;
   border-radius: 8px;
 }
@@ -531,122 +528,23 @@ td {
   height: 260px;
 }
 
-/* =====================================================
-   RESPONSIVE FIX — Mobile / Tablet
-   ===================================================== */
-
-/* Global box-model & overflow guard */
-*, *::before, *::after { box-sizing: border-box; }
-html { overflow-x: hidden; width: 100%; }
-body { overflow-x: hidden; max-width: 100%; }
-
-/* Scrollable table wrapper — prevents page-wide overflow */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  display: block;
-}
-.table-wrapper table,
-.leads-table-container table,
-.users-table-container table {
-  min-width: 580px;
-  width: 100%;
-}
-.leads-table-container,
-.users-table-container {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-}
-
-/* ── 1024px: large tablet ── */
-@media (max-width: 1024px) {
-  .sidebar { width: 220px; }
-}
-
-/* ── 900px: sidebar → top strip ── */
 @media (max-width: 900px) {
-  .app-container { flex-direction: column; }
   .sidebar {
     position: static;
     height: auto;
     width: 100%;
-    border-inline-end: none;
+    border-left: none;
     border-bottom: 1px solid var(--glass-border);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 8px 12px;
-    gap: 6px;
   }
-  .sidebar-logo {
-    flex: 1 0 100%;
-    margin-bottom: 4px;
-    padding-bottom: 4px;
-    font-size: 1rem;
-  }
-  .nav-menu {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: wrap;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    padding: 0;
-    gap: 4px;
-  }
-  .nav-item { margin: 0; }
-  .nav-link {
-    width: auto !important;
-    padding: 6px 10px !important;
-    font-size: 0.82rem !important;
-    border-radius: 8px;
-  }
+
   .main-content {
-    margin-inline-start: 0;
-    width: 100%;
-    max-width: 100%;
-    padding: 16px;
+    margin-right: 0;
   }
+
   .top-header {
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 }
 
-/* ── 768px: mobile ── */
-@media (max-width: 768px) {
-  .controls-container { flex-direction: column; align-items: stretch; }
-  .filters { flex-wrap: wrap; justify-content: flex-start; gap: 6px; }
-  .filter-btn { font-size: 0.8rem; padding: 5px 10px; }
-  .search-box { max-width: 100%; margin-top: 8px; }
-  .charts-grid { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .top-header { padding: 10px 12px !important; gap: 8px; }
-  .page-title { font-size: 1.1rem !important; flex: 1; }
-  /* Dropdown safe positioning */
-  .user-dropdown {
-    right: 0 !important;
-    left: auto !important;
-    min-width: 160px;
-    max-width: 90vw;
-  }
-}
-
-/* ── 480px: small phones ── */
-@media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr; }
-  .top-header { padding: 8px 10px !important; }
-  .content-area { padding: 10px !important; }
-  .user-name { display: none; }
-  .page-title { font-size: 1rem !important; }
-  .sidebar-logo a { font-size: 0.9rem; }
-  /* Long text overflow protection */
-  td, th, p, h1, h2, h3, h4, span, a {
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-}

@@ -175,6 +175,7 @@
         </form>
         
         <div class="divider"><span>أو</span></div>
+        <div style="text-align:center; margin-top:10px;"></div>
         <div class="social-login-container">
             <!-- Google Identity Services Button Container -->
             <div id="googleBtnContainer" style="display: flex; justify-content: center; width: 100%;"></div>
@@ -195,7 +196,7 @@
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/auth.js"></script>
-    <script>
+        <script>
         window.onload = async function () {
             try {
                 const configRes = await fetch('/api/config');
@@ -265,10 +266,13 @@
                     
                     loginBtn.innerHTML = '<i class="fas fa-check"></i> جاري التوجيه...';
                     setTimeout(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirectUrl = urlParams.get('redirect');
+                        
                         if (data.user.role === 'admin') {
                             window.location.href = "/admin/admin-dashboard.html";
                         } else {
-                            window.location.href = "/portal.html";
+                            window.location.href = redirectUrl ? redirectUrl : "/";
                         }
                     }, 500);
                 } else {
@@ -331,10 +335,13 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirectUrl = urlParams.get('redirect');
+                        
                         if (data.user.role === 'admin') {
                             window.location.href = "/admin/admin-dashboard.html";
                         } else {
-                            window.location.href = "/portal.html";
+                            window.location.href = redirectUrl ? redirectUrl : "/";
                         }
                     });
                 } else {

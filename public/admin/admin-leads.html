@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
+        <style>
         /* Page-specific only: column widths for this table */
         th:nth-child(1), td:nth-child(1) { width: 70px; } /* ID */
         th:nth-child(2), td:nth-child(2) { width: 25%; } /* Name */
@@ -36,6 +36,7 @@
             <header class="top-header">
                 <h1 class="page-title">إدارة العملاء</h1>
                 <div class="user-section">
+                    
                     <div class="user-menu">
                         <div class="user-trigger">
                             <div class="user-avatar" id="userAvatar">م</div>
@@ -43,12 +44,12 @@
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
                         <div class="user-dropdown">
-                            <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                            <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> العملاء / المستخدمون</a>
-                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> الطلبات</a>
-                            <a href="/settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+                            <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> <span>لوحة التحكم</span></a>
+                            <a href="/admin/admin-users.html"><i class="fas fa-users-cog"></i> <span>العملاء / المستخدمون</span></a>
+                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> <span>الطلبات</span></a>
+                            <a href="/settings.html"><i class="fas fa-cog"></i> <span>الإعدادات</span></a>
                             <div class="divider"></div>
-                            <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+                            <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span></button>
                         </div>
                     </div>
                 </div>
@@ -114,6 +115,7 @@
             });
 
             loadLeads();
+            window.addEventListener('languageChanged', () => { applyFiltersAndSearch(); });
         });
         function loadLeads() {
             var token = Auth.getToken();
@@ -165,8 +167,8 @@
         }
         function renderTable(requests) {
             var c=document.getElementById('leadsContainer');
-            if(!requests||requests.length===0){c.innerHTML='<div class="loading">لا يوجد طلبات تطابق بحثك</div>';return;}
-            var html='<div class="table-wrapper"><table><thead><tr><th>رقم</th><th>الاسم</th><th>النوع</th><th>الهاتف</th><th>الحالة</th><th>تاريخ</th><th>حذف</th></tr></thead><tbody>';
+            if(!requests||requests.length===0){c.innerHTML='<div class="loading">لا يوجد طلبات</div>';return;}
+            var html='<div class="table-wrapper"><div class="leads-table-container"><table><thead><tr><th>رقم</th><th>الاسم</th><th>النوع</th><th>الهاتف</th><th>الحالة</th><th>تاريخ</th><th>إجراءات</th></tr></thead><tbody>';
             
             requests.forEach(function(r){
                 var typeLabel = r.request_type === 'maintenance' ? 'صيانة' : 'تركيب';
@@ -175,29 +177,24 @@
                 html+='<tr><td>#'+r.id+'</td><td><span class="lead-name-link">'+(r.name||'')+'</span></td><td>'+typeLabel+'</td><td>'+(r.phone||'')+'</td>';
                 html+='<td><span class="status-dot ' + dotClass + '"></span><select class="status-select" onchange="updateStatus('+r.id+',this.value)">';
                 
-                // Show a subset of common statuses for quick update
-                const options = [
-                    {val:'new_request', lbl:'طلب جديد'},
-                    {val:'under_review', lbl:'قيد المراجعة'},
-                    {val:'approved', lbl:'موافق عليه'},
-                    {val:'in_progress', lbl:'جاري التنفيذ'},
-                    {val:'completed', lbl:'مكتمل'},
-                    {val:'resolved', lbl:'تم الحل'}
-                ];
-                let found = false;
-                options.forEach(opt => {
-                    if (r.status === opt.val) found = true;
-                    html+='<option value="'+opt.val+'" '+(r.status===opt.val?'selected':'')+'>'+opt.lbl+'</option>';
-                });
-                if (!found && r.status) {
-                    html+='<option value="'+r.status+'" selected>'+(r.status_label||r.status)+'</option>';
+                // Show current status and allowed next statuses
+                var validStatuses = [r.status];
+                if (r.next_statuses && Array.isArray(r.next_statuses)) {
+                    validStatuses = validStatuses.concat(r.next_statuses.map(s => s.value || s));
                 }
+                
+                // Remove duplicates
+                validStatuses = [...new Set(validStatuses)];
 
+                validStatuses.forEach(val => {
+                    var label = (typeof statusLabels !== 'undefined' && statusLabels[val]) ? statusLabels[val] : val;
+                    html+='<option value="'+val+'" '+(r.status===val?'selected':'')+'>'+label+'</option>';
+                });
                 
                 html+='</select></td><td>'+new Date(r.created_at).toLocaleDateString('ar-SA')+'</td>';
                 html+='<td><button class="btn btn-delete" onclick="deleteLead('+r.id+')"><i class="fas fa-trash"></i></button></td></tr>';
             });
-            html+='</tbody></table></div>';
+            html+='</tbody></table></div></div>';
             c.innerHTML=html;
         }
         function updateStatus(id, status) {
@@ -210,7 +207,8 @@
             .then(function(res){return res.json();})
             .then(function(d){
                 if(d.success){Swal.fire('تم','تم تحديث الحالة','success');}
-                else{Swal.fire('خطأ',d.message,'error');loadLeads();}
+                else{Swal.fire('خطأ',d.message,'error');loadLeads();
+            window.addEventListener('languageChanged', () => { applyFiltersAndSearch(); });}
             });
         }
         function deleteLead(id) {
@@ -229,4 +227,5 @@
     </script>
 </body>
 </html>
+
 
