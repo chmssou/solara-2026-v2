@@ -60,26 +60,67 @@
     <div class="app-container">
         <aside class="sidebar">
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
-            <ul class="nav-menu" id="sideNav">
-                <li class="nav-item">
-                    <a href="/portal.html" class="nav-link">
-                        <i class="fas fa-th-large"></i>
-                        <span>لوحة التحكم</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/client-profile.html" class="nav-link">
-                        <i class="fas fa-user"></i>
-                        <span>الملف الشخصي</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/settings.html" class="nav-link active">
-                        <i class="fas fa-cog"></i>
-                        <span>الإعدادات</span>
-                    </a>
-                </li>
-            </ul>        </aside>
+            <ul class="nav-menu" id="sideNav"></ul>
+
+            <script>
+            (function() {
+                var nav = document.getElementById('sideNav');
+                var user = null;
+                try {
+                    var u = localStorage.getItem('solara_user');
+                    if (u) user = JSON.parse(u);
+                } catch(e) {}
+
+                var isAdmin = user && user.role === 'admin';
+                var isClient = user && user.role === 'client';
+
+                var adminLinks = [
+                    { href: '/admin/admin-dashboard.html', icon: 'fa-th-large', label: 'لوحة التحكم', active: false },
+                    { href: '/admin/admin-users.html', icon: 'fa-users-cog', label: 'المستخدمون', active: false },
+                    { href: '/admin/admin-leads.html', icon: 'fa-user-tag', label: 'الطلبات', active: false },
+                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true }
+                ];
+                var clientLinks = [
+                    { href: '/portal.html', icon: 'fa-th-large', label: 'لوحة العميل', active: false },
+                    { href: '/client-profile.html', icon: 'fa-user', label: 'الملف الشخصي', active: false },
+                    { href: '/settings.html', icon: 'fa-cog', label: 'الإعدادات', active: true }
+                ];
+                var links = isAdmin ? adminLinks : (isClient ? clientLinks : clientLinks);
+
+                links.forEach(function(link) {
+                    var li = document.createElement('li');
+                    li.className = 'nav-item';
+                    var a = document.createElement('a');
+                    a.href = link.href;
+                    a.className = 'nav-link' + (link.active ? ' active' : '');
+                    a.innerHTML = '<i class="fas ' + link.icon + '"></i><span>' + link.label + '</span>';
+                    li.appendChild(a);
+                    nav.appendChild(li);
+                });
+
+                // Home link
+                var homeLi = document.createElement('li');
+                homeLi.className = 'nav-item';
+                var homeA = document.createElement('a');
+                homeA.href = '/';
+                homeA.className = 'nav-link';
+                homeA.innerHTML = '<i class="fas fa-home"></i><span>الموقع الرئيسي</span>';
+                homeLi.appendChild(homeA);
+                nav.appendChild(homeLi);
+
+                // Logout button
+                var logoutLi = document.createElement('li');
+                logoutLi.className = 'nav-item';
+                var logoutBtn = document.createElement('button');
+                logoutBtn.type = 'button';
+                logoutBtn.className = 'nav-link logout-item';
+                logoutBtn.id = 'sidebarLogoutBtn';
+                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span>';
+                logoutBtn.onclick = function() { if(typeof Auth !== 'undefined') Auth.logout(); };
+                logoutLi.appendChild(logoutBtn);
+                nav.appendChild(logoutLi);
+            })();
+            </script>        </aside>
         <main class="main-content">
             <header class="top-header">
                 <h1 class="page-title">الإعدادات</h1>
@@ -90,12 +131,23 @@
                             <span class="user-name">مدير النظام</span>
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
-                        <div class="user-dropdown">
-                            <a href="/admin/admin-dashboard.html"><i class="fas fa-th-large"></i> لوحة التحكم</a>
-                            <a href="/admin/admin-leads.html"><i class="fas fa-user-tag"></i> العملاء</a>
-                            <div class="divider"></div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="/admin/admin-dashboard.html" class="admin-only-link"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                            <a href="/admin/admin-leads.html" class="admin-only-link"><i class="fas fa-user-tag"></i> الطلبات</a>
+                            <div class="divider admin-only-link"></div>
                             <button class="logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
                         </div>
+                        <script>
+                        (function() {
+                            var user = null;
+                            try { var u = localStorage.getItem('solara_user'); if(u) user = JSON.parse(u); } catch(e) {}
+                            if (!user || user.role !== 'admin') {
+                                document.querySelectorAll('.admin-only-link').forEach(function(el) {
+                                    el.style.display = 'none';
+                                });
+                            }
+                        })();
+                        </script>
                     </div>
                 </div>
             </header>

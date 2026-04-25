@@ -60,10 +60,10 @@ async function submitQuote(quoteData) {
 function handleLoginRedirect(user) {
     // Role-based redirect: admin goes to /admin, clients go to /portal
     if (user.role === 'admin') {
-        window.location.href = '/admin';
+        window.location.href = '/admin/admin-dashboard.html';
     } else {
         // Clients go to portal
-        window.location.href = '/portal';
+        window.location.href = '/portal.html';
     }
 }
 
