@@ -9,7 +9,7 @@
     <style>
         :root { --bg-primary: #041612; --bg-secondary: #062C24; --text-primary: #F1F5F9; --text-secondary: #94A3B8; --solar-gold: #FFB800; --gold-hover: #E6A600; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
+        body { font-family: Cairo, sans-serif; background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); min-height: 100vh; color: var(--text-primary); }
         .app-container { display: flex; min-height: 100vh; }
         .sidebar { width: 260px; background: rgba(4, 22, 18, 0.95); border-left: 1px solid rgba(255, 184, 0, 0.15); padding: 20px 0; flex-shrink: 0; }
         .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255, 184, 0, 0.1); margin-bottom: 20px; }
@@ -32,13 +32,13 @@
         .user-menu:hover .dropdown-arrow { transform: rotate(180deg); }
         .user-dropdown { display: none; position: absolute; top: 50px; right: 0; background: #062C24; border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); min-width: 180px; z-index: 1000; overflow: hidden; }
         .user-menu:hover .user-dropdown { display: block; }
-        .user-dropdown a, .user-dropdown button { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; transition: all 0.2s; width: 100%; border: none; background: none; font-family: 'Cairo', sans-serif; font-size: 14px; cursor: pointer; text-align: right; }
+        .user-dropdown a, .user-dropdown button { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; transition: all 0.2s; width: 100%; border: none; background: none; font-family: Cairo, sans-serif; font-size: 14px; cursor: pointer; text-align: right; }
         .user-dropdown a:hover, .user-dropdown button:hover { background: rgba(255, 184, 0, 0.1); color: var(--solar-gold); }
         .user-dropdown a i, .user-dropdown button i { width: 18px; text-align: center; }
         .user-dropdown .divider { height: 1px; background: rgba(255, 184, 0, 0.2); margin: 4px 0; }
         .user-dropdown .logout-item { color: #ef4444; }
         .user-dropdown .logout-item:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .logout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: 'Cairo', sans-serif; }
+        .logout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: Cairo, sans-serif; }
         .logout-btn:hover { background: #ef4444; color: white; }
         .content-area { padding: 30px; flex: 1; }
         .section { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 184, 0, 0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
@@ -46,7 +46,7 @@
         .info-box { background: rgba(4, 22, 18, 0.4); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .info-box p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
         .info-box strong { color: var(--solar-gold); }
-        .btn { padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: 'Cairo', sans-serif; font-weight: 600; transition: 0.2s; text-decoration: none; display: inline-block; }
+        .btn { padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: Cairo, sans-serif; font-weight: 600; transition: 0.2s; text-decoration: none; display: inline-block; }
         .btn-primary { background: var(--solar-gold); color: var(--bg-primary); margin-right: 10px; }
         .btn-primary:hover { background: var(--gold-hover); }
         .export-section { display: flex; gap: 15px; flex-wrap: wrap; }
@@ -61,9 +61,25 @@
         <aside class="sidebar">
             <div class="sidebar-logo"><a href="/"><i class="fas fa-solar-panel"></i> سولارا 2026</a></div>
             <ul class="nav-menu" id="sideNav">
-                <!-- Links injected by JS -->
-            </ul>
-        </aside>
+                <li class="nav-item">
+                    <a href="/portal.html" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/client-profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>الملف الشخصي</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings.html" class="nav-link active">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                </li>
+            </ul>        </aside>
         <main class="main-content">
             <header class="top-header">
                 <h1 class="page-title">الإعدادات</h1>
@@ -97,10 +113,10 @@
                     <h2 class="section-title"><i class="fas fa-download"></i> تصدير البيانات</h2>
                     <p style="color: var(--text-secondary); margin-bottom: 15px;">قم بتصدير بيانات العملاء والتنزيلها كملف Excel أو CSV</p>
                     <div class="export-section">
-                        <button type="button" class="btn btn-primary" onclick="exportData('csv')">
+                        <button type="button" class="btn btn-primary" onclick="exportData(csv)">
                             <i class="fas fa-file-csv"></i> تصدير CSV
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="exportData('excel')">
+                        <button type="button" class="btn btn-primary" onclick="exportData(excel)">
                             <i class="fas fa-file-excel"></i> تصدير Excel
                         </button>
                     </div>
@@ -118,15 +134,15 @@
     <div class="toast-container" id="toastContainer"></div>
     <script src="/js/auth.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!Auth.isLoggedIn()) { window.location.href = '/login.html'; return; }
+        document.addEventListener(DOMContentLoaded, function() {
+            if (!Auth.isLoggedIn()) { window.location.href = /login.html; return; }
             
             var user = Auth.getUser();
             var isAdmin = Auth.isAdmin();
             
             // Update Navigation
-            const sideNav = document.getElementById('sideNav');
-            let navHtml = '';
+            const sideNav = document.getElementById(sideNav);
+            let navHtml = ;
             
             if (isAdmin) {
                 navHtml += `
@@ -135,7 +151,7 @@
                     <li class="nav-item"><a href="/admin/admin-leads.html" class="nav-link"><i class="fas fa-user-tag"></i><span>الطلبات</span></a></li>
                 `;
                 // Show admin sections
-                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+                document.querySelectorAll(.admin-only).forEach(el => el.style.display = block);
             } else {
                 navHtml += `
                     <li class="nav-item"><a href="/portal.html" class="nav-link"><i class="fas fa-th-large"></i><span>بوابة العملاء</span></a></li>
@@ -151,61 +167,61 @@
             
             // Update display info
             if (user) {
-                var nameEl = document.querySelector('.user-name');
-                var avatarEl = document.querySelector('.user-avatar');
-                if (nameEl) nameEl.textContent = user.name || 'مستخدم';
-                if (avatarEl) avatarEl.textContent = (user.name || 'م').charAt(0);
+                var nameEl = document.querySelector(.user-name);
+                var avatarEl = document.querySelector(.user-avatar);
+                if (nameEl) nameEl.textContent = user.name || مستخدم;
+                if (avatarEl) avatarEl.textContent = (user.name || م).charAt(0);
                 
                 // Update account info section
-                const infoBox = document.querySelector('.info-box');
+                const infoBox = document.querySelector(.info-box);
                 if (infoBox) {
                     infoBox.innerHTML = `
-                        <p><strong>البريد الإلكتروني:</strong> ${user.email || '-'}</p>
-                        <p><strong>الاسم:</strong> ${user.name || '-'}</p>
-                        <p><strong>الدور:</strong> ${isAdmin ? 'مدير النظام' : 'عميل'}</p>
+                        <p><strong>البريد الإلكتروني:</strong> ${user.email || -}</p>
+                        <p><strong>الاسم:</strong> ${user.name || -}</p>
+                        <p><strong>الدور:</strong> ${isAdmin ? مدير النظام : عميل}</p>
                     `;
                 }
             }
         });
 
         function showToast(message, type) {
-            var container = document.getElementById('toastContainer');
-            var toast = document.createElement('div');
-            toast.className = 'toast ' + (type || 'success');
-            var color = type === 'error' ? '#ef4444' : '#22c55e';
-            toast.innerHTML = '<i class="fas fa-check-circle" style="color:' + color + '"></i><span>' + message + '</span>';
+            var container = document.getElementById(toastContainer);
+            var toast = document.createElement(div);
+            toast.className = toast  + (type || success);
+            var color = type === error ? #ef4444 : #22c55e;
+            toast.innerHTML = <i class="fas fa-check-circle" style="color: + color + "></i><span> + message + </span>;
             container.appendChild(toast);
             setTimeout(function() { toast.remove(); }, 3000);
         }
 
         function exportData(format) {
             var token = Auth.getToken();
-            if (!token) { showToast('يرجى تسجيل الدخول', 'error'); return; }
+            if (!token) { showToast(يرجى تسجيل الدخول, error); return; }
             
-            showToast('جاري التصدير...');
+            showToast(جاري التصدير...);
             
-            fetch('/api/leads/export?format=' + format, {
-                headers: { 'Authorization': 'Bearer ' + token }
+            fetch(/api/leads/export?format= + format, {
+                headers: { Authorization: Bearer  + token }
             })
             .then(function(res) { return res.blob(); })
             .then(function(blob) {
                 var url = window.URL.createObjectURL(blob);
-                var a = document.createElement('a');
+                var a = document.createElement(a);
                 a.href = url;
-                a.download = 'leads.' + (format === 'excel' ? 'xls' : 'csv');
+                a.download = leads. + (format === excel ? xls : csv);
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
                 a.remove();
-                showToast('تم التصدير بنجاح');
+                showToast(تم التصدير بنجاح);
             })
             .catch(function(err) {
-                console.error('Export error:', err);
-                showToast('فشل التصدير', 'error');
+                console.error(Export error:, err);
+                showToast(فشل التصدير, error);
             });
         }
 
-        document.getElementById('logoutBtn').addEventListener('click', function() { Auth.logout(); });
+        document.getElementById(logoutBtn).addEventListener(click, function() { Auth.logout(); });
     </script>
 </body>
 </html>
